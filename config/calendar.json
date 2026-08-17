@@ -1,0 +1,7 @@
+{
+  "daySize": 52,
+  "dayRadius": 14,
+  "fontSize": 18,
+  "activeColor": "#FF9800",
+  "inactiveColor": "#FFFFFF"
+}
