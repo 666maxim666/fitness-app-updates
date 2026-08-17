@@ -1,0 +1,10 @@
+{
+  "buttonHeight": 48,
+  "buttonRadius": 12,
+  "iconSize": 20,
+  "paddingSmall": 8,
+  "paddingMedium": 16,
+  "paddingLarge": 24,
+  "calendarDaySize": 52,
+  "calendarDayRadius": 14
+}
