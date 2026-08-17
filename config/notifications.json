@@ -1,0 +1,9 @@
+{
+  "iconSize": 24,
+  "iconColor": "#FF9800",
+  "badgeColor": "#FF0000",
+  "badgeTextColor": "#FFFFFF",
+  "badgeSize": 18,
+  "positionRight": 16,
+  "positionTop": 8
+}
