@@ -1,0 +1,11 @@
+{
+  "height": 48,
+  "iconSize": 20,
+  "fontSize": 11,
+  "paddingVertical": 4,
+  "marginBottom": 10,
+  "borderRadius": 24,
+  "backgroundColor": "#1A120A",
+  "activeColor": "#FF9800",
+  "inactiveColor": "#FFFFFF"
+}
