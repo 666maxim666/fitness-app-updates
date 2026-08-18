@@ -23,13 +23,12 @@ dependencies:
   firebase_auth: ^5.4.0
   google_sign_in: ^6.2.0
 
-  package_info_plus: ^8.0.0
+  package_info_plus: ^9.0.1
   flutter_downloader: ^1.11.0
   permission_handler: ^11.0.0
   github_release_apk_updater: ^1.0.5
 
-  # Для профиля (аватар, экспорт, шаринг)
-  share_plus: ^10.0.0
+  share_plus: ^7.2.0
   image_picker: ^1.1.0
   path_provider: ^2.1.0
 
