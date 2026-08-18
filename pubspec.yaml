@@ -28,6 +28,11 @@ dependencies:
   permission_handler: ^11.0.0
   github_release_apk_updater: ^1.0.5
 
+  # Для профиля (аватар, экспорт, шаринг)
+  share_plus: ^10.0.0
+  image_picker: ^1.1.0
+  path_provider: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,4 +42,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/credentials.json
-    - assets/google-services.json   # добавить после настройки Firebase
+    - assets/google-services.json

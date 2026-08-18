@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onNotificationTap;
+  final VoidCallback? onCalendarTap; // новый колбэк
   final int notificationCount;
   final Map<String, dynamic> config;
 
@@ -10,6 +11,7 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     this.onNotificationTap,
+    this.onCalendarTap,
     this.notificationCount = 0,
     this.config = const {},
   });
@@ -19,10 +21,8 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final texts = config['texts'] ?? {};
     final colors = config['colors'] ?? {};
     final bell = config['notifications'] ?? {};
-
     final bgColor = colors['surface'] ?? '#1A120A';
     final iconColor = bell['iconColor'] ?? '#FF9800';
     final iconSize = (bell['iconSize'] ?? 24).toDouble();
@@ -47,14 +47,16 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
+        // Иконка календаря
+        IconButton(
+          icon: Icon(Icons.calendar_month, color: Color(int.parse(iconColor.replaceFirst('#', '0xFF'))), size: iconSize),
+          onPressed: onCalendarTap,
+        ),
+        // Иконка колокольчика
         Stack(
           children: [
             IconButton(
-              icon: Icon(
-                Icons.notifications,
-                color: Color(int.parse(iconColor.replaceFirst('#', '0xFF'))),
-                size: iconSize,
-              ),
+              icon: Icon(Icons.notifications, color: Color(int.parse(iconColor.replaceFirst('#', '0xFF'))), size: iconSize),
               onPressed: onNotificationTap,
             ),
             if (notificationCount > 0)
