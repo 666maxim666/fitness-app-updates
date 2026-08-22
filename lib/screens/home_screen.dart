@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import 'dart:ui';
 import '../services/google_sheets_service.dart';
-import '../services/config_service.dart';
 import '../services/auth_service.dart';
 import '../services/update_service.dart';
+import '../services/notification_service.dart';
 import '../models/user.dart';
 import '../models/workout.dart';
 import 'plan_tab.dart';
@@ -33,19 +34,45 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   bool isUserLoaded = false;
   bool allRead = false;
 
+  DateTime _selectedDate = DateTime.now();
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _loadConfig();
-    _loadUser();
     _loadReadState();
+    _loadNotifications();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUser();
+    });
+    // Инициализация FCM
+    NotificationService.init();
+    NotificationService.onNotificationReceived = (data) {
+      setState(() {
+        notifications.add({
+          'title': data['title'],
+          'body': data['body'],
+          'time': data['time'],
+          'type': data['type'],
+          'read': data['read'],
+          'download_url': data['download_url'],
+        });
+      });
+      _saveNotifications();
+      // Сбрасываем флаг "всё прочитано", так как появилось новое непрочитанное
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setBool('notifications_all_read', false);
+      });
+      setState(() {
+        allRead = false;
+      });
+    };
   }
 
   Future<void> _loadConfig() async {
-    final cfg = await ConfigService.loadAll();
     setState(() {
-      config = cfg;
+      config = {};
       isConfigLoaded = true;
     });
   }
@@ -62,6 +89,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     }
   }
 
+  Future<void> _loadNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString('notifications_cache');
+    if (data != null) {
+      try {
+        final List<dynamic> decoded = jsonDecode(data);
+        setState(() {
+          notifications = decoded.cast<Map<String, dynamic>>().toList();
+        });
+      } catch (e) {
+        print('Ошибка загрузки уведомлений: $e');
+      }
+    }
+  }
+
+  Future<void> _saveNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('notifications_cache', jsonEncode(notifications));
+  }
+
   Future<void> _loadUser() async {
     final firebaseUser = AuthService.currentUser;
     if (firebaseUser != null) {
@@ -72,13 +119,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   Future<void> _setUser(User firebaseUser) async {
-    final loadedWorkouts = await GoogleSheetsService.loadWorkouts(firebaseUser.email!);
-    final notifs = [
-      {'title': '📢 Новая версия 1.1.0', 'body': 'Добавлен график прогресса и исправлены ошибки', 'time': 'Сегодня, 14:30', 'type': 'update', 'read': false},
-      {'title': '💧 Напоминание о воде', 'body': 'Не забудь выпить 300 мл воды перед тренировкой', 'time': 'Сегодня, 12:00', 'type': 'reminder', 'read': false},
-      {'title': '🏆 Достижение: 50 тренировок', 'body': 'Ты выполнил 50 тренировок! Отличная работа!', 'time': 'Вчера, 20:15', 'type': 'achievement', 'read': false},
-      {'title': '🚰 Пора пить воду', 'body': 'Ты давно не пил воду – время восполнить баланс', 'time': '2 часа назад', 'type': 'water', 'read': false},
-    ];
+    List<Workout> loadedWorkouts = [];
+    try {
+      loadedWorkouts = await GoogleSheetsService.loadWorkouts(firebaseUser.email!)
+          .timeout(const Duration(seconds: 10));
+    } catch (e) {
+      print('Не удалось загрузить тренировки: $e');
+    }
 
     setState(() {
       user = AppUser(
@@ -89,7 +136,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         createdAt: DateTime.now(),
       );
       workouts = loadedWorkouts;
-      notifications = notifs;
       isUserLoaded = true;
     });
 
@@ -100,6 +146,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       user!.trainingDays.join(','),
       user!.createdAt.toIso8601String(),
     ]);
+
+    final token = await NotificationService.getFcmToken();
+    if (token != null) {
+      GoogleSheetsService.appendRow('Токены', [
+        firebaseUser.email!,
+        token,
+      ]);
+    }
 
     _checkForUpdate();
   }
@@ -142,8 +196,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             'time': 'Только что',
             'type': 'update',
             'read': false,
+            'download_url': updateInfo['download_url'] ?? '',
           });
         });
+        _saveNotifications();
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('notifications_all_read', false);
         setState(() { allRead = false; });
@@ -163,8 +219,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           'time': 'Только что',
           'type': 'update',
           'read': false,
+          'download_url': updateInfo['download_url'] ?? '',
         });
       });
+      _saveNotifications();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('notifications_all_read', false);
       setState(() { allRead = false; });
@@ -242,8 +300,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     showDialog(
       context: context,
       builder: (ctx) => CalendarDialog(
-        initialDate: DateTime.now(),
+        initialDate: _selectedDate,
         onDateSelected: (date) {
+          setState(() {
+            _selectedDate = date;
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Выбран день: ${date.toLocal().toString().split(' ')[0]}')),
           );
@@ -331,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.close, color: Color(0xFF888888), size: 26),
-                                    onPressed: () => Navigator.pop(context), // исправлено
+                                    onPressed: () => Navigator.pop(context),
                                     splashRadius: 20,
                                   ),
                                 ],
@@ -388,7 +449,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                         content: Text(n['body'] ?? ''),
                                         actions: [
                                           TextButton(
-                                            onPressed: () => Navigator.pop(context), // исправлено
+                                            onPressed: () => Navigator.pop(context),
                                             child: const Text('Закрыть'),
                                           ),
                                         ],
@@ -503,12 +564,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    if (!isConfigLoaded || !isUserLoaded) {
+    if (!isUserLoaded) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
-    final appTitle = ConfigService.getValue<String>(config, 'texts.appTitle', '🏋️ Тренировки');
+    final appTitle = '🏋️ Тренировки';
     final unreadCount = notifications.where((n) => n['read'] == false).length;
 
     return Scaffold(
@@ -528,9 +589,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             onUpdateWorkout: _updateWorkout,
             onDeleteWorkout: _deleteWorkout,
             config: config,
+            trainingDays: user?.trainingDays ?? [1, 3, 5],
+            selectedDate: _selectedDate,
           ),
           ProgressTab(workouts: workouts, config: config),
-          ProfileTab(user: user, onUpdate: _updateUser, config: config, workouts: workouts),
+          ProfileTab(
+            user: user,
+            onUpdate: _updateUser,
+            config: config,
+            workouts: workouts,
+          ),
         ],
       ),
       bottomNavigationBar: GlassBottomNav(controller: _tabController, config: config),

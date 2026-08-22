@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "769832767242-mvm0m24bc5eto5bab0fmp6ooum5amsp2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fitness_app",
+            "certificate_hash": "149e409f9277aa79179dce8f47db1f24ce2d3b0c"
+          }
+        },
+        {
           "client_id": "769832767242-uim3lobp11ecj08ln4jgpc6baos1hlhd.apps.googleusercontent.com",
           "client_type": 3
         }

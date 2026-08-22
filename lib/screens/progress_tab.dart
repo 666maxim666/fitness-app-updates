@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:share_plus/share_plus.dart';   // временно отключено
+import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import '../models/workout.dart';
 
 class ProgressTab extends StatefulWidget {
@@ -16,6 +18,13 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
+  int _pushupGoal = 50;
+  List<Map<String, dynamic>> _todayPushups = [];
+  final TextEditingController _countController = TextEditingController();
+
+  DateTime _currentMonth = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -28,14 +37,66 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
       curve: Curves.easeOut,
     );
     _animationController.forward();
+    _loadPushupData();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _countController.dispose();
     super.dispose();
   }
 
+  // ===== ОТЖИМАНИЯ =====
+  Future<void> _loadPushupData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final goal = prefs.getInt('pushup_goal');
+    if (goal != null) setState(() => _pushupGoal = goal);
+    final today = DateTime.now().toIso8601String().split('T')[0];
+    final data = prefs.getString('pushup_today');
+    if (data != null) {
+      final List<dynamic> decoded = jsonDecode(data);
+      setState(() {
+        _todayPushups = decoded.where((item) => item['date'] == today).cast<Map<String, dynamic>>().toList();
+      });
+    }
+  }
+
+  Future<void> _savePushupData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now().toIso8601String().split('T')[0];
+    final allData = _todayPushups.where((item) => item['date'] == today).toList();
+    await prefs.setString('pushup_today', jsonEncode(allData));
+  }
+
+  void _addPushup() {
+    final count = int.tryParse(_countController.text);
+    if (count == null || count < 1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Введите корректное количество')),
+      );
+      return;
+    }
+    final today = DateTime.now().toIso8601String().split('T')[0];
+    setState(() {
+      _todayPushups.add({
+        'id': DateTime.now().millisecondsSinceEpoch.toString(),
+        'count': count,
+        'date': today,
+      });
+    });
+    _savePushupData();
+    _countController.clear();
+  }
+
+  void _deletePushup(String id) {
+    setState(() {
+      _todayPushups.removeWhere((item) => item['id'] == id);
+    });
+    _savePushupData();
+  }
+
+  // ===== СТАТИСТИКА =====
   int get totalWorkouts => widget.workouts.length;
 
   int get streakDays {
@@ -80,8 +141,10 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
   Map<String, Map<String, dynamic>> get bestRecords {
     final records = <String, Map<String, dynamic>>{};
     for (final w in widget.workouts) {
+      if (w.weight == null) continue;
       final name = w.exercise;
-      if (!records.containsKey(name) || w.weight > records[name]!['weight']) {
+      final currentBest = records[name]?['weight'] as double?;
+      if (currentBest == null || w.weight! > currentBest) {
         records[name] = {
           'weight': w.weight,
           'date': w.date,
@@ -117,17 +180,366 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
       final date = e.value['date'] as String;
       return '${e.key}: ${e.value['weight']} кг (${date.substring(8, 10)}.${date.substring(5, 7)})';
     }).join('\n');
+    await Share.share('$stats$recordsText');
+  }
 
-    // временно отключено — заменить на Share.share позже
-    // await Share.share('$stats$recordsText');
-    print('📤 Поделиться: $stats$recordsText'); // временно вывод в консоль
+  // ===== КАЛЕНДАРЬ =====
+  Widget _buildSquareCalendar() {
+    final colors = widget.config['colors'] ?? {};
+    final primaryColor = colors['primary'] ?? '#FF9800';
+
+    final year = _currentMonth.year;
+    final month = _currentMonth.month;
+    final firstDay = DateTime(year, month, 1);
+    final daysInMonth = DateTime(year, month + 1, 0).day;
+    final firstWeekday = firstDay.weekday;
+    final leadingEmpty = firstWeekday - 1;
+
+    final today = DateTime.now();
+    final nowStr = '${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
+
+    final days = List.generate(daysInMonth, (i) {
+      final day = i + 1;
+      final date = DateTime(year, month, day);
+      final dateStr = '${year}-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+      final hasWorkout = widget.workouts.any((w) => w.date == dateStr);
+      final isToday = dateStr == nowStr;
+      final isSelected = dateStr == '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}';
+      return {'date': date, 'dateStr': dateStr, 'hasWorkout': hasWorkout, 'isToday': isToday, 'isSelected': isSelected};
+    });
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.03),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.08)),
+        boxShadow: [
+          BoxShadow(
+            color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.05),
+            blurRadius: 20,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Шапка
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '${_monthName(month)} $year',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
+                ),
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.chevron_left, color: Colors.orange),
+                    onPressed: () {
+                      setState(() {
+                        _currentMonth = DateTime(_currentMonth.year, _currentMonth.month - 1, 1);
+                      });
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.chevron_right, color: Colors.orange),
+                    onPressed: () {
+                      setState(() {
+                        _currentMonth = DateTime(_currentMonth.year, _currentMonth.month + 1, 1);
+                      });
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // ДНИ НЕДЕЛИ
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+                  .map((day) => Text(
+                        day,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+          const SizedBox(height: 8),
+          // СЕТКА
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              childAspectRatio: 1,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+            ),
+            itemCount: leadingEmpty + days.length,
+            itemBuilder: (context, index) {
+              if (index < leadingEmpty) return const SizedBox.shrink();
+              final dayData = days[index - leadingEmpty];
+              final day = dayData['date'] as DateTime;
+              final dateStr = dayData['dateStr'] as String;
+              final hasWorkout = dayData['hasWorkout'] as bool;
+              final isToday = dayData['isToday'] as bool;
+              final isSelected = dayData['isSelected'] as bool;
+
+              return GestureDetector(
+                onTap: () => setState(() => _selectedDate = day),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.35)
+                        : hasWorkout
+                            ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.15)
+                            : Colors.transparent,
+                    borderRadius: BorderRadius.circular(12),
+                    border: isToday
+                        ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))), width: 2)
+                        : isSelected
+                            ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))), width: 1)
+                            : null,
+                    boxShadow: isToday
+                        ? [BoxShadow(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.2), blurRadius: 12)]
+                        : null,
+                  ),
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Text(
+                          '${day.day}',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: isSelected || isToday ? FontWeight.w700 : FontWeight.w500,
+                            color: isSelected || isToday
+                                ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))
+                                : hasWorkout
+                                    ? Colors.white
+                                    : Colors.grey[500],
+                          ),
+                        ),
+                      ),
+                      if (hasWorkout && !isSelected && !isToday)
+                        Positioned(
+                          bottom: 6,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            width: 6,
+                            height: 6,
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            decoration: BoxDecoration(
+                              color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Colors.white.withOpacity(0.05),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _monthName(int month) {
+    const names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    return names[month - 1];
+  }
+
+  // ===== ОТЖИМАНИЯ =====
+  Widget _buildPushupSection() {
+    final today = DateTime.now().toIso8601String().split('T')[0];
+    final done = _todayPushups
+        .where((item) => item['date'] == today)
+        .fold<int>(0, (sum, item) => sum + (item['count'] as int));
+    final percent = _pushupGoal > 0 ? (done / _pushupGoal).clamp(0.0, 1.0) : 0.0;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.03),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                '🔥 Отжимания сегодня',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              IconButton(
+                icon: const Icon(Icons.add, color: Colors.orange),
+                onPressed: _showAddPushupDialog,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              SizedBox(
+                width: 80,
+                height: 80,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      value: percent,
+                      backgroundColor: Colors.white.withOpacity(0.1),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        percent >= 0.8 ? Colors.green : percent >= 0.5 ? Colors.orange : Colors.redAccent,
+                      ),
+                      strokeWidth: 8,
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${(percent * 100).toInt()}%',
+                          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '$done / $_pushupGoal',
+                          style: const TextStyle(color: Colors.grey, fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Цель на день', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    Text('$_pushupGoal раз', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 4),
+                    const Text('Сделано', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    Text('$done раз', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          if (_todayPushups.isNotEmpty) ...[
+            const Divider(height: 24, color: Colors.white10),
+            const Text('Записи', style: TextStyle(color: Colors.grey, fontSize: 12)),
+            const SizedBox(height: 4),
+            ..._todayPushups.map((item) {
+              final count = item['count'] as int;
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('$count раз', style: const TextStyle(color: Colors.white, fontSize: 14)),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.redAccent, size: 18),
+                      onPressed: () => _deletePushup(item['id']),
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ],
+        ],
+      ),
+    );
+  }
+
+  void _showAddPushupDialog() {
+    _countController.clear();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: const Color(0xFF1A120A),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        title: const Text('➕ Добавить отжимания', style: TextStyle(color: Colors.orange)),
+        content: TextField(
+          controller: _countController,
+          keyboardType: TextInputType.number,
+          autofocus: true,
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            hintText: 'Количество раз',
+            hintStyle: TextStyle(color: Colors.grey),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.orange)),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Отмена', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              _addPushup();
+              Navigator.pop(ctx);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              foregroundColor: Colors.black,
+            ),
+            child: const Text('Сохранить'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = widget.config['colors'] ?? {};
     final primaryColor = colors['primary'] ?? '#FF9800';
-    final textColor = colors['text'] ?? '#FFFFFF';
     final total = totalWorkouts;
     final streak = streakDays;
     final attendance = attendancePercentage;
@@ -143,6 +555,9 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
           children: [
             const Text('📊 Прогресс', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
             const SizedBox(height: 16),
+            _buildPushupSection(),
+            _buildSquareCalendar(),
+            const SizedBox(height: 16),
             Row(
               children: [
                 _SummaryCard(label: 'Тренировок', value: '$total', primaryColor: primaryColor),
@@ -153,12 +568,9 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
                   label: 'Посещаемость',
                   value: '${attendance.toStringAsFixed(0)}%',
                   primaryColor: primaryColor,
-                  sub: '▲ +5%',
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            _CalendarWidget(workouts: widget.workouts, primaryColor: primaryColor),
             const SizedBox(height: 16),
             _ChartWidget(weekData: weekData, maxWeek: maxWeek, primaryColor: primaryColor),
             const SizedBox(height: 16),
@@ -185,7 +597,6 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
 }
 
 // ===== ВСПОМОГАТЕЛЬНЫЕ ВИДЖЕТЫ =====
-
 class _SummaryCard extends StatelessWidget {
   final String label;
   final String value;
@@ -227,94 +638,6 @@ class _SummaryCard extends StatelessWidget {
   }
 }
 
-class _CalendarWidget extends StatelessWidget {
-  final List<Workout> workouts;
-  final String primaryColor;
-  const _CalendarWidget({required this.workouts, required this.primaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final firstDay = DateTime(now.year, now.month, 1);
-    final firstWeekday = firstDay.weekday;
-    final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
-    final today = now.day;
-
-    final days = List.generate(daysInMonth, (i) => i + 1);
-    final leadingEmpty = firstWeekday - 1;
-
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.06)),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${_monthName(now.month)} ${now.year}',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-              Row(
-                children: [
-                  Icon(Icons.chevron_left, color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))),
-                  Icon(Icons.chevron_right, color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-              childAspectRatio: 1,
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-            ),
-            itemCount: leadingEmpty + days.length,
-            itemBuilder: (context, index) {
-              if (index < leadingEmpty) return const SizedBox.shrink();
-              final day = days[index - leadingEmpty];
-              final dateStr = '${now.year}-${now.month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
-              final isWorkout = workouts.any((w) => w.date == dateStr);
-              final isToday = day == today;
-              return Container(
-                decoration: BoxDecoration(
-                  color: isWorkout
-                      ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.35)
-                      : Colors.white.withOpacity(0.04),
-                  borderRadius: BorderRadius.circular(8),
-                  border: isToday ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))) : null,
-                ),
-                child: Center(
-                  child: Text(
-                    '$day',
-                    style: TextStyle(
-                      color: isWorkout ? Colors.white : Colors.grey[500],
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _monthName(int month) {
-    const names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-    return names[month - 1];
-  }
-}
-
 class _ChartWidget extends StatelessWidget {
   final List<int> weekData;
   final int maxWeek;
@@ -337,12 +660,9 @@ class _ChartWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Посещаемость по неделям', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15)),
-              const Text('+18%', style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w700, fontSize: 16)),
-            ],
+          const Text(
+            'Посещаемость по неделям',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
           ),
           const SizedBox(height: 8),
           Row(

@@ -47,6 +47,7 @@ class GlassBottomNav extends StatelessWidget {
           color: Color(int.parse(activeColor.replaceFirst('#', '0xFF'))).withOpacity(0.2),
           borderRadius: BorderRadius.circular(borderRadius - 8),
         ),
+        indicatorSize: TabBarIndicatorSize.tab, // ← полная подсветка всей кнопки
         indicatorPadding: const EdgeInsets.all(3),
         dividerColor: Colors.transparent,
         tabs: [

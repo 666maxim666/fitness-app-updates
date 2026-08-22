@@ -1,0 +1,147 @@
+--------- beginning of main
+08-19 12:37:52.229 12482 12482 D AndroidRuntime: Shutting down VM
+--------- beginning of crash
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: FATAL EXCEPTION: main
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: Process: com.example.fitness_app, PID: 12482
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: java.lang.RuntimeException: Unable to get provider androidx.startup.InitializationProvider: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8787)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.app.ActivityThread.installContentProviders(ActivityThread.java:8266)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7908)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(Unknown Source:0)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2648)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:108)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:226)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:328)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:9236)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:594)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1099)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: Caused by: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:104)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at rq0.s(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:86)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at androidx.startup.InitializationProvider.onCreate(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:57)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2745)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2715)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8782)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	... 11 more
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: Caused by: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at zm0.m(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:1091)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at androidx.work.WorkManagerInitializer.b(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:56)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:90)
+08-19 12:37:52.230 12482 12482 E AndroidRuntime: 	... 16 more
+08-19 12:37:57.039 12552 12552 D AndroidRuntime: Shutting down VM
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: FATAL EXCEPTION: main
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: Process: com.example.fitness_app, PID: 12552
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: java.lang.RuntimeException: Unable to get provider androidx.startup.InitializationProvider: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8787)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.app.ActivityThread.installContentProviders(ActivityThread.java:8266)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7908)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(Unknown Source:0)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2648)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:108)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:226)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:328)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:9236)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:594)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1099)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: Caused by: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:104)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at rq0.s(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:86)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at androidx.startup.InitializationProvider.onCreate(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:57)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2745)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2715)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8782)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	... 11 more
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: Caused by: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at zm0.m(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:1091)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at androidx.work.WorkManagerInitializer.b(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:56)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:90)
+08-19 12:37:57.039 12552 12552 E AndroidRuntime: 	... 16 more
+08-19 12:37:58.256 12957 12957 D AndroidRuntime: Shutting down VM
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: FATAL EXCEPTION: main
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: Process: com.example.fitness_app, PID: 12957
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: java.lang.RuntimeException: Unable to get provider androidx.startup.InitializationProvider: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8787)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.app.ActivityThread.installContentProviders(ActivityThread.java:8266)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7908)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(Unknown Source:0)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2648)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:108)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:226)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:328)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:9236)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:594)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1099)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: Caused by: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:104)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at rq0.s(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:86)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at androidx.startup.InitializationProvider.onCreate(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:57)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2745)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2715)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8782)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	... 11 more
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: Caused by: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at zm0.m(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:1091)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at androidx.work.WorkManagerInitializer.b(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:56)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:90)
+08-19 12:37:58.257 12957 12957 E AndroidRuntime: 	... 16 more
+08-19 12:37:59.406 13158 13158 D AndroidRuntime: Shutting down VM
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: FATAL EXCEPTION: main
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: Process: com.example.fitness_app, PID: 13158
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: java.lang.RuntimeException: Unable to get provider androidx.startup.InitializationProvider: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8787)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.app.ActivityThread.installContentProviders(ActivityThread.java:8266)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7908)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(Unknown Source:0)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2648)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:108)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:226)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:328)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:9236)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:594)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1099)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: Caused by: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:104)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at rq0.s(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:86)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at androidx.startup.InitializationProvider.onCreate(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:57)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2745)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2715)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8782)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	... 11 more
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: Caused by: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at zm0.m(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:1091)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at androidx.work.WorkManagerInitializer.b(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:56)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:90)
+08-19 12:37:59.407 13158 13158 E AndroidRuntime: 	... 16 more
+08-19 12:38:00.550 13253 13253 D AndroidRuntime: Shutting down VM
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: FATAL EXCEPTION: main
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: Process: com.example.fitness_app, PID: 13253
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: java.lang.RuntimeException: Unable to get provider androidx.startup.InitializationProvider: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8787)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.app.ActivityThread.installContentProviders(ActivityThread.java:8266)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7908)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(Unknown Source:0)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2648)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:108)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:226)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:328)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:9236)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:594)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1099)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: Caused by: u8: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:104)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at rq0.s(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:86)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at androidx.startup.InitializationProvider.onCreate(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:57)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2745)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.content.ContentProvider.attachInfo(ContentProvider.java:2715)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at android.app.ActivityThread.installProvider(ActivityThread.java:8782)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	... 11 more
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: Caused by: java.lang.RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase.canonicalName
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at zm0.m(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:1091)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at androidx.work.WorkManagerInitializer.b(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:56)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	at rq0.v(r8-map-id-eaa6bd9bb0a70b350bb1332e10ba0437eb213e04255020d71d1c18b297aba3fe:90)
+08-19 12:38:00.550 13253 13253 E AndroidRuntime: 	... 16 more

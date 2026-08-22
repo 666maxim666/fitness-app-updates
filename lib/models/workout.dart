@@ -1,10 +1,10 @@
 class Workout {
   final String id;
-  final String date; // ← теперь String
+  final String date;
   final String exercise;
   final int sets;
   final int reps;
-  final dynamic weight; // число или 'проходка'
+  final double? weight; // null = проходка
   final bool isProhodka;
   final int weekNumber;
 
@@ -14,7 +14,7 @@ class Workout {
     required this.exercise,
     required this.sets,
     required this.reps,
-    required this.weight,
+    this.weight,
     this.isProhodka = false,
     required this.weekNumber,
   });
@@ -36,7 +36,7 @@ class Workout {
     exercise: json['exercise'],
     sets: json['sets'],
     reps: json['reps'],
-    weight: json['weight'],
+    weight: json['weight'] as double?,
     isProhodka: json['isProhodka'] ?? false,
     weekNumber: json['weekNumber'] ?? 1,
   );

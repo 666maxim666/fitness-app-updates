@@ -10,6 +10,8 @@ class PlanTab extends StatefulWidget {
   final Function(Workout) onUpdateWorkout;
   final Function(String) onDeleteWorkout;
   final Map<String, dynamic> config;
+  final List<int> trainingDays;
+  final DateTime selectedDate;
 
   const PlanTab({
     super.key,
@@ -18,6 +20,8 @@ class PlanTab extends StatefulWidget {
     required this.onUpdateWorkout,
     required this.onDeleteWorkout,
     this.config = const {},
+    this.trainingDays = const [1, 3, 5],
+    required this.selectedDate,
   });
 
   @override
@@ -25,21 +29,36 @@ class PlanTab extends StatefulWidget {
 }
 
 class _PlanTabState extends State<PlanTab> {
-  late DateTime _selectedDate;
+  late DateTime _currentDate;
   late DateTime _today;
   int _weekOffset = 0;
+  int _prohodkaShiftWeeks = 0;
 
   Map<String, List<Map<String, dynamic>>> _templates = {};
   List<String> _exerciseBase = [];
+  Set<String> _restDays = {};
 
   @override
   void initState() {
     super.initState();
     _today = DateTime.now();
-    _selectedDate = DateTime(_today.year, _today.month, _today.day);
+    _currentDate = widget.selectedDate;
     _loadLocalData();
+    _loadRestDays();
+    _loadProhodkaShift();
   }
 
+  @override
+  void didUpdateWidget(PlanTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedDate != oldWidget.selectedDate) {
+      setState(() {
+        _currentDate = widget.selectedDate;
+      });
+    }
+  }
+
+  // ===== ЗАГРУЗКА ДАННЫХ =====
   Future<void> _loadLocalData() async {
     final prefs = await SharedPreferences.getInstance();
     final templatesStr = prefs.getString('gym_templates');
@@ -61,6 +80,30 @@ class _PlanTabState extends State<PlanTab> {
     await prefs.setString('gym_exercise_base', jsonEncode(_exerciseBase));
   }
 
+  Future<void> _loadRestDays() async {
+    final prefs = await SharedPreferences.getInstance();
+    final restStr = prefs.getString('rest_days');
+    if (restStr != null) {
+      _restDays = Set<String>.from(jsonDecode(restStr) as List);
+    }
+  }
+
+  Future<void> _saveRestDays() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('rest_days', jsonEncode(_restDays.toList()));
+  }
+
+  Future<void> _loadProhodkaShift() async {
+    final prefs = await SharedPreferences.getInstance();
+    _prohodkaShiftWeeks = prefs.getInt('prohodka_shift_weeks') ?? 0;
+  }
+
+  Future<void> _saveProhodkaShift() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('prohodka_shift_weeks', _prohodkaShiftWeeks);
+  }
+
+  // ===== ВСПОМОГАТЕЛЬНЫЕ =====
   DateTime _getMonday(DateTime date) {
     final d = DateTime(date.year, date.month, date.day);
     final day = d.weekday;
@@ -87,22 +130,30 @@ class _PlanTabState extends State<PlanTab> {
     return widget.workouts.where((w) => w.date == dateStr).toList();
   }
 
+  bool _isRestDay(DateTime date) {
+    return _restDays.contains(_formatDate(date));
+  }
+
+  // ===== АВТОДУБЛИРОВАНИЕ =====
   void _applyTemplates(DateTime date) {
+    if (_isRestDay(date)) return;
+
     final dayKey = 'day_${date.weekday}';
     if (!_templates.containsKey(dayKey)) return;
 
     final existing = _getWorkoutsForDate(date);
     final weekNum = _getWeekNumber(date);
-    final isProhodka = (weekNum % 3 == 0);
+    final adjustedWeek = weekNum - _prohodkaShiftWeeks;
+    final isProhodka = adjustedWeek > 0 && adjustedWeek % 3 == 0;
 
     for (final t in _templates[dayKey]!) {
       final exists = existing.any((w) =>
           w.exercise == t['exercise'] &&
           w.sets == t['sets'] &&
           w.reps == t['reps'] &&
-          (w.weight == t['weight'] || (w.weight == 'проходка' && isProhodka)));
+          (w.weight == t['weight'] || (w.isProhodka && isProhodka)));
       if (!exists) {
-        final weightVal = isProhodka ? 'проходка' : t['weight'];
+        final weightVal = isProhodka ? null : (t['weight'] as num?)?.toDouble();
         final newWorkout = Workout(
           id: DateTime.now().millisecondsSinceEpoch.toString(),
           date: _formatDate(date),
@@ -118,45 +169,89 @@ class _PlanTabState extends State<PlanTab> {
     }
   }
 
+  // ===== ПЕРЕСЧЁТ БУДУЩИХ ПРОХОДОК =====
+  Future<void> _recalculateFutureProhodka() async {
+    final now = DateTime.now();
+    for (final w in List<Workout>.from(widget.workouts)) {
+      final date = DateTime.tryParse(w.date);
+      if (date == null) continue;
+      if (!date.isAfter(now)) continue; // трогаем только будущие дни
+
+      final dayKey = 'day_${date.weekday}';
+      final templates = _templates[dayKey];
+      if (templates == null) continue;
+
+      // ищем шаблон, из которого эта тренировка была сгенерирована
+      final matchingTemplate = templates.firstWhere(
+        (t) => t['exercise'] == w.exercise && t['sets'] == w.sets && t['reps'] == w.reps,
+        orElse: () => {},
+      );
+      if (matchingTemplate.isEmpty) continue;
+
+      final weekNum = _getWeekNumber(date);
+      final adjustedWeek = weekNum - _prohodkaShiftWeeks;
+      final newIsProhodka = adjustedWeek > 0 && adjustedWeek % 3 == 0;
+
+      if (newIsProhodka != w.isProhodka) {
+        final updated = Workout(
+          id: w.id,
+          date: w.date,
+          exercise: w.exercise,
+          sets: w.sets,
+          reps: w.reps,
+          weight: newIsProhodka ? null : (matchingTemplate['weight'] as num?)?.toDouble(),
+          isProhodka: newIsProhodka,
+          weekNumber: weekNum,
+        );
+        widget.onUpdateWorkout(updated);
+      }
+    }
+  }
+
+  // ===== КАЛЕНДАРЬ =====
   Widget _buildCalendar() {
     final colors = widget.config['colors'] ?? {};
     final primaryColor = colors['primary'] ?? '#FF9800';
-    final baseMonday = _getMonday(_today);
-    baseMonday.add(Duration(days: _weekOffset * 7));
+    final baseMonday = _getMonday(_today).add(Duration(days: _weekOffset * 7));
 
     final children = <Widget>[];
     for (int i = 0; i < 7; i++) {
       final date = baseMonday.add(Duration(days: i));
       final isToday = _isSameDay(date, _today);
-      final isActive = _isSameDay(date, _selectedDate);
+      final isActive = _isSameDay(date, _currentDate);
       final hasWorkout = _getWorkoutsForDate(date).isNotEmpty;
+      final isTrainingDay = widget.trainingDays.contains(date.weekday);
+      final isRest = _isRestDay(date);
 
       children.add(
         GestureDetector(
           onTap: () {
             setState(() {
-              _selectedDate = date;
-              _applyTemplates(date);
+              _currentDate = date;
             });
+            if (!isRest) {
+              _applyTemplates(date);
+            }
           },
           child: Container(
             decoration: BoxDecoration(
-              color: isActive
-                  ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.25)
-                  : isToday
-                      ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.15)
-                      : Colors.transparent,
+              color: isRest
+                  ? Colors.grey[800]!.withOpacity(0.3)
+                  : isActive
+                      ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.35)
+                      : isToday
+                          ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.2)
+                          : isTrainingDay
+                              ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.1)
+                              : Colors.transparent,
               borderRadius: BorderRadius.circular(14),
               border: isToday
                   ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))), width: 2)
-                  : null,
+                  : isActive
+                      ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))), width: 1)
+                      : null,
               boxShadow: isToday
-                  ? [
-                      BoxShadow(
-                        color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.3),
-                        blurRadius: 12,
-                      ),
-                    ]
+                  ? [BoxShadow(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.3), blurRadius: 12)]
                   : null,
             ),
             padding: const EdgeInsets.symmetric(vertical: 6),
@@ -166,22 +261,28 @@ class _PlanTabState extends State<PlanTab> {
                 Text(
                   ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'][i],
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isActive || isToday
-                        ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))
-                        : Colors.grey[600],
+                    color: isRest
+                        ? Colors.grey[600]
+                        : isActive || isToday
+                            ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))
+                            : isTrainingDay
+                                ? Colors.white70
+                                : Colors.grey[500],
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   '${date.day}',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: isActive || isToday
-                        ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))
-                        : Colors.white,
+                    color: isRest
+                        ? Colors.grey[600]
+                        : isActive || isToday
+                            ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))
+                            : Colors.white,
                   ),
                 ),
                 if (hasWorkout)
@@ -190,9 +291,14 @@ class _PlanTabState extends State<PlanTab> {
                     width: 6,
                     height: 6,
                     decoration: BoxDecoration(
-                      color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
+                      color: isRest ? Colors.grey[600] : Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
                       shape: BoxShape.circle,
                     ),
+                  ),
+                if (isRest)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 2),
+                    child: Icon(Icons.block, color: Colors.grey, size: 12),
                   ),
               ],
             ),
@@ -204,13 +310,13 @@ class _PlanTabState extends State<PlanTab> {
     return Row(
       children: [
         IconButton(
-          icon: const Icon(Icons.chevron_left, color: Colors.orange),
+          icon: const Icon(Icons.chevron_left, color: Colors.orange, size: 28),
           onPressed: () {
             setState(() {
               _weekOffset -= 1;
-              final baseMonday2 = _getMonday(_today).add(Duration(days: _weekOffset * 7));
+              final newMonday = _getMonday(_today).add(Duration(days: _weekOffset * 7));
               for (int i = 0; i < 7; i++) {
-                _applyTemplates(baseMonday2.add(Duration(days: i)));
+                _applyTemplates(newMonday.add(Duration(days: i)));
               }
             });
           },
@@ -218,17 +324,17 @@ class _PlanTabState extends State<PlanTab> {
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: children,
+            children: children.map((child) => Expanded(child: child)).toList(),
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.chevron_right, color: Colors.orange),
+          icon: const Icon(Icons.chevron_right, color: Colors.orange, size: 28),
           onPressed: () {
             setState(() {
               _weekOffset += 1;
-              final baseMonday2 = _getMonday(_today).add(Duration(days: _weekOffset * 7));
+              final newMonday = _getMonday(_today).add(Duration(days: _weekOffset * 7));
               for (int i = 0; i < 7; i++) {
-                _applyTemplates(baseMonday2.add(Duration(days: i)));
+                _applyTemplates(newMonday.add(Duration(days: i)));
               }
             });
           },
@@ -237,8 +343,9 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
+  // ===== СПИСОК УПРАЖНЕНИЙ =====
   Widget _buildWorkoutList() {
-    final list = _getWorkoutsForDate(_selectedDate);
+    final list = _getWorkoutsForDate(_currentDate);
     if (list.isEmpty) {
       return const Center(
         child: Padding(
@@ -247,7 +354,6 @@ class _PlanTabState extends State<PlanTab> {
         ),
       );
     }
-
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -255,8 +361,9 @@ class _PlanTabState extends State<PlanTab> {
       separatorBuilder: (_, __) => const Divider(height: 1, color: Colors.white10),
       itemBuilder: (ctx, index) {
         final w = list[index];
+        final isProhodka = w.isProhodka;
         final detail = '${w.sets}×${w.reps}' +
-            (w.weight != null && w.weight != 'проходка' ? ' @ ${w.weight} кг' : '');
+            (w.weight != null ? ' @ ${w.weight} кг' : '');
         return ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 4),
           title: Text(
@@ -270,7 +377,7 @@ class _PlanTabState extends State<PlanTab> {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (w.isProhodka)
+              if (isProhodka)
                 Container(
                   margin: const EdgeInsets.only(right: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -295,6 +402,12 @@ class _PlanTabState extends State<PlanTab> {
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),
+              IconButton(
+                icon: const Icon(Icons.more_vert, color: Colors.grey, size: 20),
+                onPressed: () => _showExtendCycleDialog(w),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
             ],
           ),
         );
@@ -302,6 +415,69 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
+  // ===== ДИАЛОГ ПРОДЛЕНИЯ ЦИКЛА =====
+  void _showExtendCycleDialog(Workout workout) {
+    final controller = TextEditingController(text: '1');
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: const Color(0xFF1A120A),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        title: const Text('Отложить проходку', style: TextStyle(color: Colors.orange)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('На сколько недель отложить проходку?', style: TextStyle(color: Colors.white70)),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintText: '1',
+                hintStyle: TextStyle(color: Colors.grey),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.orange)),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Отмена', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final weeks = int.tryParse(controller.text) ?? 1;
+              if (weeks < 1) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Введите число больше 0')),
+                );
+                return;
+              }
+              setState(() {
+                _prohodkaShiftWeeks += weeks;
+              });
+              await _saveProhodkaShift();
+              await _recalculateFutureProhodka(); // пересчёт будущих тренировок
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Проходка отложена на $weeks нед.')),
+              );
+              Navigator.pop(ctx);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              foregroundColor: Colors.black,
+            ),
+            child: const Text('Отложить'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ===== ДОБАВЛЕНИЕ =====
   void _showAddModal() {
     final nameCtrl = TextEditingController();
     final setsCtrl = TextEditingController();
@@ -437,7 +613,7 @@ class _PlanTabState extends State<PlanTab> {
                       _saveLocalData();
                     }
 
-                    final dayKey = 'day_${_selectedDate.weekday}';
+                    final dayKey = 'day_${_currentDate.weekday}';
                     if (!_templates.containsKey(dayKey)) {
                       _templates[dayKey] = [];
                     }
@@ -458,13 +634,13 @@ class _PlanTabState extends State<PlanTab> {
 
                     final newWorkout = Workout(
                       id: DateTime.now().millisecondsSinceEpoch.toString(),
-                      date: _formatDate(_selectedDate),
+                      date: _formatDate(_currentDate),
                       exercise: name,
                       sets: sets,
                       reps: reps,
                       weight: weight.isNotEmpty ? double.parse(weight) : null,
                       isProhodka: false,
-                      weekNumber: _getWeekNumber(_selectedDate),
+                      weekNumber: _getWeekNumber(_currentDate),
                     );
                     widget.onAddWorkout(newWorkout);
                     Navigator.pop(ctx);
@@ -483,12 +659,13 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
+  // ===== РЕДАКТИРОВАНИЕ =====
   void _showEditModal(Workout workout) {
     final nameCtrl = TextEditingController(text: workout.exercise);
     final setsCtrl = TextEditingController(text: workout.sets.toString());
     final repsCtrl = TextEditingController(text: workout.reps.toString());
     final weightCtrl = TextEditingController(
-      text: (workout.weight != null && workout.weight != 'проходка') ? workout.weight.toString() : '',
+      text: workout.weight != null ? workout.weight.toString() : '',
     );
 
     showDialog(
@@ -593,6 +770,7 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
+  // ===== УДАЛЕНИЕ =====
   void _deleteWorkout(String id) {
     showDialog(
       context: context,
@@ -617,11 +795,30 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
+  // ===== ТОГГЛ ВЫХОДНОГО ДНЯ =====
+  void _toggleRestDay() {
+    final dateStr = _formatDate(_currentDate);
+    setState(() {
+      if (_restDays.contains(dateStr)) {
+        _restDays.remove(dateStr);
+      } else {
+        _restDays.add(dateStr);
+        final toRemove = widget.workouts.where((w) => w.date == dateStr).toList();
+        for (var w in toRemove) {
+          widget.onDeleteWorkout(w.id);
+        }
+      }
+    });
+    _saveRestDays();
+  }
+
+  // ===== BUILD =====
   @override
   Widget build(BuildContext context) {
     final colors = widget.config['colors'] ?? {};
     final primaryColor = colors['primary'] ?? '#FF9800';
     final bgColor = colors['background'] ?? '#0A0A0A';
+    final isRest = _isRestDay(_currentDate);
 
     return Container(
       color: Color(int.parse(bgColor.replaceFirst('#', '0xFF'))),
@@ -641,10 +838,20 @@ class _PlanTabState extends State<PlanTab> {
                     color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.add, color: Colors.orange),
-                  onPressed: _showAddModal,
-                  tooltip: 'Добавить упражнение',
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(isRest ? Icons.check_circle : Icons.block,
+                          color: isRest ? Colors.green : Colors.grey),
+                      onPressed: _toggleRestDay,
+                      tooltip: isRest ? 'Отменить выходной' : 'Отметить выходной',
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add, color: Colors.orange),
+                      onPressed: _showAddModal,
+                      tooltip: 'Добавить упражнение',
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -1,0 +1,1002 @@
+--------- beginning of main
+08-19 17:26:34.746 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:34.746 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135194510 currentDeviceModel.connected: true
+08-19 17:26:34.747 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:34.747 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:34.747 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:34.749 15522 16236 I NotifyLogUtils_15522_16236: isIgnoringBatteryOptimizations true
+08-19 17:26:34.765 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:34.765 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135194535 currentDeviceModel.connected: true
+08-19 17:26:34.766 15522 16236 I NotifyLogUtils_15522_16236: isIgnoringBatteryOptimizations true
+08-19 17:26:34.766 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:34.767 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:34.769 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:34.876 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:34.876 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:34.877 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 62780, speed = 1.0, mCurrentPosition = 59780, mCurrentPositionCallbackTime:23540623, duration = 102
+08-19 17:26:34.877 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:34.879 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:34.880 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: f: 60
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:34.883 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:34.884 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:34.884 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:34.886 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:34.886 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:34.887 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23543639  23543630  9 62780
+08-19 17:26:34.888 15522 15522 I MediaSyncManager_15522_15522: currentPosition:63  duration:102 state:1 volume:40
+08-19 17:26:34.888 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:34.888 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:34.889 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:34.889 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:34.889 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@a2670c2, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@c54ed3, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:34.890 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@a2670c2, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@c54ed3, timeout = 8000
+08-19 17:26:34.891 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:34.891 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:34.892 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:34.892 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 184], window size: 1, retransmission: false
+08-19 17:26:34.892 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 184, nextseq: 185, size: 52, seq: 184, frx: 0
+08-19 17:26:34.892 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2393, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:34.892 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 184, dataLength: 52, frx: 0, crc: -12806))}, crc = -12806, mtu = 16394
+08-19 17:26:34.894 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 184, dataLength: 52, frx: 0, crc: -12806)), thread: Spp Dispatcher
+08-19 17:26:34.894 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 184
+08-19 17:26:34.895 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2393, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:34.895 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:34.895 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:34.895 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:34.895 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:35.241 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501B800000000
+08-19 17:26:35.242 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501B800000000
+08-19 17:26:35.242 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 184, size:0, frx:0
+08-19 17:26:35.243 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2393, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:35.243 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:205064720, id=2232, type=101, timeout=8000
+08-19 17:26:35.243 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:205064720, id=2232, type=101, timeout=8000
+08-19 17:26:35.244 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 184
+08-19 17:26:35.244 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@dba5909
+08-19 17:26:35.244 15522 22108 I TaskQueueV2_15522_22108: base move to 185
+08-19 17:26:35.244 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:35.244 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:35.245 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:37.753 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:37.753 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135197515 currentDeviceModel.connected: true
+08-19 17:26:37.753 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:37.754 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:37.754 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:37.754 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:37.770 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:37.771 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135197538 currentDeviceModel.connected: true
+08-19 17:26:37.771 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:37.771 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:37.772 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:37.776 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:37.879 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:37.879 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:37.879 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 65783, speed = 1.0, mCurrentPosition = 62780, mCurrentPositionCallbackTime:23543630, duration = 102
+08-19 17:26:37.887 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:37.888 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:37.889 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: f: 63
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:37.890 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:37.891 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:37.891 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:37.892 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23546644  23546639  5 65783
+08-19 17:26:37.892 15522 15522 I MediaSyncManager_15522_15522: currentPosition:66  duration:102 state:1 volume:40
+08-19 17:26:37.892 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:37.892 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:37.893 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:37.893 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:37.893 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@56ed70e, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@88c052f, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:37.893 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@56ed70e, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@88c052f, timeout = 8000
+08-19 17:26:37.894 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:37.894 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:37.894 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:37.894 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 185], window size: 1, retransmission: false
+08-19 17:26:37.894 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 185, nextseq: 186, size: 52, seq: 185, frx: 0
+08-19 17:26:37.894 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2394, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 185, dataLength: 52, frx: 0, crc: -10902))}, crc = -10902, mtu = 16394
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 185, dataLength: 52, frx: 0, crc: -10902)), thread: Spp Dispatcher
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 185
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2394, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:37.895 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:38.213 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501B900000000
+08-19 17:26:38.214 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501B900000000
+08-19 17:26:38.215 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 185, size:0, frx:0
+08-19 17:26:38.215 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2394, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:38.216 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:244102972, id=2233, type=101, timeout=8000
+08-19 17:26:38.216 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:244102972, id=2233, type=101, timeout=8000
+08-19 17:26:38.216 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 185
+08-19 17:26:38.216 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@6267cc5
+08-19 17:26:38.217 15522 22108 I TaskQueueV2_15522_22108: base move to 186
+08-19 17:26:38.217 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:38.217 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:38.217 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:40.746 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:40.753 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135200521 currentDeviceModel.connected: true
+08-19 17:26:40.754 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:40.754 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:40.754 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:40.761 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:40.777 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:40.777 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:40.777 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:40.777 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135200543 currentDeviceModel.connected: true
+08-19 17:26:40.778 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:40.778 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:40.778 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:40.778 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:40.853 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:40.853 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:40.888 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:40.888 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:40.888 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 68786, speed = 1.0, mCurrentPosition = 65783, mCurrentPositionCallbackTime:23546639, duration = 102
+08-19 17:26:40.895 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:40.897 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: f: 66
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:40.898 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:40.899 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:40.899 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:40.899 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:40.899 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:40.900 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23549651  23549648  3 68786
+08-19 17:26:40.900 15522 15522 I MediaSyncManager_15522_15522: currentPosition:69  duration:102 state:1 volume:40
+08-19 17:26:40.900 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:40.900 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:40.900 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:40.900 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:40.901 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@dc5561a, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@f5dc54b, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:40.901 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@dc5561a, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@f5dc54b, timeout = 8000
+08-19 17:26:40.906 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:40.906 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:40.907 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:40.907 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 186], window size: 1, retransmission: false
+08-19 17:26:40.907 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 186, nextseq: 187, size: 52, seq: 186, frx: 0
+08-19 17:26:40.907 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2395, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:40.907 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 186, dataLength: 52, frx: 0, crc: 5339))}, crc = 5339, mtu = 16394
+08-19 17:26:40.909 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 186, dataLength: 52, frx: 0, crc: 5339)), thread: Spp Dispatcher
+08-19 17:26:40.909 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 186
+08-19 17:26:40.909 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2395, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:40.909 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:40.913 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:40.913 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:40.913 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:41.084 15522 15522 I Wearable.KeepAlive_15522_15522: KeepAliveJobSchedulerService.onStartJob
+08-19 17:26:41.085 15522 15522 I KeepAliveHelper_15522_15522: startConnect() called 
+08-19 17:26:41.086 15522 15522 I DeviceManagerImpl_15522_15522: needKeepAliveDeviceModel = [DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449')]
+08-19 17:26:41.116 10042 10042 I Choreographer: Skipped 4721 frames!  The application may be doing too much work on its main thread.
+08-19 17:26:41.216 12884 12884 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:41.218 12884 24701 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:41.236 12884 12884 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:41.237 12884 24708 E qdgralloc: GetSize: Unrecognized pixel format: 0x38
+08-19 17:26:41.237 12884 24708 E Gralloc4: isSupported(1, 1, 56, 1, ...) failed with 5
+08-19 17:26:41.237 12884 24708 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 5
+08-19 17:26:41.237 12884 24708 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:41.237 12884 24708 E qdgralloc: GetSize: Unrecognized pixel format: 0x3b
+08-19 17:26:41.237 12884 24708 E Gralloc4: isSupported(1, 1, 59, 1, ...) failed with 5
+08-19 17:26:41.238 12884 24708 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 5
+08-19 17:26:41.238 12884 24708 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:41.238 12884 24708 E qdgralloc: GetSize: Unrecognized pixel format: 0x38
+08-19 17:26:41.238 12884 24708 E Gralloc4: isSupported(1, 1, 56, 1, ...) failed with 5
+08-19 17:26:41.238 12884 24708 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 5
+08-19 17:26:41.238 12884 24708 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:41.238 12884 24708 E qdgralloc: GetSize: Unrecognized pixel format: 0x3b
+08-19 17:26:41.238 12884 24708 E Gralloc4: isSupported(1, 1, 59, 1, ...) failed with 5
+08-19 17:26:41.238 12884 24708 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 5
+08-19 17:26:41.238 12884 24708 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:41.239 12884 24708 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:41.240 12884 24708 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:41.241 12884 24708 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:41.243 12884 24708 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:41.243 12884 24708 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:41.317 10602 20910 I NearbyMediums: Wifi changed new SSID: "RT-5GPON-EB5E"
+08-19 17:26:41.317 10602 20910 I NearbyMediums: WifiLanConnectivityInfo is not changed, skip notify.
+08-19 17:26:41.317 10602 20910 I NearbyMediums: [WifiNetworkV2] defaultNetworkCallback onCapabilitiesChanged network:118 [ WIFI VPN ] isNonBypassable:true
+08-19 17:26:41.088 15522 15522 I Wearable.KeepAlive_15522_15522: KeepAliveHelper.startService
+08-19 17:26:41.694 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501BA00000000
+08-19 17:26:41.701 15522 22534 I MediaSyncManager_15522_22534: SettingsContentObserver onChange onSync true
+08-19 17:26:41.731 10602 25320 I NearbyMediums: ModuleInitializer handles incoming intent android.intent.action.USER_PRESENT
+08-19 17:26:41.736 11227 25326 I SystemUpdate: [Phone,PhoneModuleInitIntentOperation] Enabling the system update activity since the user is allowed to update.
+08-19 17:26:41.747 11227 25325 I PersonalSafety: ConnectivityProtectionLockingIntentOperation: cancelled task [CONTEXT service_id=310 ]
+08-19 17:26:41.751 15522 22534 I MediaSyncManager_15522_22534: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:41.753 15522 15522 I Wearable.KeepAlive_15522_15522: KeepAliveHelper.startService  KeepAliveService
+08-19 17:26:41.754 15522 15522 I DeviceManagerImpl_15522_15522: needKeepAliveDeviceModel = [DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449')]
+08-19 17:26:41.756 15522 15522 I Wearable.KeepAlive_15522_15522: KeepAliveHelper.startService  containsShowNotificationDevice = true
+08-19 17:26:41.784 15522 15522 I KeepAliveHelper_15522_15522: 837907449 isConnected = true
+08-19 17:26:41.784 15522 15522 I KeepAliveService_15522_15522: needStart: showConnectionNotification true, 
+08-19 17:26:41.784 15522 15522 I Wearable.KeepAlive_15522_15522: KeepAliveHelper.startService the service has started
+08-19 17:26:41.789 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501BA00000000
+08-19 17:26:41.789 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 186, size:0, frx:0
+08-19 17:26:41.789 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2395, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:41.789 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:158801985, id=2234, type=101, timeout=8000
+08-19 17:26:41.789 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:158801985, id=2234, type=101, timeout=8000
+08-19 17:26:41.789 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 186
+08-19 17:26:41.789 10602 10602 I RCNIntentOperation: RCN is disabled on this network.
+08-19 17:26:41.789 15522 22108 I TaskQueueV2_15522_22108: base move to 187
+08-19 17:26:41.789 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:41.789 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:41.794 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@6d2b9e6
+08-19 17:26:41.795 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:41.836 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:41.837 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:41.851 15522 15522 I NotifySyncService_15522_15522: mFindPhoneReceiver  action:android.intent.action.SCREEN_ON pid:15522
+08-19 17:26:41.852 15522 15522 I NotifySyncService_15522_15522: mFindPhoneReceiver  stop  did:837907449
+08-19 17:26:41.852 15522 15522 I FindPhone_15522_15522: stop isPlaying:null mMediaPlayer:null
+08-19 17:26:41.855 15522 15522 I NotifySyncService_15522_15522: mFindPhoneReceiver  action:android.intent.action.USER_PRESENT pid:15522
+08-19 17:26:41.855 15522 15522 I NotifySyncService_15522_15522: mFindPhoneReceiver  stop  did:837907449
+08-19 17:26:41.855 15522 15522 I FindPhone_15522_15522: stop isPlaying:null mMediaPlayer:null
+08-19 17:26:41.873 15522 16088 I ScreenReceiver_15522_16088: onReceive() called with: context = com.xiaomi.fitness.FitnessApp@592df2b, intent = Intent { act=android.intent.action.USER_PRESENT flg=0x4200010 }
+08-19 17:26:42.067 12884 24684 I ple.fitness_app: Open vivo delay for GC JIT .
+08-19 17:26:42.111 12884 24684 I ple.fitness_app: Close vivo delay for GC JIT .
+08-19 17:26:42.666 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:42.671 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:43.029 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:43.039 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:43.334 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:43.336 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:43.339 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:43.340 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:43.340 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:43.341 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:43.341 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:43.342 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:43.568 30868 14845 I andex.searchapp: dgc_arg: 2048KB,8192KB
+08-19 17:26:43.712 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:43.712 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135203499 currentDeviceModel.connected: true
+08-19 17:26:43.717 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:43.719 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:43.719 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:43.719 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:43.719 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:43.719 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135203508 currentDeviceModel.connected: true
+08-19 17:26:43.720 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:43.720 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:43.720 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:43.720 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:43.888 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:43.889 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:43.889 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 71789, speed = 1.0, mCurrentPosition = 68786, mCurrentPositionCallbackTime:23549648, duration = 102
+08-19 17:26:43.890 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:43.891 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:43.893 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: f: 69
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:43.897 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:43.898 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:43.900 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:43.900 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:43.902 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23552653  23552642  11 71789
+08-19 17:26:43.902 15522 15522 I MediaSyncManager_15522_15522: currentPosition:72  duration:102 state:1 volume:40
+08-19 17:26:43.902 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:43.902 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:43.903 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:43.903 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:43.903 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@3aab1d4, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@fd47f7d, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:43.903 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@3aab1d4, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@fd47f7d, timeout = 8000
+08-19 17:26:43.904 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:43.904 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:43.904 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:43.904 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 187], window size: 1, retransmission: false
+08-19 17:26:43.904 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 187, nextseq: 188, size: 52, seq: 187, frx: 0
+08-19 17:26:43.904 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2396, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:43.905 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 187, dataLength: 52, frx: 0, crc: -10422))}, crc = -10422, mtu = 16394
+08-19 17:26:43.905 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 187, dataLength: 52, frx: 0, crc: -10422)), thread: Spp Dispatcher
+08-19 17:26:43.905 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 187
+08-19 17:26:43.905 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2396, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:43.906 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:43.906 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:43.906 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:43.906 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:44.049 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:44.049 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:44.225 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501BB00000000
+08-19 17:26:44.226 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501BB00000000
+08-19 17:26:44.227 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 187, size:0, frx:0
+08-19 17:26:44.227 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2396, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:44.228 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:67145330, id=2235, type=101, timeout=8000
+08-19 17:26:44.228 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:67145330, id=2235, type=101, timeout=8000
+08-19 17:26:44.228 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 187
+08-19 17:26:44.228 15522 22108 I TaskQueueV2_15522_22108: base move to 188
+08-19 17:26:44.229 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@dcf92c3
+08-19 17:26:44.229 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:44.229 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:44.229 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:44.848 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:44.849 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:44.858 10602 25192 I TrafficStats: tagSocketFd(-1, 1031, -1) failed with errno-9
+08-19 17:26:45.030 10602 24375 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 24093782]
+08-19 17:26:45.278 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:45.278 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:45.279 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:45.280 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:45.280 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:45.287 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:45.411 10602 24375 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 24094163]
+08-19 17:26:45.414 10602 24375 W WakeLock: GCM_CONN_ALARM release without a matched acquire! [CONTEXT service_id=259 ]
+08-19 17:26:45.425 10602 24375 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 24094177]
+08-19 17:26:45.790 10602 25418 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 24094542]
+08-19 17:26:45.814 10602 10602 W GCM     : broadcast intent callback: result=CANCELLED forIntent { act=com.google.android.c2dm.intent.RECEIVE flg=0x10000000 pkg=org.telegram.messenger.web (has extras) }
+08-19 17:26:45.817 10602 25418 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 24094569]
+08-19 17:26:45.834 10602 10602 W GCM     : broadcast intent callback: result=CANCELLED forIntent { act=com.google.android.c2dm.intent.RECEIVE flg=0x10000000 pkg=org.telegram.messenger (has extras) }
+08-19 17:26:45.886 10602 25418 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 24094638]
+08-19 17:26:46.762 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:46.762 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135206513 currentDeviceModel.connected: true
+08-19 17:26:46.763 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:46.764 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:46.765 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:46.765 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:46.766 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135206534 currentDeviceModel.connected: true
+08-19 17:26:46.766 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:46.766 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:46.767 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:46.767 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:46.768 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:46.903 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:46.903 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:46.904 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 74806, speed = 1.0, mCurrentPosition = 71789, mCurrentPositionCallbackTime:23552642, duration = 102
+08-19 17:26:46.905 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:46.906 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:46.908 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: f: 72
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:46.910 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:46.911 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:46.911 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:46.912 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:46.913 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:46.913 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23555665  23555657  8 74806
+08-19 17:26:46.914 15522 15522 I MediaSyncManager_15522_15522: currentPosition:75  duration:102 state:1 volume:40
+08-19 17:26:46.914 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:46.914 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:46.915 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:46.915 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:46.915 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@5eb1740, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@1ae9679, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:46.916 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@5eb1740, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@1ae9679, timeout = 8000
+08-19 17:26:46.918 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:46.918 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:46.919 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:46.919 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 188], window size: 1, retransmission: false
+08-19 17:26:46.920 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 188, nextseq: 189, size: 52, seq: 188, frx: 0
+08-19 17:26:46.920 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2397, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:46.921 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 188, dataLength: 52, frx: 0, crc: -10310))}, crc = -10310, mtu = 16394
+08-19 17:26:46.922 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 188, dataLength: 52, frx: 0, crc: -10310)), thread: Spp Dispatcher
+08-19 17:26:46.923 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 188
+08-19 17:26:46.923 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2397, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:46.923 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:46.924 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:46.924 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:46.924 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:47.093 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:47.093 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:47.216 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501BC00000000
+08-19 17:26:47.217 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501BC00000000
+08-19 17:26:47.217 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 188, size:0, frx:0
+08-19 17:26:47.217 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2397, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:47.217 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:63250366, id=2236, type=101, timeout=8000
+08-19 17:26:47.218 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:63250366, id=2236, type=101, timeout=8000
+08-19 17:26:47.221 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 188
+08-19 17:26:47.221 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@58e981f
+08-19 17:26:47.222 15522 22108 I TaskQueueV2_15522_22108: base move to 189
+08-19 17:26:47.223 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:47.223 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:47.223 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:47.845 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:47.847 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:49.690 27568 30185 D AudioTrack: set(): Building AudioTrack with attributes: usage=1 content=0 flags=0xa00 tags=[]
+08-19 17:26:49.691 27568 30185 W AudioSystem: setParameters: PlaybackCaptureProtectSupport=ru.yandex.music
+08-19 17:26:49.694 27568 30185 D AudioTrack: get APPSharePck NULL
+08-19 17:26:49.751 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:49.754 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135209524 currentDeviceModel.connected: true
+08-19 17:26:49.754 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:49.754 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:49.755 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:49.756 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:49.766 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:49.767 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135209551 currentDeviceModel.connected: true
+08-19 17:26:49.772 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:49.773 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:49.773 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:49.773 15522 16235 I NotifyLogUtils_15522_16235: isIgnoringBatteryOptimizations true
+08-19 17:26:49.906 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:49.907 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:49.908 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 77815, speed = 1.0, mCurrentPosition = 74806, mCurrentPositionCallbackTime:23555657, duration = 102
+08-19 17:26:49.909 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:49.910 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:49.912 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: f: 75
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:49.921 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:49.922 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:49.924 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:49.924 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:49.925 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23558677  23558661  16 77815
+08-19 17:26:49.925 15522 15522 I MediaSyncManager_15522_15522: currentPosition:78  duration:102 state:1 volume:40
+08-19 17:26:49.925 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:49.925 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:49.926 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:49.926 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:49.926 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@70a676c, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@4792135, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:49.926 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@70a676c, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@4792135, timeout = 8000
+08-19 17:26:49.928 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:49.928 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:49.928 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:49.928 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 189], window size: 1, retransmission: false
+08-19 17:26:49.928 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 189, nextseq: 190, size: 52, seq: 189, frx: 0
+08-19 17:26:49.928 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2398, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:49.928 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 189, dataLength: 52, frx: 0, crc: -10582))}, crc = -10582, mtu = 16394
+08-19 17:26:49.929 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 189, dataLength: 52, frx: 0, crc: -10582)), thread: Spp Dispatcher
+08-19 17:26:49.929 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 189
+08-19 17:26:49.929 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2398, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:49.929 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:49.929 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:49.930 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:49.930 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:50.216 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501BD00000000
+08-19 17:26:50.216 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501BD00000000
+08-19 17:26:50.216 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 189, size:0, frx:0
+08-19 17:26:50.217 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2398, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:50.217 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:61831626, id=2237, type=101, timeout=8000
+08-19 17:26:50.217 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:61831626, id=2237, type=101, timeout=8000
+08-19 17:26:50.218 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@50e973b
+08-19 17:26:50.218 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:50.219 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 189
+08-19 17:26:50.219 15522 22108 I TaskQueueV2_15522_22108: base move to 190
+08-19 17:26:50.220 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:50.220 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:51.107 15428 15428 I zygote  : usapPoolSocket.accept() end:null,getFileDescriptor():java.io.FileDescriptor@73616ee,fd:23
+08-19 17:26:51.126 15428 15428 I ple.fitness_app: Using CollectorTypeCC GC.
+08-19 17:26:51.133 15428 15428 E ple.fitness_app: Not starting debugger since process cannot load the jdwp agent.
+08-19 17:26:51.161 15428 15428 D CompatibilityChangeReporter: Compat change id reported: 171979766; UID 10650; state: ENABLED
+08-19 17:26:51.161 15428 15428 D CompatibilityChangeReporter: Compat change id reported: 242716250; UID 10650; state: ENABLED
+08-19 17:26:51.176 15428 15428 D nativeloader: Configuring clns-4 for other apk /data/app/~~VT0EXnmdU6XQLDjjYUC0ew==/com.example.fitness_app-EOSwzP1zF_gazV-1aoqnnw==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~VT0EXnmdU6XQLDjjYUC0ew==/com.example.fitness_app-EOSwzP1zF_gazV-1aoqnnw==/lib/arm64:/data/app/~~VT0EXnmdU6XQLDjjYUC0ew==/com.example.fitness_app-EOSwzP1zF_gazV-1aoqnnw==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.example.fitness_app
+--------- beginning of system
+08-19 17:26:51.179 15428 25494 V ActivityThread: updateVmProcessStateForGc sceneId =1000 state=83886080
+08-19 17:26:51.179 15428 25494 I ple.fitness_app: dgc_arg: has_act=1, state=1
+08-19 17:26:51.179 15428 25493 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=197376
+08-19 17:26:51.179 15428 25493 I ple.fitness_app: Open vivo delay for GC JIT .
+08-19 17:26:51.209 15428 15428 V GraphicsEnvironment: Currently set values for:
+08-19 17:26:51.210 15428 15428 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+08-19 17:26:51.210 15428 15428 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+08-19 17:26:51.210 15428 15428 V GraphicsEnvironment: ANGLE GameManagerService for com.example.fitness_app: false
+08-19 17:26:51.210 15428 15428 V GraphicsEnvironment: com.example.fitness_app is not listed in per-application setting
+08-19 17:26:51.210 15428 15428 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+08-19 17:26:51.224 15428 15428 D CompatibilityChangeReporter: Compat change id reported: 183155436; UID 10650; state: ENABLED
+08-19 17:26:51.234 15428 15428 I FirebaseApp: Device unlocked: initializing all Firebase APIs for app [DEFAULT]
+08-19 17:26:51.234 15428 15428 I FirebaseInitProvider: FirebaseApp initialization successful
+08-19 17:26:51.280 15428 15428 D VivoConfigStore: init begin
+08-19 17:26:51.284 15428 15428 D VivoConfigStore: key:vivo.software.multilandscape isCached is true and value is true
+08-19 17:26:51.286 15428 15428 D VivoConfigStore: key:vivo.software.multiwindow.splitminimize isCached is false and normal value is false
+08-19 17:26:51.286 15428 15428 D VivoConfigStore: key:vivo.software.ml.freedrag isCached is true and value is true
+08-19 17:26:51.287 15428 15428 D VivoConfigStore: key:vivo.software.ml.unasso isCached is false and normal value is false
+08-19 17:26:51.287 15428 15428 D VivoConfigStore: key:vivo.software.virtualmultilands isCached is true and value is true
+08-19 17:26:51.288 15428 15428 D VivoConfigStore: key:vivo.software.hovermode isCached is false and normal value is false
+08-19 17:26:51.288 15428 15428 D VivoConfigStore: key:vivo.software.splithover isCached is false and normal value is false
+08-19 17:26:51.288 15428 15428 D VivoConfigStore: key:vivo.software.multiwindow.splitcompat isCached is false and normal value is false
+08-19 17:26:51.302 15428 25523 D skia    : [SkFontMgr Android Parser] /system/etc/fonts.xml:2195:4: warning: 'opticalsizsl' alias target not found
+08-19 17:26:51.302 15428 25523 D skia    : [SkFontMgr Android Parser] '/product/etc/fonts_customization.xml' could not be opened
+08-19 17:26:51.305 15428 15428 W ple.fitness_app: type=1400 audit(0.0:135216): avc:  denied  { read } for  name="max_map_count" dev="proc" ino=2229870 scontext=u:r:untrusted_app:s0:c138,c258,c512,c768 tcontext=u:object_r:proc_max_map_count:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 17:26:51.321 15428 25524 D vulkan  : searching for layers in '/data/app/~~VT0EXnmdU6XQLDjjYUC0ew==/com.example.fitness_app-EOSwzP1zF_gazV-1aoqnnw==/lib/arm64'
+08-19 17:26:51.321 15428 25524 D vulkan  : searching for layers in '/data/app/~~VT0EXnmdU6XQLDjjYUC0ew==/com.example.fitness_app-EOSwzP1zF_gazV-1aoqnnw==/base.apk!/lib/arm64-v8a'
+08-19 17:26:51.340 15428 25524 I AdrenoVK-0: ===== BEGIN DUMP OF OVERRIDDEN SETTINGS =====
+08-19 17:26:51.340 15428 25524 I AdrenoVK-0: ===== END DUMP OF OVERRIDDEN SETTINGS =====
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: QUALCOMM build          : fc9849b050, Ibccd5936db
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Build Date              : 11/20/23
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Shader Compiler Version : EV031.36.08.26
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Local Branch            : 
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Remote Branch           : refs/tags/AU_LINUX_ANDROID_LA.VENDOR.1.0.11.00.00.766.892
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Remote Branch           : NONE
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Reconstruct Branch      : NOTHING
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Build Config            : S P 12.1.1 AArch64
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Driver Path             : /vendor/lib64/hw/vulkan.adreno.so
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Driver Version          : 0615.76
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: PFP                     : 0x01710158
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: ME                      : 0x00000000
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Application Name    : Impeller
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Application Version : 0x00400000
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Engine Name         : Impeller
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Engine Version      : 0x00800000
+08-19 17:26:51.343 15428 25524 I AdrenoVK-0: Api Version         : 0x00401000
+08-19 17:26:51.348 15428 25524 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(62)] Using the Impeller rendering backend (Vulkan).
+08-19 17:26:51.349 15428 15428 D DragManager: DragManager construct in
+08-19 17:26:51.352 15428 15428 D VivoConfigStore: key:vivo.software.nightmode isCached is true and value is true
+08-19 17:26:51.379 15428 15428 D VivoConfigStore: key:vivo.software.freeform isCached is true and value is true
+08-19 17:26:51.380 15428 15428 D VivoConfigStore: key:vivo.software.immersive isCached is false and normal value is false
+08-19 17:26:51.380 15428 15428 D VivoConfigStore: key:vivo.software.multiwindow isCached is true and value is true
+08-19 17:26:51.389 15428 15428 D CompatibilityChangeReporter: Compat change id reported: 237531167; UID 10650; state: DISABLED
+08-19 17:26:51.392 15428 15428 W OpenGLRenderer: Unknown dataspace 0
+08-19 17:26:51.426 15428 15428 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:51.421 15428 15428 W ple.fitness_app: type=1400 audit(0.0:135217): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:untrusted_app:s0:c138,c258,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: QUALCOMM build                   : fc9849b050, Ibccd5936db
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Build Date                       : 11/20/23
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: OpenGL ES Shader Compiler Version: EV031.36.08.26
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Local Branch                     : 
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Remote Branch                    : refs/tags/AU_LINUX_ANDROID_LA.VENDOR.1.0.11.00.00.766.892
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Remote Branch                    : NONE
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Reconstruct Branch               : NOTHING
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Build Config                     : S P 12.1.1 AArch64
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Driver Path                      : /vendor/lib64/egl/libGLESv2_adreno.so
+08-19 17:26:51.427 15428 25514 I AdrenoGLES-0: Driver Version                   : 0615.76
+08-19 17:26:51.429 15428 25514 I AdrenoGLES-0: PFP: 0x01710158, ME: 0x00000000
+08-19 17:26:51.430 15428 15428 E ple.fitness_app: Cannot find perfservice
+08-19 17:26:51.433 15428 15428 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:51.429 15428 15428 W ple.fitness_app: type=1400 audit(0.0:135218): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:untrusted_app:s0:c138,c258,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 17:26:51.439 15428 25524 E qdgralloc: GetSize: Unrecognized pixel format: 0x38
+08-19 17:26:51.439 15428 25524 E Gralloc4: isSupported(1, 1, 56, 1, ...) failed with 5
+08-19 17:26:51.443 15428 25524 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 5
+08-19 17:26:51.443 15428 25524 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:51.443 15428 25524 E qdgralloc: GetSize: Unrecognized pixel format: 0x3b
+08-19 17:26:51.443 15428 25524 E Gralloc4: isSupported(1, 1, 59, 1, ...) failed with 5
+08-19 17:26:51.443 15428 25524 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 5
+08-19 17:26:51.443 15428 25524 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:51.443 15428 25524 E qdgralloc: GetSize: Unrecognized pixel format: 0x38
+08-19 17:26:51.443 15428 25524 E Gralloc4: isSupported(1, 1, 56, 1, ...) failed with 5
+08-19 17:26:51.443 15428 25524 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 5
+08-19 17:26:51.443 15428 25524 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:51.444 15428 25524 E qdgralloc: GetSize: Unrecognized pixel format: 0x3b
+08-19 17:26:51.444 15428 25524 E Gralloc4: isSupported(1, 1, 59, 1, ...) failed with 5
+08-19 17:26:51.444 15428 25524 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 5
+08-19 17:26:51.444 15428 25524 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 17:26:51.445 15428 25524 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:51.446 15428 25524 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:51.446 15428 25514 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:51.446 15428 25524 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:51.447 15428 25524 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:51.448 15428 25524 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 17:26:51.464  1932  7131 D BatteryStatsService: notePemString  noteWhich: 49,arg1: 1080, arg2: 2408, arg3: 15428, arg4: 1, name: com.example.fitness_app
+08-19 17:26:51.467 15428 25545 D CompatibilityChangeReporter: Compat change id reported: 3400644; UID 10650; state: ENABLED
+08-19 17:26:51.490 15428 15428 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+08-19 17:26:51.490 15428 15428 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+08-19 17:26:51.498  1932  2009 D BatteryStatsService: notePemString  noteWhich: 49,arg1: 1080, arg2: 2408, arg3: 15428, arg4: 1, name: com.example.fitness_app
+08-19 17:26:51.520  1932  2335 I ActivityTaskManager: Displayed com.example.fitness_app/.MainActivity for user 0: +403ms
+08-19 17:26:51.523  1932  2335 I ActivityTaskManager: Fully drawn com.example.fitness_app/.MainActivity: +403ms
+08-19 17:26:51.527 15428 15428 V ImeFocusController: onWindowFocus: DecorView@d2aceb[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+08-19 17:26:51.667 10602 20910 I NearbyPresence: (REDACTED) %s verified [==] new request %s equals to the old request
+08-19 17:26:52.022 27568  7793 D TrafficStats: tagSocket(88) with statsTag=0xffffffff, statsUid=-1
+08-19 17:26:52.022 27568  7793 D Linux   : [Posix_connect Debug]Process ru.yandex.music :443 
+08-19 17:26:52.078 28662 28860 D TrafficStats: tagSocket(106) with statsTag=0xffffffff, statsUid=-1
+08-19 17:26:52.078 28662 28860 D Linux   : [Posix_connect Debug]Process ru.yandex.music:AppMetrica :443 
+08-19 17:26:52.274 15428 15428 D SystemUtils: [isSystemApp] begin android.app.Application@ff78417
+08-19 17:26:52.275 15428 15428 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 17:26:52.276 15428 15428 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 17:26:52.277 15428 15428 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 17:26:52.277 15428 15428 D SystemUtils: xspace-profile-userId:666
+08-19 17:26:52.277 15428 15428 D SystemUtils: cloned-profile-userId:999
+08-19 17:26:52.277 15428 15428 D SystemUtils: userId:0
+08-19 17:26:52.280 15428 15428 D SystemUtils: [isSystemApp] begin android.app.Application@ff78417
+08-19 17:26:52.280 15428 15428 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 17:26:52.280 15428 15428 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 17:26:52.280 15428 15428 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 17:26:52.280 15428 15428 D SystemUtils: userId:0
+08-19 17:26:52.322 15428 15428 D SystemUtils: [isSystemApp] begin android.app.Application@ff78417
+08-19 17:26:52.322 15428 15428 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 17:26:52.322 15428 15428 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 17:26:52.322 15428 15428 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 17:26:52.322 15428 15428 D SystemUtils: userId:0
+08-19 17:26:52.358 11227 11400 W Auth.Api.SignIn: [Service,SignInChimeraService] **************************** WARNING ***************************
+08-19 17:26:52.358 11227 11400 W Auth.Api.SignIn: You are using the deprecated legacy Google Sign-In APIs from
+08-19 17:26:52.358 11227 11400 W Auth.Api.SignIn: play-services-auth SDK. Please migrate to the Credential Manager
+08-19 17:26:52.358 11227 11400 W Auth.Api.SignIn: APIs, see https://goo.gle/gsi-migration.
+08-19 17:26:52.358 11227 11400 W Auth.Api.SignIn: ****************************************************************
+08-19 17:26:52.391 15428 25502 V ActivityThread: updateVmProcessStateForGc sceneId =1000 state=83886080
+08-19 17:26:52.391 15428 25502 I ple.fitness_app: dgc_arg: has_act=1, state=1
+08-19 17:26:52.391 15428 25502 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=196608
+08-19 17:26:52.391 15428 25502 I ple.fitness_app: Close vivo delay for GC JIT .
+08-19 17:26:52.392 11227 11400 V ActivityThread: updateVmProcessStateForGc sceneId =1000 state=83886080
+08-19 17:26:52.392 11227 11400 I gle.android.gms: dgc_arg: has_act=1, state=1
+08-19 17:26:52.418 15428 15428 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:52.418 15428 25514 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:52.413 15428 15428 W ple.fitness_app: type=1400 audit(0.0:135220): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:untrusted_app:s0:c138,c258,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 17:26:52.463 27690 27690 W GmsActivityProxy: Error binding root VE. SignInActivity is missing a @GmsCoreVeId annotation. [CONTEXT service_id=264 ]
+08-19 17:26:52.472 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:52.473 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:52.494 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:52.489 27690 27690 W .android.gms.ui: type=1400 audit(0.0:135221): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 17:26:52.496 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:52.511  1932  2335 I ActivityTaskManager: Displayed com.google.android.gms/.auth.api.signin.ui.SignInActivity for user 0: +167ms
+08-19 17:26:52.566 27690 27690 V ImeFocusController: onWindowFocus: DecorView@975a3af[SignInActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN|IS_FORWARD_NAVIGATION
+08-19 17:26:52.633 27690 27690 W .android.gms.ui: type=1400 audit(0.0:135222): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 17:26:52.637 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:52.638 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:52.661 27690 27690 W GmsActivityProxy: Error binding root VE. SignInActivity is missing a @GmsCoreVeId annotation. [CONTEXT service_id=264 ]
+08-19 17:26:52.662 27690 21897 E jplv    : *~*~*~ Previous channel {0} was garbage collected without being shut down! ~*~*~*
+08-19 17:26:52.662 27690 21897 E jplv    :     Make sure to call shutdown()/shutdownNow()
+08-19 17:26:52.662 27690 21897 E jplv    : java.lang.RuntimeException: ManagedChannel allocation site
+08-19 17:26:52.662 27690 21897 E jplv    : 	at jplu.<init>(:com.google.android.gms@263131029@26.31.31 (190400-959389638):21)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at jplv.<init>(:com.google.android.gms@263131029@26.31.31 (190400-959389638):10)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at jplt.a(:com.google.android.gms@263131029@26.31.31 (190400-959389638):300)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at jotk.a(:com.google.android.gms@263131029@26.31.31 (190400-959389638):5)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at blfc.a(:com.google.android.gms@263131029@26.31.31 (190400-959389638):85)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at blet.t(:com.google.android.gms@263131029@26.31.31 (190400-959389638):107)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at blet.G(:com.google.android.gms@263131029@26.31.31 (190400-959389638):5)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at fpwi.call(:com.google.android.gms@263131029@26.31.31 (190400-959389638):238)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at bllk.d(:com.google.android.gms@263131029@26.31.31 (190400-959389638):50)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at bllk.c(:com.google.android.gms@263131029@26.31.31 (190400-959389638):6)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at bllk.run(:com.google.android.gms@263131029@26.31.31 (190400-959389638):33)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at blrg.run(:com.google.android.gms@263131029@26.31.31 (190400-959389638):8)
+08-19 17:26:52.662 27690 21897 E jplv    : 	at java.lang.Thread.run(Thread.java:1042)
+08-19 17:26:52.681 27690 27690 W .android.gms.ui: type=1400 audit(0.0:135223): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 17:26:52.684 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:52.685 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:52.691  1932  2335 I ActivityTaskManager: Displayed com.google.android.gms/.signin.activity.SignInActivity for user 0: +166ms
+08-19 17:26:52.714 27690 27690 V ImeFocusController: onWindowFocus: DecorView@dbdfc7c[SignInActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN|IS_FORWARD_NAVIGATION
+08-19 17:26:52.771 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:52.772 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135212517 currentDeviceModel.connected: true
+08-19 17:26:52.773 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:52.773 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:52.774 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:52.774 15522 16246 I NotifyLogUtils_15522_16246: isIgnoringBatteryOptimizations true
+08-19 17:26:52.788 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:52.788 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135212550 currentDeviceModel.connected: true
+08-19 17:26:52.788 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:52.789 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:52.789 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:52.789 15522 16246 I NotifyLogUtils_15522_16246: isIgnoringBatteryOptimizations true
+08-19 17:26:52.800 27690 16633 D TrafficStats: tagSocket(146) with statsTag=0x4006501, statsUid=-1
+08-19 17:26:52.801 27690 16633 D Linux   : [Posix_connect Debug]Process com.google.android.gms.ui :443 
+08-19 17:26:52.806 27690 16633 W Conscrypt: Could not set socket write timeout: java.net.SocketException: Socket closed
+08-19 17:26:52.807 27690 16633 W Conscrypt: 	at com.google.android.gms.org.conscrypt.Platform.setSocketWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):204)
+08-19 17:26:52.807 27690 16633 W Conscrypt: 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.setSoWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):4)
+08-19 17:26:52.910 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:52.910 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:52.911 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 80806, speed = 1.0, mCurrentPosition = 77815, mCurrentPositionCallbackTime:23558661, duration = 102
+08-19 17:26:52.911 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:52.912 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:52.914 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: f: 78
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:52.916 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:52.917 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:52.935 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:52.936 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:52.937 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23561688  23561663  25 80806
+08-19 17:26:52.937 15522 15522 I MediaSyncManager_15522_15522: currentPosition:81  duration:102 state:1 volume:40
+08-19 17:26:52.937 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:52.937 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:52.937 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:52.938 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:52.938 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@bec8e58, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@7279bb1, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:52.938 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@bec8e58, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@7279bb1, timeout = 8000
+08-19 17:26:52.975 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:52.996 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:52.996 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:52.996 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 190], window size: 1, retransmission: false
+08-19 17:26:52.996 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 190, nextseq: 191, size: 52, seq: 190, frx: 0
+08-19 17:26:52.996 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2399, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:52.996 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 190, dataLength: 52, frx: 0, crc: 4251))}, crc = 4251, mtu = 16394
+08-19 17:26:52.997 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 190, dataLength: 52, frx: 0, crc: 4251)), thread: Spp Dispatcher
+08-19 17:26:52.998 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 190
+08-19 17:26:52.998 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2399, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:52.998 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:52.998 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:52.998 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:52.998 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:53.178 11227 11705 V ActivityThread: updateVmProcessStateForGc sceneId =1000 state=83886080
+08-19 17:26:53.178 11227 11705 I gle.android.gms: dgc_arg: has_act=1, state=1
+08-19 17:26:53.178 11227 11705 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=196608
+08-19 17:26:53.178 11227 11705 I gle.android.gms: Close vivo delay for GC JIT .
+08-19 17:26:53.212 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501BE00000000
+08-19 17:26:53.212 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501BE00000000
+08-19 17:26:53.213 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 190, size:0, frx:0
+08-19 17:26:53.213 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2399, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:53.213 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:154364054, id=2238, type=101, timeout=8000
+08-19 17:26:53.213 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:154364054, id=2238, type=101, timeout=8000
+08-19 17:26:53.213 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 190
+08-19 17:26:53.213 15522 22108 I TaskQueueV2_15522_22108: base move to 191
+08-19 17:26:53.213 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:53.214 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:53.214 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@ec56c17
+08-19 17:26:53.214 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:55.619 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:55.626 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:55.627 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:55.628 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:55.629 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:55.629 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:55.633 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:55.634 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:55.760 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:55.760 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135215514 currentDeviceModel.connected: true
+08-19 17:26:55.764 15522 16236 I NotifyLogUtils_15522_16236: isIgnoringBatteryOptimizations true
+08-19 17:26:55.770 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:55.771 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:55.772 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:55.772 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:55.773 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135215532 currentDeviceModel.connected: true
+08-19 17:26:55.774 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:55.774 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:55.775 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:55.776 15522 16236 I NotifyLogUtils_15522_16236: isIgnoringBatteryOptimizations true
+08-19 17:26:55.801 10602 25418 W WakeLock: GCM_HB_ALARM release without a matched acquire! [CONTEXT service_id=259 ]
+08-19 17:26:55.801 10602 25418 W WakeLock: GCM_HB_ALARM counter does not exist
+08-19 17:26:55.806 10602 25418 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_CONN_ALARM type: 2 triggerAtMillis: 23577558]
+08-19 17:26:55.809 10602 25418 W WakeLock: GCM_CONN_ALARM release without a matched acquire! [CONTEXT service_id=259 ]
+08-19 17:26:55.810 10602 25418 W WakeLock: GCM_CONN_ALARM counter does not exist
+08-19 17:26:55.918 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:55.919 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:55.919 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 83826, speed = 1.0, mCurrentPosition = 80806, mCurrentPositionCallbackTime:23561663, duration = 102
+08-19 17:26:55.919 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:55.920 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:55.921 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: f: 81
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:55.923 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:55.924 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:55.924 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:55.925 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:55.925 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:55.925 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23564677  23564671  6 83826
+08-19 17:26:55.926 15522 15522 I MediaSyncManager_15522_15522: currentPosition:84  duration:102 state:1 volume:40
+08-19 17:26:55.926 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:55.926 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:55.926 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:55.928 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:55.928 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@1c83804, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@a6941ed, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:55.928 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@1c83804, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@a6941ed, timeout = 8000
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 191], window size: 1, retransmission: false
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 191, nextseq: 192, size: 52, seq: 191, frx: 0
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2400, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 191, dataLength: 52, frx: 0, crc: 4491))}, crc = 4491, mtu = 16394
+08-19 17:26:55.934 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 191, dataLength: 52, frx: 0, crc: 4491)), thread: Spp Dispatcher
+08-19 17:26:55.935 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 191
+08-19 17:26:55.935 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2400, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:55.935 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:55.935 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:55.935 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:55.935 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:56.210 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501BF00000000
+08-19 17:26:56.211 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501BF00000000
+08-19 17:26:56.213 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 191, size:0, frx:0
+08-19 17:26:56.213 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2400, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:56.214 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:188053538, id=2239, type=101, timeout=8000
+08-19 17:26:56.214 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:188053538, id=2239, type=101, timeout=8000
+08-19 17:26:56.214 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 191
+08-19 17:26:56.214 15522 22108 I TaskQueueV2_15522_22108: base move to 192
+08-19 17:26:56.214 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:56.215 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:56.218 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@caab2b3
+08-19 17:26:56.219 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:56.660 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:56.661 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:56.662 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:56.663 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:56.665 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange onSync true
+08-19 17:26:56.665 15522 29795 I MediaSyncManager_15522_29795: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 17:26:56.756 15428 25671 D ProfileInstaller: Skipping profile installation for com.example.fitness_app
+08-19 17:26:57.549 27690 16633 W Conscrypt: Could not set socket write timeout: java.net.SocketException: Socket closed
+08-19 17:26:57.549 27690 16633 W Conscrypt: 	at com.google.android.gms.org.conscrypt.Platform.setSocketWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):204)
+08-19 17:26:57.549 27690 16633 W Conscrypt: 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.setSoWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):4)
+08-19 17:26:57.829 27690 27690 I SignIn  : [Activity,SignInChimeraActivity] Couldn't fetch app's branding information, but continuing without it.
+08-19 17:26:57.855 11227 11705 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=197376
+08-19 17:26:57.855 11227 11705 I gle.android.gms: Open vivo delay for GC JIT .
+08-19 17:26:57.878 27690 27690 E .android.gms.ui: Invalid resource ID 0x00000000.
+08-19 17:26:57.888 27690 27690 W GmsActivityProxy: Error binding root VE. AccountPickerActivity is missing a @GmsCoreVeId annotation. [CONTEXT service_id=264 ]
+08-19 17:26:57.905 27690 27690 W DividerItem: @android:attr/listDivider was not set in the theme used for this DividerItemDecoration. Please set that attribute all call setDrawable()
+08-19 17:26:57.928 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 17:26:57.925 27690 27690 W .android.gms.ui: type=1400 audit(0.0:135232): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 17:26:57.929 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:57.950  1932  2335 I ActivityTaskManager: Displayed com.google.android.gms/.common.account.AccountPickerActivity for user 0: +113ms
+08-19 17:26:57.988 27690 27690 E .android.gms.ui: Invalid resource ID 0x00000000.
+08-19 17:26:58.001 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 17:26:58.017 27690 27690 V ImeFocusController: onWindowFocus: DecorView@6b7cde8[AccountPickerActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN|IS_FORWARD_NAVIGATION
+08-19 17:26:58.849 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:58.870 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135218526 currentDeviceModel.connected: true
+08-19 17:26:58.870 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:58.870 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:58.871 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:58.872 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:26:58.872 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135218545 currentDeviceModel.connected: true
+08-19 17:26:58.873 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:26:58.873 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:26:58.873 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:26:58.875 15522 16236 I NotifyLogUtils_15522_16236: isIgnoringBatteryOptimizations true
+08-19 17:26:58.875 15522 16246 I NotifyLogUtils_15522_16246: isIgnoringBatteryOptimizations true
+08-19 17:26:58.921 27690 27690 D SystemUtils: [isSystemApp] begin cewk@4af22aa
+08-19 17:26:58.922 27690 27690 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 17:26:58.922 27690 27690 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 17:26:58.922 27690 27690 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 17:26:58.923 27690 27690 D SystemUtils: userId:0
+08-19 17:26:58.923 27690 27690 D SystemUtils: [isSystemApp] begin cewk@4af22aa
+08-19 17:26:58.923 27690 27690 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 17:26:58.923 27690 27690 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 17:26:58.923 27690 27690 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 17:26:58.923 27690 27690 D SystemUtils: userId:0
+08-19 17:26:58.933 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:26:58.934 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:26:58.934 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 86838, speed = 1.0, mCurrentPosition = 83826, mCurrentPositionCallbackTime:23564671, duration = 102
+08-19 17:26:58.935 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:26:58.936 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:26:58.937 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: f: 84
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:26:58.939 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:26:58.940 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:26:58.940 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:26:58.941 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:26:58.941 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:26:58.942 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23567694  23567687  7 86838
+08-19 17:26:58.942 15522 15522 I MediaSyncManager_15522_15522: currentPosition:87  duration:102 state:1 volume:40
+08-19 17:26:58.942 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:26:58.942 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:26:58.943 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:26:58.943 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:26:58.943 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@92d070, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@a50fe9, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:26:58.943 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@92d070, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@a50fe9, timeout = 8000
+08-19 17:26:58.944 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:26:58.946 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:58.946 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:58.946 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 192], window size: 1, retransmission: false
+08-19 17:26:58.946 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 192, nextseq: 193, size: 52, seq: 192, frx: 0
+08-19 17:26:58.946 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2401, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:58.947 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 192, dataLength: 52, frx: 0, crc: 4475))}, crc = 4475, mtu = 16394
+08-19 17:26:58.949 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 192, dataLength: 52, frx: 0, crc: 4475)), thread: Spp Dispatcher
+08-19 17:26:58.949 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 192
+08-19 17:26:58.949 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2401, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:58.949 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:58.949 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:58.949 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:26:58.949 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:26:59.006 27690 27690 D SystemUtils: [isSystemApp] begin cewk@4af22aa
+08-19 17:26:59.006 27690 27690 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 17:26:59.007 27690 27690 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 17:26:59.007 27690 27690 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 17:26:59.007 27690 27690 D SystemUtils: userId:0
+08-19 17:26:59.051 11227 11705 I GoogleSignatureVerifier: package info is not set correctly
+08-19 17:26:59.057 11227 11705 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=196608
+08-19 17:26:59.057 11227 11705 I gle.android.gms: Close vivo delay for GC JIT .
+08-19 17:26:59.068 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@c694604
+08-19 17:26:59.070 27690 30015 D OpenGLRenderer: endAllActiveAnimators on 0xb4000072a3534560 (RippleDrawable) with handle 0xb400007313538b50
+08-19 17:26:59.077 27690 27690 V ImeFocusController: onWindowFocus: DecorView@dbdfc7c[SignInActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN
+08-19 17:26:59.220 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501C000000000
+08-19 17:26:59.260 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501C000000000
+08-19 17:26:59.281 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 192, size:0, frx:0
+08-19 17:26:59.282 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2401, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:26:59.283 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:139916398, id=2240, type=101, timeout=8000
+08-19 17:26:59.283 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:139916398, id=2240, type=101, timeout=8000
+08-19 17:26:59.284 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 192
+08-19 17:26:59.285 15522 22108 I TaskQueueV2_15522_22108: base move to 193
+08-19 17:26:59.285 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:26:59.285 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:26:59.304 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@693c70f
+08-19 17:26:59.324 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)
+08-19 17:26:59.416 10602 14107 D TrafficStats: tagSocket(167) with statsTag=0x4000401, statsUid=10650
+08-19 17:27:00.256 10602 10653 W Auth    : [GetTokenResponseHandler] Server returned error: This android application is not registered to use OAuth2.0, please confirm the package name and SHA-1 certificate fingerprint match what you registered in Google Developer Console. See https://developer.android.com/google/auth/http-auth.html#Register for more information. Common fixes include checking that the app is signed with the registered key, and that applicationId and applicationIdSuffix are set to appropriate values in Android Studio. [CONTEXT service_id=343 ]
+08-19 17:27:00.258 27690 27690 W SignIn  : [Activity,SignInChimeraActivity] Failed to record the consent.
+08-19 17:27:00.383 27568 28453 I ru.yandex.music: dgc_arg: 2048KB,8192KB
+08-19 17:27:00.383 27568 28453 I ru.yandex.music: Background young concurrent copying GC freed 436869(15MB) AllocSpace objects, 141(3980KB) LOS objects, 17% free, 94MB(RS:77MB + LOS:17MB)/114MB, paused 366us,178us total 153.347ms
+08-19 17:27:00.617 10602 10653 W Auth    : [GetTokenResponseHandler] Server returned error: This android application is not registered to use OAuth2.0, please confirm the package name and SHA-1 certificate fingerprint match what you registered in Google Developer Console. See https://developer.android.com/google/auth/http-auth.html#Register for more information. Common fixes include checking that the app is signed with the registered key, and that applicationId and applicationIdSuffix are set to appropriate values in Android Studio. [CONTEXT service_id=343 ]
+08-19 17:27:00.675 27690 27690 W AutoManageHelper: Unresolved error while connecting client. Stopping auto-manage.
+08-19 17:27:00.683 11227 11705 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=197376
+08-19 17:27:00.684 11227 11705 I gle.android.gms: Open vivo delay for GC JIT .
+08-19 17:27:00.694 15428 15428 D CompatibilityChangeReporter: Compat change id reported: 78294732; UID 10650; state: ENABLED
+08-19 17:27:00.783 15428 15428 I flutter : Ошибка входа: PlatformException(sign_in_failed, m2: 10: , null, null)
+08-19 17:27:00.789 15428 15428 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@c360c14
+08-19 17:27:00.808 15428 15428 V ImeFocusController: onWindowFocus: DecorView@d2aceb[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+08-19 17:27:00.837 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@a047b50
+08-19 17:27:00.855 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@a552ef2
+08-19 17:27:00.877 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@f1d6b8d
+08-19 17:27:01.003 27690 29987 W .android.gms.ui: ApkAssets: Deleting an ApkAssets object '<empty> and /data/app/~~VT0EXnmdU6XQLDjjYUC0ew==/com.example.fitness_app-EOSwzP1zF_gazV-1aoqnnw==/base.apk' with 1 weak references
+08-19 17:27:01.761 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:27:01.762 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135221534 currentDeviceModel.connected: true
+08-19 17:27:01.762 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:27:01.762 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:27:01.770 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:27:01.772 15522 16295 I NotifySyncService_15522_16295: MSG_NOTIFY_POSTED 
+08-19 17:27:01.773 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 key:0|com.happproxy|1|null|10560 PackageName:com.happproxy IsOngoing:true PostTime:1787135221547 currentDeviceModel.connected: true
+08-19 17:27:01.773 15522 16236 I NotifyLogUtils_15522_16236: isIgnoringBatteryOptimizations true
+08-19 17:27:01.773 15522 16295 I NotifySyncService_15522_16295: onNotificationPosted Id:1 , appName : Happ
+08-19 17:27:01.774 15522 16246 I NotifyLogUtils_15522_16246: isIgnoringBatteryOptimizations true
+08-19 17:27:01.774 15522 16295 I NotifySyncService_15522_16295: isFlagNoClearNotification flag = 106
+08-19 17:27:01.774 15522 16295 I NotifySyncService_15522_16295:  isOngoing = true isIncomingCall = false
+08-19 17:27:01.940 15522 15522 I MediaSyncManager_15522_15522: removePointMessage
+08-19 17:27:01.941 15522 15522 E MediaSyncManager_15522_15522: onPlaybackStateChanged   ====
+08-19 17:27:01.941 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate, state = 3, currentPosMs = 89838, speed = 1.0, mCurrentPosition = 86838, mCurrentPositionCallbackTime:23567687, duration = 102
+08-19 17:27:01.943 15522 15522 E MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing media info packageName:ru.yandex.music
+08-19 17:27:01.944 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate isPlaying:true mPlayerInfo!!.state:1
+08-19 17:27:01.946 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate find playing controller
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: onClientPlaybackStateUpdate init playing controller media Info mPlayerInfo:a: 1
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: b: 40
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: c: ""
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: d: "\u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443 \u0442\u0435\u0431\u044f"
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: e: "VLDK"
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: f: 87
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: g: 102
+08-19 17:27:01.951 15522 15522 I MediaSyncManager_15522_15522: h: ""
+08-19 17:27:01.952 15522 15522 I MediaSyncManager_15522_15522: onSync true
+08-19 17:27:01.952 15522 15522 I MediaSyncManager_15522_15522: mSyncRunnable deviceModel:DeviceModelClient(mRemote=com.xiaomi.fitness.device.manager.remote.DeviceManagerRemoteImpl@3529063, did='837907449') deviceModel?.isHuaMi:false deviceModel?.isBluetooth:true isO61PowerSave:false
+08-19 17:27:01.953 15522 15522 I MediaSyncManager_15522_15522: 837907449 sync posted ненавижу тебя
+08-19 17:27:01.953 15522 15522 I MediaSyncManager_15522_15522: syncDefaultDevice
+08-19 17:27:01.954 15522 15522 I MediaSyncManager_15522_15522: syncTime: 23570706  23570695  11 89838
+08-19 17:27:01.954 15522 15522 I MediaSyncManager_15522_15522: currentPosition:90  duration:102 state:1 volume:40
+08-19 17:27:01.955 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: state = UPGRADE_IDLE
+08-19 17:27:01.955 15522 15522 I BreakSilentUpgradeAspec_15522_15522: aroundBreakSilentUpgrade: end cost = 0
+08-19 17:27:01.955 15522 15522 E CallTaskDispatcher_15522_15522: enqueue: call type = 18, id = 1
+08-19 17:27:01.956 15522 15522 I Device-Sync_15522_15522: Device(837907449)'s callback, type=101
+08-19 17:27:01.956 15522 15522 I MiWearCoreClient_15522_15522: call() called with: type = 101, did = 837907449, data = [B@82c839c, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@1b5c1a5, timeout = 8000, service = com.xiaomi.wearable.core.server.IMiWearCoreImpl@bed8219
+08-19 17:27:01.956 15522 15522 I IMiWearCoreImpl_15522_15522: call() called with: type = 101, did = 837907449, data = [B@82c839c, needResponse = false, callback = com.xiaomi.fitness.contact.manager.ContactTaskQueue$callback$1@1b5c1a5, timeout = 8000
+08-19 17:27:01.958 15522 22108 I TaskQueueV2_15522_22108: enqueue: type:3, seqNumber:0
+08-19 17:27:01.958 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:27:01.958 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:27:01.958 15522 22108 I TaskQueueV2_15522_22108: window [packet type: 3, seq: 193], window size: 1, retransmission: false
+08-19 17:27:01.959 15522 22108 I TaskQueueV2_15522_22108: -------------> SEND: DATA base: 193, nextseq: 194, size: 52, seq: 193, frx: 0
+08-19 17:27:01.959 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2402, code = SEND_START, channel = TRANSPORT_CHANNEL_PB
+08-19 17:27:01.959 15522 22108 I TaskQueueV2_15522_22108: sendPacket() called with: packet = L1Packet (header: Header (type: DATA, seqNumber: 193, dataLength: 52, frx: 0, crc: -11542))}, crc = -11542, mtu = 16394
+08-19 17:27:01.960 15522 22108 I TaskQueueV2_15522_22108: onSendComplete() called with: packet: L1Packet (header: Header (type: DATA, seqNumber: 193, dataLength: 52, frx: 0, crc: -11542)), thread: Spp Dispatcher
+08-19 17:27:01.960 15522 22108 I TaskQueueV2_15522_22108: sendTimerStart: sendItem 193
+08-19 17:27:01.961 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2402, code = SEND_SUCCESS, channel = TRANSPORT_CHANNEL_PB
+08-19 17:27:01.961 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:27:01.961 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:27:01.961 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_BUSY
+08-19 17:27:01.961 15522 22108 I TaskQueueV2_15522_22108: change tx status to TX_STATE_IDLE
+08-19 17:27:02.192 15522 22126 I SppChannel_15522_22126: onDataReceive: A5A501C100000000
+08-19 17:27:02.193 15522 22108 I TaskQueueV2_15522_22108: onDataReceive: header: A5A501C100000000
+08-19 17:27:02.194 15522 22108 I TaskQueueV2_15522_22108: -------------> RECEIVE: ACK: seq-> 193, size:0, frx:0
+08-19 17:27:02.197 15522 22108 I TaskQueueV2_15522_22108: onCallback() called with: packetId = 2402, code = SEND_CONFIRM, channel = TRANSPORT_CHANNEL_PB
+08-19 17:27:02.199 15522 22108 I WearApiTask_15522_22108: onSendResult  code=0  WearApiTask(hasCode:100788602, id=2241, type=101, timeout=8000
+08-19 17:27:02.201 15522 22108 I WearApiTask_15522_22108: onResult has data=false  WearApiTask(hasCode:100788602, id=2241, type=101, timeout=8000
+08-19 17:27:02.202 15522 15522 I ContactCallTask_15522_15522: onResult code = 0  has packet=false, has data=false  com.xiaomi.fitness.contact.manager.bean.ContactCallTask@24fc52b
+08-19 17:27:02.202 15522 22108 I TaskQueueV2_15522_22108: sendTimerStop() called with: sendItem = 193
+08-19 17:27:02.202 15522 22108 I TaskQueueV2_15522_22108: base move to 194
+08-19 17:27:02.202 15522 22108 I TaskQueueV2_15522_22108: runNext() called thread: Spp Dispatcher
+08-19 17:27:02.202 15522 22108 I TaskQueueV2_15522_22108: sendNextPacket: queue is empty
+08-19 17:27:02.202 15522 15522 I Device-Sync_15522_15522: Type(101) call success, did=837907449, result=SyncResult(code=0)

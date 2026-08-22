@@ -1,0 +1,233 @@
+--------- beginning of main
+08-19 18:30:21.916 15522 16236 I TimeTracker_15522_16236: trackProcessAlive() called duration 452, miill 1787139021915, start 1787111900557
+08-19 18:30:25.451 25439 25439 I ple.fitness_app: Using CollectorTypeCC GC.
+08-19 18:30:25.469 25439 25439 E ple.fitness_app: Not starting debugger since process cannot load the jdwp agent.
+--------- beginning of system
+08-19 18:30:25.525 25439 13600 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=197376
+08-19 18:30:25.525 25439 13600 I ple.fitness_app: Open vivo delay for GC JIT .
+08-19 18:30:25.529 25439 25439 D CompatibilityChangeReporter: Compat change id reported: 171979766; UID 10651; state: ENABLED
+08-19 18:30:25.530 25439 25439 D CompatibilityChangeReporter: Compat change id reported: 242716250; UID 10651; state: ENABLED
+08-19 18:30:25.559 25439 25439 D nativeloader: Configuring clns-4 for other apk /data/app/~~yXynYQGtgh6uFMHHgEra6A==/com.example.fitness_app-nFV_jn5IiZk_PsAXZr7xFQ==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~yXynYQGtgh6uFMHHgEra6A==/com.example.fitness_app-nFV_jn5IiZk_PsAXZr7xFQ==/lib/arm64:/data/app/~~yXynYQGtgh6uFMHHgEra6A==/com.example.fitness_app-nFV_jn5IiZk_PsAXZr7xFQ==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.example.fitness_app
+08-19 18:30:25.571 25439 25439 V GraphicsEnvironment: Currently set values for:
+08-19 18:30:25.571 25439 25439 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+08-19 18:30:25.571 25439 25439 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+08-19 18:30:25.572 25439 25439 V GraphicsEnvironment: ANGLE GameManagerService for com.example.fitness_app: false
+08-19 18:30:25.572 25439 25439 V GraphicsEnvironment: com.example.fitness_app is not listed in per-application setting
+08-19 18:30:25.572 25439 25439 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+08-19 18:30:25.577 25439 25439 D CompatibilityChangeReporter: Compat change id reported: 183155436; UID 10651; state: ENABLED
+08-19 18:30:25.579 25439 25439 I FirebaseApp: Device unlocked: initializing all Firebase APIs for app [DEFAULT]
+08-19 18:30:25.579 25439 25439 I FirebaseInitProvider: FirebaseApp initialization successful
+08-19 18:30:25.609 25439 25439 D VivoConfigStore: init begin
+08-19 18:30:25.612 25439 25439 D VivoConfigStore: key:vivo.software.multilandscape isCached is true and value is true
+08-19 18:30:25.613 25439 25439 D VivoConfigStore: key:vivo.software.multiwindow.splitminimize isCached is false and normal value is false
+08-19 18:30:25.613 25439 25439 D VivoConfigStore: key:vivo.software.ml.freedrag isCached is true and value is true
+08-19 18:30:25.614 25439 25439 D VivoConfigStore: key:vivo.software.ml.unasso isCached is false and normal value is false
+08-19 18:30:25.614 25439 25439 D VivoConfigStore: key:vivo.software.virtualmultilands isCached is true and value is true
+08-19 18:30:25.614 25439 25439 D VivoConfigStore: key:vivo.software.hovermode isCached is false and normal value is false
+08-19 18:30:25.615 25439 25439 D VivoConfigStore: key:vivo.software.splithover isCached is false and normal value is false
+08-19 18:30:25.616 25439 25439 D VivoConfigStore: key:vivo.software.multiwindow.splitcompat isCached is false and normal value is false
+08-19 18:30:25.629 25439 13625 D skia    : [SkFontMgr Android Parser] /system/etc/fonts.xml:2195:4: warning: 'opticalsizsl' alias target not found
+08-19 18:30:25.630 25439 13625 D skia    : [SkFontMgr Android Parser] '/product/etc/fonts_customization.xml' could not be opened
+08-19 18:30:25.657 25439 13626 D vulkan  : searching for layers in '/data/app/~~yXynYQGtgh6uFMHHgEra6A==/com.example.fitness_app-nFV_jn5IiZk_PsAXZr7xFQ==/lib/arm64'
+08-19 18:30:25.658 25439 13626 D vulkan  : searching for layers in '/data/app/~~yXynYQGtgh6uFMHHgEra6A==/com.example.fitness_app-nFV_jn5IiZk_PsAXZr7xFQ==/base.apk!/lib/arm64-v8a'
+08-19 18:30:25.637 25439 25439 W ple.fitness_app: type=1400 audit(0.0:149800): avc:  denied  { read } for  name="max_map_count" dev="proc" ino=2579008 scontext=u:r:untrusted_app:s0:c139,c258,c512,c768 tcontext=u:object_r:proc_max_map_count:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 18:30:25.675 25439 13626 I AdrenoVK-0: ===== BEGIN DUMP OF OVERRIDDEN SETTINGS =====
+08-19 18:30:25.675 25439 13626 I AdrenoVK-0: ===== END DUMP OF OVERRIDDEN SETTINGS =====
+08-19 18:30:25.676 25439 25439 D DragManager: DragManager construct in
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: QUALCOMM build          : fc9849b050, Ibccd5936db
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Build Date              : 11/20/23
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Shader Compiler Version : EV031.36.08.26
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Local Branch            : 
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Remote Branch           : refs/tags/AU_LINUX_ANDROID_LA.VENDOR.1.0.11.00.00.766.892
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Remote Branch           : NONE
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Reconstruct Branch      : NOTHING
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Build Config            : S P 12.1.1 AArch64
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Driver Path             : /vendor/lib64/hw/vulkan.adreno.so
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Driver Version          : 0615.76
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: PFP                     : 0x01710158
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: ME                      : 0x00000000
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Application Name    : Impeller
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Application Version : 0x00400000
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Engine Name         : Impeller
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Engine Version      : 0x00800000
+08-19 18:30:25.678 25439 13626 I AdrenoVK-0: Api Version         : 0x00401000
+08-19 18:30:25.680 25439 25439 D VivoConfigStore: key:vivo.software.nightmode isCached is true and value is true
+08-19 18:30:25.686 25439 13626 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(62)] Using the Impeller rendering backend (Vulkan).
+08-19 18:30:25.708 25439 25439 D VivoConfigStore: key:vivo.software.freeform isCached is true and value is true
+08-19 18:30:25.709 25439 25439 D VivoConfigStore: key:vivo.software.immersive isCached is false and normal value is false
+08-19 18:30:25.709 25439 25439 D VivoConfigStore: key:vivo.software.multiwindow isCached is true and value is true
+08-19 18:30:25.718 25439 25439 D CompatibilityChangeReporter: Compat change id reported: 237531167; UID 10651; state: DISABLED
+08-19 18:30:25.721 25439 25439 W OpenGLRenderer: Unknown dataspace 0
+08-19 18:30:25.753 25439 25439 W ple.fitness_app: type=1400 audit(0.0:149801): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:untrusted_app:s0:c139,c258,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 18:30:25.761 25439 25439 W ple.fitness_app: type=1400 audit(0.0:149802): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:untrusted_app:s0:c139,c258,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 18:30:25.758 25439 25439 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 18:30:25.758 25439 13618 I AdrenoGLES-0: QUALCOMM build                   : fc9849b050, Ibccd5936db
+08-19 18:30:25.758 25439 13618 I AdrenoGLES-0: Build Date                       : 11/20/23
+08-19 18:30:25.758 25439 13618 I AdrenoGLES-0: OpenGL ES Shader Compiler Version: EV031.36.08.26
+08-19 18:30:25.758 25439 13618 I AdrenoGLES-0: Local Branch                     : 
+08-19 18:30:25.758 25439 13618 I AdrenoGLES-0: Remote Branch                    : refs/tags/AU_LINUX_ANDROID_LA.VENDOR.1.0.11.00.00.766.892
+08-19 18:30:25.758 25439 13618 I AdrenoGLES-0: Remote Branch                    : NONE
+08-19 18:30:25.758 25439 13618 I AdrenoGLES-0: Reconstruct Branch               : NOTHING
+08-19 18:30:25.759 25439 13618 I AdrenoGLES-0: Build Config                     : S P 12.1.1 AArch64
+08-19 18:30:25.759 25439 13618 I AdrenoGLES-0: Driver Path                      : /vendor/lib64/egl/libGLESv2_adreno.so
+08-19 18:30:25.759 25439 13618 I AdrenoGLES-0: Driver Version                   : 0615.76
+08-19 18:30:25.761 25439 25439 E ple.fitness_app: Cannot find perfservice
+08-19 18:30:25.761 25439 13618 I AdrenoGLES-0: PFP: 0x01710158, ME: 0x00000000
+08-19 18:30:25.764 25439 25439 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 18:30:25.771 25439 13626 E qdgralloc: GetSize: Unrecognized pixel format: 0x38
+08-19 18:30:25.771 25439 13626 E Gralloc4: isSupported(1, 1, 56, 1, ...) failed with 5
+08-19 18:30:25.774 25439 13626 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 5
+08-19 18:30:25.775 25439 13626 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 18:30:25.775 25439 13626 E qdgralloc: GetSize: Unrecognized pixel format: 0x3b
+08-19 18:30:25.775 25439 13626 E Gralloc4: isSupported(1, 1, 59, 1, ...) failed with 5
+08-19 18:30:25.775 25439 13626 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 5
+08-19 18:30:25.775 25439 13626 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 18:30:25.775 25439 13626 E qdgralloc: GetSize: Unrecognized pixel format: 0x38
+08-19 18:30:25.775 25439 13626 E Gralloc4: isSupported(1, 1, 56, 1, ...) failed with 5
+08-19 18:30:25.775 25439 13626 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 5
+08-19 18:30:25.775 25439 13626 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 18:30:25.775 25439 13626 E qdgralloc: GetSize: Unrecognized pixel format: 0x3b
+08-19 18:30:25.775 25439 13626 E Gralloc4: isSupported(1, 1, 59, 1, ...) failed with 5
+08-19 18:30:25.775 25439 13626 E GraphicBufferAllocator: Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 5
+08-19 18:30:25.775 25439 13626 E AHardwareBuffer: GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -5), handle=0x0
+08-19 18:30:25.777 25439 13626 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 18:30:25.777 25439 13626 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 18:30:25.778 25439 13626 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 18:30:25.779 25439 13626 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 18:30:25.779 25439 13626 W qdgralloc: getInterlacedFlag: getMetaData returned -22, defaulting to interlaced_flag = 0
+08-19 18:30:25.780 25439 13618 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 18:30:25.790  1932  7669 D BatteryStatsService: notePemString  noteWhich: 49,arg1: 1080, arg2: 2408, arg3: 25439, arg4: 1, name: com.example.fitness_app
+08-19 18:30:25.797 25439 13650 D CompatibilityChangeReporter: Compat change id reported: 3400644; UID 10651; state: ENABLED
+08-19 18:30:25.812 25439 25439 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+08-19 18:30:25.812 25439 25439 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+08-19 18:30:25.823  1932  7669 D BatteryStatsService: notePemString  noteWhich: 49,arg1: 1080, arg2: 2408, arg3: 25439, arg4: 1, name: com.example.fitness_app
+08-19 18:30:25.847  1932  2335 I ActivityTaskManager: Displayed com.example.fitness_app/.MainActivity for user 0: +412ms
+08-19 18:30:25.851 25439 25439 V ImeFocusController: onWindowFocus: DecorView@a44d498[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE|IS_FORWARD_NAVIGATION
+08-19 18:30:25.852  1932  2335 I ActivityTaskManager: Fully drawn com.example.fitness_app/.MainActivity: +412ms
+08-19 18:30:27.368 25439 25439 D SystemUtils: [isSystemApp] begin android.app.Application@7aeb54
+08-19 18:30:27.370 25439 25439 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 18:30:27.370 25439 25439 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 18:30:27.371 25439 25439 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 18:30:27.371 25439 25439 D SystemUtils: xspace-profile-userId:666
+08-19 18:30:27.371 25439 25439 D SystemUtils: cloned-profile-userId:999
+08-19 18:30:27.371 25439 25439 D SystemUtils: userId:0
+08-19 18:30:27.375 25439 25439 D SystemUtils: [isSystemApp] begin android.app.Application@7aeb54
+08-19 18:30:27.375 25439 25439 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 18:30:27.375 25439 25439 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 18:30:27.375 25439 25439 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 18:30:27.375 25439 25439 D SystemUtils: userId:0
+08-19 18:30:27.449 25439 13606 V ActivityThread: updateVmProcessStateForGc sceneId =1000 state=83886080
+08-19 18:30:27.449 25439 13606 I ple.fitness_app: dgc_arg: has_act=1, state=1
+08-19 18:30:27.456 25439 25439 D SystemUtils: [isSystemApp] begin android.app.Application@7aeb54
+08-19 18:30:27.457 25439 25439 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 18:30:27.457 25439 25439 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 18:30:27.457 25439 25439 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 18:30:27.457 25439 25439 D SystemUtils: userId:0
+08-19 18:30:27.494 11227 21726 W Auth.Api.SignIn: [Service,SignInChimeraService] **************************** WARNING ***************************
+08-19 18:30:27.494 11227 21726 W Auth.Api.SignIn: You are using the deprecated legacy Google Sign-In APIs from
+08-19 18:30:27.494 11227 21726 W Auth.Api.SignIn: play-services-auth SDK. Please migrate to the Credential Manager
+08-19 18:30:27.494 11227 21726 W Auth.Api.SignIn: APIs, see https://goo.gle/gsi-migration.
+08-19 18:30:27.494 11227 21726 W Auth.Api.SignIn: ****************************************************************
+08-19 18:30:27.545 25439 25439 W ple.fitness_app: type=1400 audit(0.0:149804): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:untrusted_app:s0:c139,c258,c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.example.fitness_app
+08-19 18:30:27.521 11227 21726 V ActivityThread: updateVmProcessStateForGc sceneId =1000 state=83886080
+08-19 18:30:27.521 11227 21726 I gle.android.gms: dgc_arg: has_act=1, state=1
+08-19 18:30:27.547 25439 25439 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 18:30:27.548 25439 13618 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 18:30:27.609 27690 27690 W GmsActivityProxy: Error binding root VE. SignInActivity is missing a @GmsCoreVeId annotation. [CONTEXT service_id=264 ]
+08-19 18:30:27.612 15522 15692 I MediaSyncManager_15522_15692: SettingsContentObserver onChange onSync true
+08-19 18:30:27.613 15522 15692 I MediaSyncManager_15522_15692: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 18:30:27.645 27690 27690 W .android.gms.ui: type=1400 audit(0.0:149805): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 18:30:27.649 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 18:30:27.650 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 18:30:27.661  1932  2335 I ActivityTaskManager: Displayed com.google.android.gms/.auth.api.signin.ui.SignInActivity for user 0: +186ms
+08-19 18:30:27.683 27690 27690 V ImeFocusController: onWindowFocus: DecorView@9fe2bd8[SignInActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN|IS_FORWARD_NAVIGATION
+08-19 18:30:27.722 25439 13606 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=196608
+08-19 18:30:27.722 25439 13606 I ple.fitness_app: Close vivo delay for GC JIT .
+08-19 18:30:27.801 27690 27690 W .android.gms.ui: type=1400 audit(0.0:149806): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 18:30:27.804 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 18:30:27.804 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 18:30:27.837 27690 27690 W GmsActivityProxy: Error binding root VE. SignInActivity is missing a @GmsCoreVeId annotation. [CONTEXT service_id=264 ]
+08-19 18:30:27.841 27690 10941 E jplv    : *~*~*~ Previous channel {0} was garbage collected without being shut down! ~*~*~*
+08-19 18:30:27.841 27690 10941 E jplv    :     Make sure to call shutdown()/shutdownNow()
+08-19 18:30:27.841 27690 10941 E jplv    : java.lang.RuntimeException: ManagedChannel allocation site
+08-19 18:30:27.841 27690 10941 E jplv    : 	at jplu.<init>(:com.google.android.gms@263131029@26.31.31 (190400-959389638):21)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at jplv.<init>(:com.google.android.gms@263131029@26.31.31 (190400-959389638):10)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at jplt.a(:com.google.android.gms@263131029@26.31.31 (190400-959389638):300)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at jotk.a(:com.google.android.gms@263131029@26.31.31 (190400-959389638):5)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at blfc.a(:com.google.android.gms@263131029@26.31.31 (190400-959389638):85)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at blet.t(:com.google.android.gms@263131029@26.31.31 (190400-959389638):107)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at blet.G(:com.google.android.gms@263131029@26.31.31 (190400-959389638):5)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at fpwi.call(:com.google.android.gms@263131029@26.31.31 (190400-959389638):238)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at bllk.d(:com.google.android.gms@263131029@26.31.31 (190400-959389638):50)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at bllk.c(:com.google.android.gms@263131029@26.31.31 (190400-959389638):6)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at bllk.run(:com.google.android.gms@263131029@26.31.31 (190400-959389638):33)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at blrg.run(:com.google.android.gms@263131029@26.31.31 (190400-959389638):8)
+08-19 18:30:27.841 27690 10941 E jplv    : 	at java.lang.Thread.run(Thread.java:1042)
+08-19 18:30:27.852 27690 30064 D TrafficStats: tagSocket(146) with statsTag=0x4006501, statsUid=-1
+08-19 18:30:27.853 27690 30064 D Linux   : [Posix_connect Debug]Process com.google.android.gms.ui :443 
+08-19 18:30:27.870 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 18:30:27.872 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 18:30:27.865 27690 27690 W .android.gms.ui: type=1400 audit(0.0:149807): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 18:30:27.884  1932  2335 I ActivityTaskManager: Displayed com.google.android.gms/.signin.activity.SignInActivity for user 0: +170ms
+08-19 18:30:27.899 27690 27690 V ImeFocusController: onWindowFocus: DecorView@73392e5[SignInActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN|IS_FORWARD_NAVIGATION
+08-19 18:30:27.923 27690 30064 W Conscrypt: Could not set socket write timeout: java.net.SocketException: Socket closed
+08-19 18:30:27.923 27690 30064 W Conscrypt: 	at com.google.android.gms.org.conscrypt.Platform.setSocketWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):204)
+08-19 18:30:27.923 27690 30064 W Conscrypt: 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.setSoWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):4)
+08-19 18:30:28.027 27690 30064 W Conscrypt: Could not set socket write timeout: java.net.SocketException: Socket closed
+08-19 18:30:28.027 27690 30064 W Conscrypt: 	at com.google.android.gms.org.conscrypt.Platform.setSocketWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):204)
+08-19 18:30:28.027 27690 30064 W Conscrypt: 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.setSoWriteTimeout(:com.google.android.gms@263131029@26.31.31 (190400-959389638):4)
+08-19 18:30:28.186 27690 27690 I SignIn  : [Activity,SignInChimeraActivity] Couldn't fetch app's branding information, but continuing without it.
+08-19 18:30:28.223 27690 27690 E .android.gms.ui: Invalid resource ID 0x00000000.
+08-19 18:30:28.238 27690 27690 W GmsActivityProxy: Error binding root VE. AccountPickerActivity is missing a @GmsCoreVeId annotation. [CONTEXT service_id=264 ]
+08-19 18:30:28.259 27690 27690 W DividerItem: @android:attr/listDivider was not set in the theme used for this DividerItemDecoration. Please set that attribute all call setDrawable()
+08-19 18:30:28.295 27690 27690 W libc    : Access denied finding property "vendor.display.enable_optimal_refresh_rate"
+08-19 18:30:28.289 27690 27690 W .android.gms.ui: type=1400 audit(0.0:149808): avc:  denied  { read } for  name="u:object_r:vendor_display_prop:s0" dev="tmpfs" ino=426 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:vendor_display_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-19 18:30:28.296 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 18:30:28.320  1932  2335 I ActivityTaskManager: Displayed com.google.android.gms/.common.account.AccountPickerActivity for user 0: +125ms
+08-19 18:30:28.362 27690 27690 E .android.gms.ui: Invalid resource ID 0x00000000.
+08-19 18:30:28.377 27690 30015 E OpenGLRenderer: Unable to match the desired swap behavior.
+08-19 18:30:28.393 27690 27690 V ImeFocusController: onWindowFocus: DecorView@6764dcf[AccountPickerActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN|IS_FORWARD_NAVIGATION
+08-19 18:30:29.524 11227 21726 V ActivityThread: updateVmProcessStateForGc sceneId =1000 state=83886080
+08-19 18:30:29.524 11227 21726 I gle.android.gms: dgc_arg: has_act=1, state=1
+08-19 18:30:29.524 11227 11245 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=196608
+08-19 18:30:29.524 11227 11245 I gle.android.gms: Close vivo delay for GC JIT .
+08-19 18:30:29.830 27690 27690 D SystemUtils: [isSystemApp] begin cewk@4af22aa
+08-19 18:30:29.831 27690 27690 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 18:30:29.831 27690 27690 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 18:30:29.831 27690 27690 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 18:30:29.832 27690 27690 D SystemUtils: userId:0
+08-19 18:30:29.832 27690 27690 D SystemUtils: [isSystemApp] begin cewk@4af22aa
+08-19 18:30:29.832 27690 27690 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 18:30:29.832 27690 27690 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 18:30:29.832 27690 27690 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 18:30:29.832 27690 27690 D SystemUtils: userId:0
+08-19 18:30:29.937 27690 27690 D SystemUtils: [isSystemApp] begin cewk@4af22aa
+08-19 18:30:29.937 27690 27690 D ScreenUtils: isMultiWindow:0,userId:0
+08-19 18:30:29.937 27690 27690 D ScreenUtils: hasVivoFreeformTasks:0,userId:0
+08-19 18:30:29.937 27690 27690 D ScreenUtils: isLittleVExist:0,userId:0
+08-19 18:30:29.937 27690 27690 D SystemUtils: userId:0
+08-19 18:30:29.990 11227 11245 I GoogleSignatureVerifier: package info is not set correctly
+08-19 18:30:30.015 27690 27690 V ImeFocusController: onWindowFocus: DecorView@73392e5[SignInActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_PAN
+08-19 18:30:30.020 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@1a3f21b
+08-19 18:30:30.024 27690 30015 D OpenGLRenderer: endAllActiveAnimators on 0xb4000072a350b4c0 (RippleDrawable) with handle 0xb400007313539690
+08-19 18:30:30.049 10602 14107 D TrafficStats: tagSocket(116) with statsTag=0x4000401, statsUid=10651
+08-19 18:30:30.268 10602 12869 W Auth    : [GetTokenResponseHandler] Server returned error: This android application is not registered to use OAuth2.0, please confirm the package name and SHA-1 certificate fingerprint match what you registered in Google Developer Console. See https://developer.android.com/google/auth/http-auth.html#Register for more information. Common fixes include checking that the app is signed with the registered key, and that applicationId and applicationIdSuffix are set to appropriate values in Android Studio. [CONTEXT service_id=343 ]
+08-19 18:30:30.270 27690 27690 W SignIn  : [Activity,SignInChimeraActivity] Failed to record the consent.
+08-19 18:30:30.418 10602 12869 W Auth    : [GetTokenResponseHandler] Server returned error: This android application is not registered to use OAuth2.0, please confirm the package name and SHA-1 certificate fingerprint match what you registered in Google Developer Console. See https://developer.android.com/google/auth/http-auth.html#Register for more information. Common fixes include checking that the app is signed with the registered key, and that applicationId and applicationIdSuffix are set to appropriate values in Android Studio. [CONTEXT service_id=343 ]
+08-19 18:30:30.469 11227 22530 V ActivityThread: updateVmProcessStateForGc sceneId =1 state=197376
+08-19 18:30:30.469 11227 22530 I gle.android.gms: Open vivo delay for GC JIT .
+08-19 18:30:30.489 27690 27690 W AutoManageHelper: Unresolved error while connecting client. Stopping auto-manage.
+08-19 18:30:30.526 25439 25439 D CompatibilityChangeReporter: Compat change id reported: 78294732; UID 10651; state: ENABLED
+08-19 18:30:30.596 15522 15692 I MediaSyncManager_15522_15692: SettingsContentObserver onChange onSync true
+08-19 18:30:30.607 25439 25439 I flutter : Ошибка входа: PlatformException(sign_in_failed, m2: 10: , null, null)
+08-19 18:30:30.610 25439 25439 V ImeFocusController: onWindowFocus: DecorView@a44d498[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+08-19 18:30:30.630 15522 15692 I MediaSyncManager_15522_15692: SettingsContentObserver onChange volume not changed, skip. mCurrentVolume:6
+08-19 18:30:30.635 25439 25439 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@2172282
+08-19 18:30:30.678 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@487bab0
+08-19 18:30:30.691 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@54748ab
+08-19 18:30:30.716 27690 27690 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda19@27b039f
+08-19 18:30:30.824 25439 13809 D ProfileInstaller: Skipping profile installation for com.example.fitness_app
+08-19 18:30:30.957 27690 29987 W .android.gms.ui: ApkAssets: Deleting an ApkAssets object '<empty> and /data/app/~~yXynYQGtgh6uFMHHgEra6A==/com.example.fitness_app-nFV_jn5IiZk_PsAXZr7xFQ==/base.apk' with 1 weak references
