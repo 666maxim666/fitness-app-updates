@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';   // временно отключено
 import '../models/workout.dart';
 
 class ProgressTab extends StatefulWidget {
@@ -36,15 +36,17 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
     super.dispose();
   }
 
-  // Подсчёт статистики
   int get totalWorkouts => widget.workouts.length;
+
   int get streakDays {
     if (totalWorkouts == 0) return 0;
     final dates = widget.workouts.map((w) => w.date).toList();
     dates.sort((a, b) => b.compareTo(a));
     int streak = 1;
     for (int i = 1; i < dates.length; i++) {
-      final diff = dates[i - 1].difference(dates[i]).inDays;
+      final prev = DateTime.parse(dates[i - 1]);
+      final curr = DateTime.parse(dates[i]);
+      final diff = prev.difference(curr).inDays;
       if (diff == 1) {
         streak++;
       } else if (diff > 1) {
@@ -55,14 +57,11 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
   }
 
   double get attendancePercentage {
-    // За последние 30 дней считаем, сколько было тренировочных дней (по дням недели)
     final now = DateTime.now();
     final start = now.subtract(const Duration(days: 30));
     final plannedDays = <DateTime>[];
     for (int i = 0; i <= 30; i++) {
       final day = start.add(Duration(days: i));
-      // Предположим, что тренировочные дни – пн, ср, пт (можно брать из настроек)
-      // Для демонстрации используем фиксированный список [1,3,5]
       if ([1, 3, 5].contains(day.weekday)) {
         plannedDays.add(day);
       }
@@ -70,17 +69,14 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
     if (plannedDays.isEmpty) return 0.0;
     int attended = 0;
     for (final day in plannedDays) {
-      if (widget.workouts.any((w) =>
-          w.date.year == day.year &&
-          w.date.month == day.month &&
-          w.date.day == day.day)) {
+      final dateStr = '${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}';
+      if (widget.workouts.any((w) => w.date == dateStr)) {
         attended++;
       }
     }
     return (attended / plannedDays.length) * 100;
   }
 
-  // Получение лучших результатов
   Map<String, Map<String, dynamic>> get bestRecords {
     final records = <String, Map<String, dynamic>>{};
     for (final w in widget.workouts) {
@@ -95,24 +91,20 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
     return records;
   }
 
-  // Данные для графика (посещаемость по неделям)
   List<int> get weeklyAttendance {
     final now = DateTime.now();
-    final weeks = <int>[0, 0, 0, 0, 0]; // 5 недель
+    final weeks = <int>[0, 0, 0, 0, 0];
     for (int i = 0; i < 35; i++) {
       final day = now.subtract(Duration(days: 34 - i));
+      final dateStr = '${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}';
       final weekIndex = i ~/ 7;
-      if (widget.workouts.any((w) =>
-          w.date.year == day.year &&
-          w.date.month == day.month &&
-          w.date.day == day.day)) {
+      if (widget.workouts.any((w) => w.date == dateStr)) {
         weeks[weekIndex]++;
       }
     }
     return weeks;
   }
 
-  // Метод "Поделиться"
   void _shareProgress() async {
     final stats =
         '📊 Мой прогресс\n'
@@ -122,26 +114,23 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
         '🏆 Рекорды:\n';
     final records = bestRecords;
     final recordsText = records.entries.map((e) {
-      final date = (e.value['date'] as DateTime);
-      return '${e.key}: ${e.value['weight']} кг (${date.day}.${date.month})';
+      final date = e.value['date'] as String;
+      return '${e.key}: ${e.value['weight']} кг (${date.substring(8, 10)}.${date.substring(5, 7)})';
     }).join('\n');
 
-    await Share.share('$stats$recordsText');
+    // временно отключено — заменить на Share.share позже
+    // await Share.share('$stats$recordsText');
+    print('📤 Поделиться: $stats$recordsText'); // временно вывод в консоль
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = widget.config['colors'] ?? {};
-    final texts = widget.config['texts'] ?? {};
     final primaryColor = colors['primary'] ?? '#FF9800';
     final textColor = colors['text'] ?? '#FFFFFF';
-    final bgColor = colors['background'] ?? '#0A0A0A';
-    final surfaceColor = colors['surface'] ?? '#1A120A';
-
     final total = totalWorkouts;
     final streak = streakDays;
     final attendance = attendancePercentage;
-
     final weekData = weeklyAttendance;
     final maxWeek = weekData.isNotEmpty ? weekData.reduce((a, b) => a > b ? a : b) : 1;
 
@@ -152,13 +141,8 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '📊 Прогресс',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-            ),
+            const Text('📊 Прогресс', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
             const SizedBox(height: 16),
-
-            // Сводка
             Row(
               children: [
                 _SummaryCard(label: 'Тренировок', value: '$total', primaryColor: primaryColor),
@@ -174,34 +158,12 @@ class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStat
               ],
             ),
             const SizedBox(height: 16),
-
-            // Календарь (упрощённо, можно заменить на полноценный календарь)
-            _CalendarWidget(
-              workouts: widget.workouts,
-              primaryColor: primaryColor,
-              surfaceColor: surfaceColor,
-            ),
+            _CalendarWidget(workouts: widget.workouts, primaryColor: primaryColor),
             const SizedBox(height: 16),
-
-            // График
-            _ChartWidget(
-              weekData: weekData,
-              maxWeek: maxWeek,
-              primaryColor: primaryColor,
-              surfaceColor: surfaceColor,
-            ),
+            _ChartWidget(weekData: weekData, maxWeek: maxWeek, primaryColor: primaryColor),
             const SizedBox(height: 16),
-
-            // Рекорды
-            _RecordsWidget(
-              records: bestRecords,
-              primaryColor: primaryColor,
-              surfaceColor: surfaceColor,
-              textColor: textColor,
-            ),
+            _RecordsWidget(records: bestRecords, primaryColor: primaryColor),
             const SizedBox(height: 16),
-
-            // Кнопка "Поделиться"
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -229,13 +191,7 @@ class _SummaryCard extends StatelessWidget {
   final String value;
   final String? sub;
   final String primaryColor;
-
-  const _SummaryCard({
-    required this.label,
-    required this.value,
-    this.sub,
-    required this.primaryColor,
-  });
+  const _SummaryCard({required this.label, required this.value, this.sub, required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -258,17 +214,11 @@ class _SummaryCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              label,
-              style: const TextStyle(fontSize: 10, color: Colors.grey),
-            ),
+            Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
             if (sub != null)
               Padding(
                 padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  sub!,
-                  style: const TextStyle(fontSize: 12, color: Color(0xFF4CAF50)),
-                ),
+                child: Text(sub!, style: const TextStyle(fontSize: 12, color: Color(0xFF4CAF50))),
               ),
           ],
         ),
@@ -280,13 +230,7 @@ class _SummaryCard extends StatelessWidget {
 class _CalendarWidget extends StatelessWidget {
   final List<Workout> workouts;
   final String primaryColor;
-  final String surfaceColor;
-
-  const _CalendarWidget({
-    required this.workouts,
-    required this.primaryColor,
-    required this.surfaceColor,
-  });
+  const _CalendarWidget({required this.workouts, required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -296,11 +240,7 @@ class _CalendarWidget extends StatelessWidget {
     final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
     final today = now.day;
 
-    // Список дней месяца
-    final days = <int>[];
-    for (int i = 1; i <= daysInMonth; i++) days.add(i);
-
-    // Пустые ячейки до начала месяца
+    final days = List.generate(daysInMonth, (i) => i + 1);
     final leadingEmpty = firstWeekday - 1;
 
     return Container(
@@ -339,15 +279,10 @@ class _CalendarWidget extends StatelessWidget {
             ),
             itemCount: leadingEmpty + days.length,
             itemBuilder: (context, index) {
-              if (index < leadingEmpty) {
-                return const SizedBox.shrink();
-              }
+              if (index < leadingEmpty) return const SizedBox.shrink();
               final day = days[index - leadingEmpty];
-              final date = DateTime(now.year, now.month, day);
-              final isWorkout = workouts.any((w) =>
-                  w.date.year == date.year &&
-                  w.date.month == date.month &&
-                  w.date.day == date.day);
+              final dateStr = '${now.year}-${now.month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+              final isWorkout = workouts.any((w) => w.date == dateStr);
               final isToday = day == today;
               return Container(
                 decoration: BoxDecoration(
@@ -355,9 +290,7 @@ class _CalendarWidget extends StatelessWidget {
                       ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.35)
                       : Colors.white.withOpacity(0.04),
                   borderRadius: BorderRadius.circular(8),
-                  border: isToday
-                      ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))))
-                      : null,
+                  border: isToday ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))) : null,
                 ),
                 child: Center(
                   child: Text(
@@ -377,20 +310,7 @@ class _CalendarWidget extends StatelessWidget {
   }
 
   String _monthName(int month) {
-    const names = [
-      'Январь',
-      'Февраль',
-      'Март',
-      'Апрель',
-      'Май',
-      'Июнь',
-      'Июль',
-      'Август',
-      'Сентябрь',
-      'Октябрь',
-      'Ноябрь',
-      'Декабрь'
-    ];
+    const names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     return names[month - 1];
   }
 }
@@ -399,14 +319,7 @@ class _ChartWidget extends StatelessWidget {
   final List<int> weekData;
   final int maxWeek;
   final String primaryColor;
-  final String surfaceColor;
-
-  const _ChartWidget({
-    required this.weekData,
-    required this.maxWeek,
-    required this.primaryColor,
-    required this.surfaceColor,
-  });
+  const _ChartWidget({required this.weekData, required this.maxWeek, required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -427,14 +340,8 @@ class _ChartWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Посещаемость по неделям',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
-              ),
-              const Text(
-                '+18%',
-                style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w700, fontSize: 16),
-              ),
+              const Text('Посещаемость по неделям', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15)),
+              const Text('+18%', style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w700, fontSize: 16)),
             ],
           ),
           const SizedBox(height: 8),
@@ -453,10 +360,7 @@ class _ChartWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    labels[i],
-                    style: const TextStyle(fontSize: 8, color: Colors.grey),
-                  ),
+                  Text(labels[i], style: const TextStyle(fontSize: 8, color: Colors.grey)),
                 ],
               );
             }),
@@ -470,15 +374,7 @@ class _ChartWidget extends StatelessWidget {
 class _RecordsWidget extends StatelessWidget {
   final Map<String, Map<String, dynamic>> records;
   final String primaryColor;
-  final String surfaceColor;
-  final String textColor;
-
-  const _RecordsWidget({
-    required this.records,
-    required this.primaryColor,
-    required this.surfaceColor,
-    required this.textColor,
-  });
+  const _RecordsWidget({required this.records, required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -492,47 +388,26 @@ class _RecordsWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '🏆 Рекорды',
-            style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w600, fontSize: 14),
-          ),
+          const Text('🏆 Рекорды', style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w600, fontSize: 14)),
           const SizedBox(height: 8),
           if (records.isEmpty)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Text('Пока нет рекордов', style: TextStyle(color: Colors.grey)),
-              ),
-            )
+            const Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 16), child: Text('Пока нет рекордов', style: TextStyle(color: Colors.grey))))
           else
             ...records.entries.map((entry) {
               final name = entry.key;
               final weight = entry.value['weight'] is num ? entry.value['weight'] : 0;
-              final date = entry.value['date'] as DateTime;
+              final date = entry.value['date'] as String;
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      name,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
-                    ),
+                    Text(name, style: const TextStyle(color: Colors.white, fontSize: 14)),
                     Row(
                       children: [
-                        Text(
-                          '$weight кг',
-                          style: TextStyle(
-                            color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                          ),
-                        ),
+                        Text('$weight кг', style: TextStyle(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))), fontWeight: FontWeight.w700, fontSize: 14)),
                         const SizedBox(width: 6),
-                        Text(
-                          '• ${date.day}.${date.month}',
-                          style: const TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
+                        Text('• ${date.substring(8, 10)}.${date.substring(5, 7)}', style: const TextStyle(color: Colors.grey, fontSize: 12)),
                       ],
                     ),
                   ],

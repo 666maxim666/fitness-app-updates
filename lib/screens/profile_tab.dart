@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';   // временно отключено
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import '../models/user.dart';
@@ -11,7 +11,7 @@ class ProfileTab extends StatefulWidget {
   final AppUser? user;
   final Function(AppUser) onUpdate;
   final Map<String, dynamic> config;
-  final List<Workout> workouts; // для статистики и экспорта
+  final List<Workout> workouts;
 
   const ProfileTab({
     super.key,
@@ -29,7 +29,6 @@ class _ProfileTabState extends State<ProfileTab> {
   String? _avatarPath;
   final ImagePicker _picker = ImagePicker();
 
-  // Подсчёт статистики
   int get totalWorkouts => widget.workouts.length;
   int get streakDays {
     if (totalWorkouts == 0) return 0;
@@ -37,7 +36,9 @@ class _ProfileTabState extends State<ProfileTab> {
     dates.sort((a, b) => b.compareTo(a));
     int streak = 1;
     for (int i = 1; i < dates.length; i++) {
-      final diff = dates[i - 1].difference(dates[i]).inDays;
+      final prev = DateTime.parse(dates[i - 1]);
+      final curr = DateTime.parse(dates[i]);
+      final diff = prev.difference(curr).inDays;
       if (diff == 1) {
         streak++;
       } else if (diff > 1) {
@@ -48,18 +49,32 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadAvatar();
+  }
+
+  void _loadAvatar() async {
+    if (widget.user != null) {
+      final appDir = await getApplicationDocumentsDirectory();
+      final path = '${appDir.path}/avatar_${widget.user!.email}.png';
+      if (File(path).existsSync()) {
+        setState(() {
+          _avatarPath = path;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = widget.config['colors'] ?? {};
     final primaryColor = colors['primary'] ?? '#FF9800';
     final textColor = colors['text'] ?? '#FFFFFF';
-    final surfaceColor = colors['surface'] ?? '#1A120A';
 
     if (widget.user == null) {
       return Center(
-        child: Text(
-          'Пользователь не загружен',
-          style: TextStyle(color: Color(int.parse(textColor.replaceFirst('#', '0xFF')))),
-        ),
+        child: Text('Пользователь не загружен', style: TextStyle(color: Color(int.parse(textColor.replaceFirst('#', '0xFF'))))),
       );
     }
 
@@ -70,13 +85,8 @@ class _ProfileTabState extends State<ProfileTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '👤 Профиль',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
+          const Text('👤 Профиль', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
           const SizedBox(height: 16),
-
-          // Карточка профиля
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -116,35 +126,17 @@ class _ProfileTabState extends State<ProfileTab> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        user.name,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
-                      ),
-                      Text(
-                        user.email,
-                        style: const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
+                      Text(user.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
+                      Text(user.email, style: const TextStyle(fontSize: 14, color: Colors.grey)),
                       const SizedBox(height: 6),
                       Row(
                         children: [
                           Text('🏋️ ', style: TextStyle(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))))),
-                          Text(
-                            '$totalWorkouts',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
-                            ),
-                          ),
+                          Text('$totalWorkouts', style: TextStyle(fontWeight: FontWeight.w700, color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))))),
                           const Text(' тренировок', style: TextStyle(color: Colors.grey, fontSize: 12)),
                           const SizedBox(width: 16),
                           Text('🔥 ', style: TextStyle(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))))),
-                          Text(
-                            '$streakDays',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
-                            ),
-                          ),
+                          Text('$streakDays', style: TextStyle(fontWeight: FontWeight.w700, color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))))),
                           const Text(' дней подряд', style: TextStyle(color: Colors.grey, fontSize: 12)),
                         ],
                       ),
@@ -155,8 +147,6 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
           ),
           const SizedBox(height: 20),
-
-          // Поля профиля
           Container(
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.03),
@@ -190,12 +180,7 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
           ),
           const SizedBox(height: 20),
-
-          // Дни тренировок
-          const Text(
-            '📅 Дни тренировок',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white70),
-          ),
+          const Text('📅 Дни тренировок', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white70)),
           const SizedBox(height: 8),
           Wrap(
             spacing: 6,
@@ -206,12 +191,9 @@ class _ProfileTabState extends State<ProfileTab> {
               return GestureDetector(
                 onTap: () {
                   final newDays = List<int>.from(user.trainingDays);
-                  if (newDays.contains(day)) {
-                    newDays.remove(day);
-                  } else {
-                    newDays.add(day);
-                    newDays.sort();
-                  }
+                  if (newDays.contains(day)) newDays.remove(day);
+                  else newDays.add(day);
+                  newDays.sort();
                   final updated = AppUser(
                     email: user.email,
                     name: user.name,
@@ -224,22 +206,14 @@ class _ProfileTabState extends State<ProfileTab> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: isActive
-                        ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.2)
-                        : Colors.white.withOpacity(0.04),
+                    color: isActive ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.2) : Colors.white.withOpacity(0.04),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: isActive
-                          ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))
-                          : Colors.white.withOpacity(0.06),
-                    ),
+                    border: Border.all(color: isActive ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))) : Colors.white.withOpacity(0.06)),
                   ),
                   child: Text(
                     ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'][index],
                     style: TextStyle(
-                      color: isActive
-                          ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))
-                          : Colors.grey,
+                      color: isActive ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))) : Colors.grey,
                       fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                     ),
                   ),
@@ -248,8 +222,6 @@ class _ProfileTabState extends State<ProfileTab> {
             }),
           ),
           const SizedBox(height: 20),
-
-          // Кнопка экспорта
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
@@ -264,8 +236,6 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
           ),
           const SizedBox(height: 10),
-
-          // Кнопка выхода
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
@@ -276,14 +246,10 @@ class _ProfileTabState extends State<ProfileTab> {
                     title: const Text('Выход'),
                     content: const Text('Вы уверены, что хотите выйти?'),
                     actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        child: const Text('Отмена'),
-                      ),
+                      TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Отмена')),
                       TextButton(
                         onPressed: () {
                           Navigator.pop(ctx);
-                          // Здесь реальный выход
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Выход выполнен')),
                           );
@@ -308,28 +274,16 @@ class _ProfileTabState extends State<ProfileTab> {
     );
   }
 
-  Widget _buildProfileField(
-    String icon,
-    String label,
-    String value, {
-    bool isEditable = true,
-    Function(String)? onSave,
-  }) {
+  Widget _buildProfileField(String icon, String label, String value, {bool isEditable = true, Function(String)? onSave}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
           Text('$icon ', style: const TextStyle(fontSize: 16)),
-          Text(
-            label,
-            style: const TextStyle(color: Colors.grey, fontSize: 14),
-          ),
+          Text(label, style: const TextStyle(color: Colors.grey, fontSize: 14)),
           const Spacer(),
           if (!isEditable)
-            Text(
-              value,
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),
-            )
+            Text(value, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14))
           else
             GestureDetector(
               onTap: () => _showEditDialog(label, value, onSave),
@@ -367,15 +321,10 @@ class _ProfileTabState extends State<ProfileTab> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Отмена', style: TextStyle(color: Colors.grey)),
-          ),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Отмена', style: TextStyle(color: Colors.grey))),
           TextButton(
             onPressed: () {
-              if (onSave != null) {
-                onSave(controller.text.trim());
-              }
+              if (onSave != null) onSave(controller.text.trim());
               Navigator.pop(ctx);
             },
             child: Text('Сохранить', style: TextStyle(color: Color(int.parse(widget.config['colors']?['primary'] ?? '#FF9800'.replaceFirst('#', '0xFF'))))),
@@ -385,26 +334,21 @@ class _ProfileTabState extends State<ProfileTab> {
     );
   }
 
-  // Загрузка аватара
   Future<void> _pickAvatar() async {
     try {
       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
-        final Directory appDir = await getApplicationDocumentsDirectory();
-        final String path = '${appDir.path}/avatar_${widget.user!.email}.png';
-        final File file = File(image.path);
+        final appDir = await getApplicationDocumentsDirectory();
+        final path = '${appDir.path}/avatar_${widget.user!.email}.png';
+        final file = File(image.path);
         await file.copy(path);
-        setState(() {
-          _avatarPath = path;
-        });
-        // Можно сохранить путь в SharedPreferences
+        setState(() { _avatarPath = path; });
       }
     } catch (e) {
       print('Ошибка загрузки аватара: $e');
     }
   }
 
-  // Экспорт данных
   Future<void> _exportData() async {
     try {
       final data = {
@@ -413,15 +357,18 @@ class _ProfileTabState extends State<ProfileTab> {
         'export_date': DateTime.now().toIso8601String(),
       };
       final jsonString = jsonEncode(data);
-      final Directory tempDir = await getTemporaryDirectory();
-      final File file = File('${tempDir.path}/gym_data_${DateTime.now().millisecondsSinceEpoch}.json');
+      final tempDir = await getTemporaryDirectory();
+      final file = File('${tempDir.path}/gym_data_${DateTime.now().millisecondsSinceEpoch}.json');
       await file.writeAsString(jsonString);
-      await Share.shareXFiles(
-        [XFile(file.path)],
-        text: '📊 Мои данные тренировок',
-      );
-      // Удаляем временный файл после отправки (опционально)
-      // await file.delete();
+      // временно отключено:
+      // await Share.shareXFiles([XFile(file.path)], text: '📊 Мои данные тренировок');
+      print('📊 Данные экспортированы: ${file.path}');
+      // Можно показать SnackBar, что файл создан
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('✅ Данные сохранены в временной папке')),
+        );
+      }
     } catch (e) {
       print('Ошибка экспорта: $e');
       if (mounted) {

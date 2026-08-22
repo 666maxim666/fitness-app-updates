@@ -1,70 +1,70 @@
-import 'package:github_release_apk_updater/github_release_apk_updater.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UpdateService {
-  static const String owner = '666maxim666';
-  static const String repo = 'fitness-app-updates';
+  // Прямая ссылка на version.json на GitHub
+  static const String versionUrl =
+      'https://raw.githubusercontent.com/666maxim666/fitness-app-updates/main/version.json';
 
-  static Future<bool> checkAndUpdate() async {
+  // Проверка новой версии (возвращает Map или null)
+  static Future<Map<String, String>?> checkNewVersion() async {
     try {
-      final updater = GithubReleaseApkUpdater();
-      final apiService = GithubApiService();
-
-      final release = await apiService.getLatestGithubAPKRelease(
-        ownerGithub: owner,
-        repositoryGithub: repo,
-        apkKeyName: '', // если в релизе один APK
-      );
-
-      if (release == null) return false;
-
-      final currentVersion = await updater.getCurrentAppVersion();
-      final isNewer = VersionComparator().isNewerVersion(
-        release.version,
-        currentVersion,
-      );
-
-      if (isNewer) {
-        final filePath = await updater.downloadAPK(
-          release.apkUrl,
-          null,
-          (received, total) {
-            print('Загрузка: $received / $total');
-          },
-        );
-        if (filePath != null) {
-          await updater.installApk(filePath);
-          return true;
-        }
+      final response = await http.get(Uri.parse(versionUrl));
+      if (response.statusCode != 200) {
+        print('❌ Не удалось загрузить version.json: ${response.statusCode}');
+        return null;
       }
-      return false;
+
+      final data = jsonDecode(response.body);
+      final version = data['version'] as String?;
+      final downloadUrl = data['download_url'] as String?;
+      final whatsNew = data['whats_new'] as String?;
+
+      if (version == null || downloadUrl == null) {
+        print('❌ version.json не содержит нужных полей');
+        return null;
+      }
+
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
+
+      // Сравниваем версии (просто строковое сравнение, можно усложнить)
+      if (version != currentVersion) {
+        print('🔍 Текущая: $currentVersion, последняя: $version');
+        return {
+          'version': version,
+          'download_url': downloadUrl,
+          'whats_new': whatsNew ?? 'Обновление доступно',
+        };
+      } else {
+        print('✅ Версия актуальна ($currentVersion)');
+        return null;
+      }
     } catch (e) {
-      print('Ошибка обновления: $e');
-      return false;
+      print('❌ Ошибка проверки обновлений: $e');
+      return null;
     }
   }
 
-  // Проверка без установки (для колокольчика)
-  static Future<Map<String, String>?> checkNewVersion() async {
-    try {
-      final apiService = GithubApiService();
-      final release = await apiService.getLatestGithubAPKRelease(
-        ownerGithub: owner,
-        repositoryGithub: repo,
-        apkKeyName: '',
-      );
-      if (release == null) return null;
-      final currentVersion = await GithubReleaseApkUpdater().getCurrentAppVersion();
-      final isNewer = VersionComparator().isNewerVersion(release.version, currentVersion);
-      if (isNewer) {
-        return {
-          'version': release.version,
-          'download_url': release.apkUrl,
-          'whats_new': release.body ?? 'Обновление доступно',
-        };
-      }
-      return null;
-    } catch (e) {
-      return null;
+  // Открыть ссылку на скачивание APK
+  static Future<void> openDownloadUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      print('❌ Не удалось открыть ссылку: $url');
     }
+  }
+
+  // Полная проверка и установка (через открытие браузера)
+  static Future<bool> checkAndUpdate() async {
+    final update = await checkNewVersion();
+    if (update != null) {
+      await openDownloadUrl(update['download_url']!);
+      return true;
+    }
+    return false;
   }
 }

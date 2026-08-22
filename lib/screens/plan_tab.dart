@@ -29,7 +29,6 @@ class _PlanTabState extends State<PlanTab> {
   late DateTime _today;
   int _weekOffset = 0;
 
-  // Шаблоны для автодублирования
   Map<String, List<Map<String, dynamic>>> _templates = {};
   List<String> _exerciseBase = [];
 
@@ -41,7 +40,6 @@ class _PlanTabState extends State<PlanTab> {
     _loadLocalData();
   }
 
-  // ===== ЛОКАЛЬНОЕ ХРАНЕНИЕ =====
   Future<void> _loadLocalData() async {
     final prefs = await SharedPreferences.getInstance();
     final templatesStr = prefs.getString('gym_templates');
@@ -63,7 +61,6 @@ class _PlanTabState extends State<PlanTab> {
     await prefs.setString('gym_exercise_base', jsonEncode(_exerciseBase));
   }
 
-  // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
   DateTime _getMonday(DateTime date) {
     final d = DateTime(date.year, date.month, date.day);
     final day = d.weekday;
@@ -90,7 +87,6 @@ class _PlanTabState extends State<PlanTab> {
     return widget.workouts.where((w) => w.date == dateStr).toList();
   }
 
-  // ===== АВТОДУБЛИРОВАНИЕ И ПРОХОДКИ =====
   void _applyTemplates(DateTime date) {
     final dayKey = 'day_${date.weekday}';
     if (!_templates.containsKey(dayKey)) return;
@@ -122,7 +118,6 @@ class _PlanTabState extends State<PlanTab> {
     }
   }
 
-  // ===== КАЛЕНДАРЬ =====
   Widget _buildCalendar() {
     final colors = widget.config['colors'] ?? {};
     final primaryColor = colors['primary'] ?? '#FF9800';
@@ -242,7 +237,6 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
-  // ===== СПИСОК УПРАЖНЕНИЙ =====
   Widget _buildWorkoutList() {
     final list = _getWorkoutsForDate(_selectedDate);
     if (list.isEmpty) {
@@ -308,7 +302,6 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
-  // ===== ДОБАВЛЕНИЕ =====
   void _showAddModal() {
     final nameCtrl = TextEditingController();
     final setsCtrl = TextEditingController();
@@ -490,7 +483,6 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
-  // ===== РЕДАКТИРОВАНИЕ =====
   void _showEditModal(Workout workout) {
     final nameCtrl = TextEditingController(text: workout.exercise);
     final setsCtrl = TextEditingController(text: workout.sets.toString());
@@ -601,7 +593,6 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
-  // ===== УДАЛЕНИЕ =====
   void _deleteWorkout(String id) {
     showDialog(
       context: context,
@@ -626,7 +617,6 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
-  // ===== BUILD =====
   @override
   Widget build(BuildContext context) {
     final colors = widget.config['colors'] ?? {};

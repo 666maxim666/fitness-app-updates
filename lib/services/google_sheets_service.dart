@@ -63,7 +63,7 @@ class GoogleSheetsService {
     }
   }
 
-  // НОВЫЙ МЕТОД ДЛЯ ЗАГРУЗКИ ТРЕНИРОВОК ПОЛЬЗОВАТЕЛЯ
+  // ===== ИСПРАВЛЕННЫЙ МЕТОД ЗАГРУЗКИ ТРЕНИРОВОК =====
   static Future<List<Workout>> loadWorkouts(String userEmail) async {
     try {
       final rows = await getRows('Тренировки');
@@ -71,8 +71,8 @@ class GoogleSheetsService {
       for (var row in rows) {
         if (row.length >= 8 && row[0] == userEmail) {
           workouts.add(Workout(
-            id: DateTime.now().millisecondsSinceEpoch.toString() + (workouts.length).toString(),
-            date: DateTime.parse(row[1]),
+            id: row[0] + DateTime.now().millisecondsSinceEpoch.toString(),
+            date: row[1], // ← строка, не DateTime
             exercise: row[2],
             sets: int.tryParse(row[3]) ?? 0,
             reps: int.tryParse(row[4]) ?? 0,

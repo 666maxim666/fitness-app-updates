@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui';
@@ -130,7 +131,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-  // ===== АВТОМАТИЧЕСКАЯ ПРОВЕРКА ПРИ ЗАПУСКЕ =====
   Future<void> _checkForUpdate() async {
     try {
       final updateInfo = await UpdateService.checkNewVersion();
@@ -153,7 +153,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     }
   }
 
-  // ===== РУЧНАЯ ПРОВЕРКА (ВЫЗЫВАЕТСЯ ИЗ КОЛОКОЛЬЧИКА) =====
   Future<void> _checkForUpdateManually() async {
     final updateInfo = await UpdateService.checkNewVersion();
     if (updateInfo != null) {
@@ -169,15 +168,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('notifications_all_read', false);
       setState(() { allRead = false; });
-      // Показываем SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('🔄 Обновление найдено: ${updateInfo['version']}'),
           action: SnackBarAction(
             label: 'Скачать',
-            onPressed: () {
-              // Можно открыть ссылку на APK
-            },
+            onPressed: () {},
           ),
         ),
       );
@@ -188,7 +184,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     }
   }
 
-  // ===== МЕТОДЫ ДЛЯ РАБОТЫ С ТРЕНИРОВКАМИ =====
   void _addWorkout(Workout w) {
     setState(() {
       workouts.add(w);
@@ -243,7 +238,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     ]);
   }
 
-  // ===== КНОПКА КАЛЕНДАРЯ =====
   void _showCalendarDialog() {
     showDialog(
       context: context,
@@ -258,17 +252,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-  // ===== ДИАЛОГ УВЕДОМЛЕНИЙ С КНОПКОЙ ОБНОВЛЕНИЯ =====
   void _showNotificationsDialog() {
     showDialog(
       context: context,
       barrierDismissible: true,
       useSafeArea: true,
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        return child;
-      },
       builder: (ctx) {
-        // Используем StatefulBuilder, чтобы обновлять содержимое диалога
         return StatefulBuilder(
           builder: (context, setStateDialog) {
             final unreadCount = notifications.where((n) => n['read'] == false).length;
@@ -293,13 +282,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(32),
                   child: BackdropFilter(
-                    filter: const ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                    filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Шапка с кнопкой обновления
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -333,11 +321,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               ),
                               Row(
                                 children: [
-                                  // КНОПКА ОБНОВЛЕНИЯ (круглая стрелка)
                                   IconButton(
                                     icon: const Icon(Icons.refresh, color: Color(0xFFFF9800), size: 24),
                                     onPressed: () async {
-                                      // Вызываем ручную проверку и обновляем диалог
                                       await _checkForUpdateManually();
                                       setStateDialog(() {});
                                     },
@@ -345,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.close, color: Color(0xFF888888), size: 26),
-                                    onPressed: () => Navigator.pop(context),
+                                    onPressed: () => Navigator.pop(context), // исправлено
                                     splashRadius: 20,
                                   ),
                                 ],
@@ -353,7 +339,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Список уведомлений
                           if (notifications.isEmpty)
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 40),
@@ -403,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                         content: Text(n['body'] ?? ''),
                                         actions: [
                                           TextButton(
-                                            onPressed: () => Navigator.pop(_),
+                                            onPressed: () => Navigator.pop(context), // исправлено
                                             child: const Text('Закрыть'),
                                           ),
                                         ],
