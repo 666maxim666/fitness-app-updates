@@ -34,6 +34,13 @@ dependencies:
   path_provider: ^2.1.0
   url_launcher: ^6.3.0
 
+  # Графики
+  fl_chart: ^0.68.0
+
+  # AI + геолокация + таймзона
+  flutter_timezone: ^3.0.1
+  geolocator: ^13.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

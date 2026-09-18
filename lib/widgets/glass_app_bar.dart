@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onNotificationTap;
-  final VoidCallback? onCalendarTap; // новый колбэк
+  final VoidCallback? onCalendarTap;
+  final VoidCallback? onAiTap; // ← НОВОЕ
   final int notificationCount;
   final Map<String, dynamic> config;
 
@@ -12,6 +13,7 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.onNotificationTap,
     this.onCalendarTap,
+    this.onAiTap,
     this.notificationCount = 0,
     this.config = const {},
   });
@@ -41,7 +43,8 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
             end: Alignment.bottomRight,
             colors: [
               Color(int.parse(bgColor.replaceFirst('#', '0xFF'))),
-              Color(int.parse(bgColor.replaceFirst('#', '0xFF'))).withOpacity(0.6),
+              Color(int.parse(bgColor.replaceFirst('#', '0xFF')))
+                  .withOpacity(0.6),
             ],
           ),
         ),
@@ -49,14 +52,22 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         // Иконка календаря
         IconButton(
-          icon: Icon(Icons.calendar_month, color: Color(int.parse(iconColor.replaceFirst('#', '0xFF'))), size: iconSize),
+          icon: Icon(
+            Icons.calendar_month,
+            color: Color(int.parse(iconColor.replaceFirst('#', '0xFF'))),
+            size: iconSize,
+          ),
           onPressed: onCalendarTap,
         ),
         // Иконка колокольчика
         Stack(
           children: [
             IconButton(
-              icon: Icon(Icons.notifications, color: Color(int.parse(iconColor.replaceFirst('#', '0xFF'))), size: iconSize),
+              icon: Icon(
+                Icons.notifications,
+                color: Color(int.parse(iconColor.replaceFirst('#', '0xFF'))),
+                size: iconSize,
+              ),
               onPressed: onNotificationTap,
             ),
             if (notificationCount > 0)
@@ -73,12 +84,66 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
                     '$notificationCount',
                     style: TextStyle(
                       fontSize: badgeSize * 0.6,
-                      color: Color(int.parse(badgeTextColor.replaceFirst('#', '0xFF'))),
+                      color: Color(
+                          int.parse(badgeTextColor.replaceFirst('#', '0xFF'))),
                     ),
                   ),
                 ),
               ),
           ],
+        ),
+        // ===== AI КНОПКА =====
+        Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: GestureDetector(
+            onTap: onAiTap,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFa855f7).withOpacity(0.2),
+                    const Color(0xFF7c3aed).withOpacity(0.1),
+                  ],
+                ),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: const Color(0xFFa855f7).withOpacity(0.3),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFa855f7).withOpacity(0.25),
+                    blurRadius: 16,
+                  ),
+                ],
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Text('✨', style: TextStyle(fontSize: 18)),
+                  Positioned(
+                    top: 6,
+                    right: 6,
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF4caf50),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF4caf50).withOpacity(0.8),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ],
     );

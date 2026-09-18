@@ -1,646 +1,853 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert'; // ← добавлен импорт
-import '../models/workout.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import '../models/user.dart';
+import '../services/ai_import_service.dart';
 
-class ProgressTab extends StatefulWidget {
-  final List<Workout> workouts;
+class ProfileTab extends StatefulWidget {
+  final AppUser user;
+  final Function(AppUser) onUpdate;
   final Map<String, dynamic> config;
 
-  const ProgressTab({super.key, required this.workouts, this.config = const {}});
+  const ProfileTab({
+    super.key,
+    required this.user,
+    required this.onUpdate,
+    this.config = const {},
+  });
 
   @override
-  State<ProgressTab> createState() => _ProgressTabState();
+  State<ProfileTab> createState() => _ProfileTabState();
 }
 
-class _ProgressTabState extends State<ProgressTab> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
+class _ProfileTabState extends State<ProfileTab> {
+  late TextEditingController _nameController;
+  late TextEditingController _weightController;
+  late TextEditingController _heightController;
+  late String _gender;
+  late List<int> _trainingDays;
 
-  // ===== ДАННЫЕ ОТЖИМАНИЙ =====
-  int _pushupGoal = 50;
-  List<Map<String, dynamic>> _todayPushups = [];
-  final TextEditingController _countController = TextEditingController();
+  String _appVersion = '1.0.6';
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
+    _loadVersion();
+    _nameController = TextEditingController(text: widget.user.name);
+    _weightController = TextEditingController(text: widget.user.weight.toString());
+    _heightController = TextEditingController(
+      text: (widget.user.height ?? 180).toStringAsFixed(0),
     );
-    _fadeAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    );
-    _animationController.forward();
+    _gender = widget.user.gender ?? 'male';
+    _trainingDays = List.from(widget.user.trainingDays);
 
-    _loadPushupData();
+    _nameController.addListener(_autoSave);
+    _weightController.addListener(_autoSave);
+    _heightController.addListener(_autoSave);
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      setState(() {
+        _appVersion = info.version;
+      });
+    } catch (_) {
+      setState(() {
+        _appVersion = '1.0.6';
+      });
+    }
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
-    _countController.dispose();
+    _nameController.dispose();
+    _weightController.dispose();
+    _heightController.dispose();
     super.dispose();
   }
 
-  // ===== ЗАГРУЗКА ДАННЫХ =====
-  Future<void> _loadPushupData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final goal = prefs.getInt('pushup_goal');
-    if (goal != null) {
-      setState(() {
-        _pushupGoal = goal;
-      });
-    }
+  // ===== АВТОСОХРАНЕНИЕ =====
+  void _autoSave() {
+    final name = _nameController.text.trim();
+    final weight = int.tryParse(_weightController.text.trim()) ?? widget.user.weight;
+    final height = double.tryParse(_heightController.text.trim()) ?? widget.user.height;
 
-    final today = DateTime.now().toIso8601String().split('T')[0];
-    final data = prefs.getString('pushup_today');
-    if (data != null) {
-      final List<dynamic> decoded = jsonDecode(data);
-      setState(() {
-        _todayPushups = decoded.where((item) => item['date'] == today).cast<Map<String, dynamic>>().toList();
-      });
-    } else {
-      setState(() {
-        _todayPushups = [];
-      });
-    }
-  }
-
-  Future<void> _savePushupData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final today = DateTime.now().toIso8601String().split('T')[0];
-    final allData = _todayPushups.where((item) => item['date'] == today).toList();
-    await prefs.setString('pushup_today', jsonEncode(allData));
-  }
-
-  // ===== ДОБАВЛЕНИЕ =====
-  void _addPushup() {
-    final count = int.tryParse(_countController.text);
-    if (count == null || count < 1) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введите корректное количество')),
-      );
-      return;
-    }
-
-    final today = DateTime.now().toIso8601String().split('T')[0];
-    setState(() {
-      _todayPushups.add({
-        'id': DateTime.now().millisecondsSinceEpoch.toString(),
-        'count': count,
-        'date': today,
-      });
-    });
-    _savePushupData();
-    _countController.clear();
-  }
-
-  void _deletePushup(String id) {
-    setState(() {
-      _todayPushups.removeWhere((item) => item['id'] == id);
-    });
-    _savePushupData();
-  }
-
-  // ===== ОСТАЛЬНАЯ СТАТИСТИКА =====
-  int get totalWorkouts => widget.workouts.length;
-
-  int get streakDays {
-    if (totalWorkouts == 0) return 0;
-    final dates = widget.workouts.map((w) => w.date).toList();
-    dates.sort((a, b) => b.compareTo(a));
-    int streak = 1;
-    for (int i = 1; i < dates.length; i++) {
-      final prev = DateTime.parse(dates[i - 1]);
-      final curr = DateTime.parse(dates[i]);
-      final diff = prev.difference(curr).inDays;
-      if (diff == 1) {
-        streak++;
-      } else if (diff > 1) {
-        break;
-      }
-    }
-    return streak;
-  }
-
-  double get attendancePercentage {
-    final now = DateTime.now();
-    final start = now.subtract(const Duration(days: 30));
-    final plannedDays = <DateTime>[];
-    for (int i = 0; i <= 30; i++) {
-      final day = start.add(Duration(days: i));
-      if ([1, 3, 5].contains(day.weekday)) {
-        plannedDays.add(day);
-      }
-    }
-    if (plannedDays.isEmpty) return 0.0;
-    int attended = 0;
-    for (final day in plannedDays) {
-      final dateStr = '${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}';
-      if (widget.workouts.any((w) => w.date == dateStr)) {
-        attended++;
-      }
-    }
-    return (attended / plannedDays.length) * 100;
-  }
-
-  // ===== ИСПРАВЛЕННЫЙ BEST RECORDS =====
-  Map<String, Map<String, dynamic>> get bestRecords {
-    final records = <String, Map<String, dynamic>>{};
-    for (final w in widget.workouts) {
-      if (w.weight == null) continue; // проходки пропускаем
-      final name = w.exercise;
-      final currentBest = records[name]?['weight'] as double?;
-      if (currentBest == null || w.weight! > currentBest) {
-        records[name] = {
-          'weight': w.weight,
-          'date': w.date,
-        };
-      }
-    }
-    return records;
-  }
-
-  List<int> get weeklyAttendance {
-    final now = DateTime.now();
-    final weeks = <int>[0, 0, 0, 0, 0];
-    for (int i = 0; i < 35; i++) {
-      final day = now.subtract(Duration(days: 34 - i));
-      final dateStr = '${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}';
-      final weekIndex = i ~/ 7;
-      if (widget.workouts.any((w) => w.date == dateStr)) {
-        weeks[weekIndex]++;
-      }
-    }
-    return weeks;
-  }
-
-  void _shareProgress() async {
-    final stats =
-        '📊 Мой прогресс\n'
-        'Тренировок: $totalWorkouts\n'
-        'Дней подряд: $streakDays\n'
-        'Посещаемость: ${attendancePercentage.toStringAsFixed(0)}%\n'
-        '🏆 Рекорды:\n';
-    final records = bestRecords;
-    final recordsText = records.entries.map((e) {
-      final date = e.value['date'] as String;
-      return '${e.key}: ${e.value['weight']} кг (${date.substring(8, 10)}.${date.substring(5, 7)})';
-    }).join('\n');
-    await Share.share('$stats$recordsText');
-  }
-
-  // ===== ВИДЖЕТ ОТЖИМАНИЙ =====
-  Widget _buildPushupSection() {
-    final today = DateTime.now().toIso8601String().split('T')[0];
-    final done = _todayPushups
-        .where((item) => item['date'] == today)
-        .fold<int>(0, (sum, item) => sum + (item['count'] as int));
-    final percent = _pushupGoal > 0 ? (done / _pushupGoal).clamp(0.0, 1.0) : 0.0;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                '🔥 Отжимания сегодня',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add, color: Colors.orange),
-                onPressed: _showAddPushupDialog,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              // Круговая диаграмма
-              SizedBox(
-                width: 80,
-                height: 80,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      value: percent,
-                      backgroundColor: Colors.white.withOpacity(0.1),
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        percent >= 0.8 ? Colors.green : percent >= 0.5 ? Colors.orange : Colors.redAccent,
-                      ),
-                      strokeWidth: 8,
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '${(percent * 100).toInt()}%',
-                          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '$done / $_pushupGoal',
-                          style: const TextStyle(color: Colors.grey, fontSize: 11),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Цель на день', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    Text('$_pushupGoal раз', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 4),
-                    const Text('Сделано', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    Text('$done раз', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          if (_todayPushups.isNotEmpty) ...[
-            const Divider(height: 24, color: Colors.white10),
-            const Text('Записи', style: TextStyle(color: Colors.grey, fontSize: 12)),
-            const SizedBox(height: 4),
-            ..._todayPushups.map((item) {
-              final count = item['count'] as int;
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('$count раз', style: const TextStyle(color: Colors.white, fontSize: 14)),
-                    IconButton(
-                      icon: const Icon(Icons.close, color: Colors.redAccent, size: 18),
-                      onPressed: () => _deletePushup(item['id']),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ],
-      ),
+    // Собираем обновлённого пользователя через copyWith
+    final updatedUser = widget.user.copyWith(
+      name: name.isNotEmpty ? name : widget.user.name,
+      weight: weight,
+      height: height,
+      gender: _gender,
+      trainingDays: _trainingDays,
     );
+
+    _saveToPrefs(updatedUser);
+    widget.onUpdate(updatedUser);
+    setState(() {});
   }
 
-  void _showAddPushupDialog() {
-    _countController.clear();
+  Future<void> _saveToPrefs(AppUser user) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('profile_name', user.name);
+    await prefs.setInt('profile_weight', user.weight);
+    await prefs.setString('profile_height', (user.height ?? 180).toString());
+    await prefs.setString('profile_gender', user.gender ?? 'male');
+    await prefs.setString('profile_days', user.trainingDays.join(','));
+    await prefs.setString('profile_email', user.email);
+  }
+
+  // ===== ПЕРЕКЛЮЧЕНИЕ ДНЕЙ =====
+  void _toggleDay(int day) {
+    setState(() {
+      if (_trainingDays.contains(day)) {
+        _trainingDays.remove(day);
+      } else {
+        _trainingDays.add(day);
+        _trainingDays.sort();
+      }
+    });
+    _autoSave();
+  }
+
+  // ===== ВЫХОД =====
+  void _logout() {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1A120A),
+        backgroundColor: const Color(0xFF1A1E26),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-        title: const Text('➕ Добавить отжимания', style: TextStyle(color: Colors.orange)),
-        content: TextField(
-          controller: _countController,
-          keyboardType: TextInputType.number,
-          autofocus: true,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            hintText: 'Количество раз',
-            hintStyle: TextStyle(color: Colors.grey),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.orange)),
-          ),
+        title: const Text(
+          'Выход',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: const Text(
+          'Вы уверены, что хотите выйти?',
+          style: TextStyle(color: Colors.white70),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Отмена', style: TextStyle(color: Colors.grey)),
+            child: const Text(
+              'Отмена',
+              style: TextStyle(color: Colors.grey),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
-              _addPushup();
               Navigator.pop(ctx);
+              // Здесь реальный выход:
+              // AuthService.signOut();
+              // Navigator.pushReplacement(...);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('🚪 Выход... (демо)'),
+                  backgroundColor: Colors.orange,
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange,
-              foregroundColor: Colors.black,
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
             ),
-            child: const Text('Сохранить'),
+            child: const Text('Выйти'),
           ),
         ],
       ),
     );
   }
 
+  // ===== UI =====
+
   @override
   Widget build(BuildContext context) {
-    final colors = widget.config['colors'] ?? {};
-    final primaryColor = colors['primary'] ?? '#FF9800';
-    final textColor = colors['text'] ?? '#FFFFFF';
-    final total = totalWorkouts;
-    final streak = streakDays;
-    final attendance = attendancePercentage;
-    final weekData = weeklyAttendance;
-    final maxWeek = weekData.isNotEmpty ? weekData.reduce((a, b) => a > b ? a : b) : 1;
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Заголовок
+          ShaderMask(
+            shaderCallback: (bounds) => LinearGradient(
+              colors: [Colors.orange, Colors.orangeAccent],
+            ).createShader(bounds),
+            child: const Text(
+              '👤 Профиль',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
 
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('📊 Прогресс', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
-            const SizedBox(height: 16),
-            // ===== ОТЖИМАНИЯ =====
-            _buildPushupSection(),
-            // ===== СТАТИСТИКА ТРЕНИРОВОК =====
-            Row(
-              children: [
-                _SummaryCard(label: 'Тренировок', value: '$total', primaryColor: primaryColor),
-                const SizedBox(width: 10),
-                _SummaryCard(label: 'Дней подряд', value: '$streak', primaryColor: primaryColor),
-                const SizedBox(width: 10),
-                _SummaryCard(
-                  label: 'Посещаемость',
-                  value: '${attendance.toStringAsFixed(0)}%',
-                  primaryColor: primaryColor,
-                  sub: '▲ +5%',
+          _buildAvatar(),
+          _buildFields(),
+          _buildAiImportButton(), const SizedBox(height: 16),
+          _buildLogoutButton(),
+          _buildAboutBlock(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAvatar() {
+    final name = _nameController.text.trim().isEmpty
+        ? widget.user.name
+        : _nameController.text.trim();
+    final initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: _glassDecoration(),
+      child: Row(
+        children: [
+          Container(
+            width: 68,
+            height: 68,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFFF9800), Color(0xFFF57C00)],
+              ),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.orange.withOpacity(0.35),
+                  blurRadius: 24,
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            _CalendarWidget(workouts: widget.workouts, primaryColor: primaryColor),
-            const SizedBox(height: 16),
-            _ChartWidget(weekData: weekData, maxWeek: maxWeek, primaryColor: primaryColor),
-            const SizedBox(height: 16),
-            _RecordsWidget(records: bestRecords, primaryColor: primaryColor),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: _shareProgress,
-                icon: const Icon(Icons.share, color: Colors.black),
-                label: const Text('📤 Поделиться прогрессом', style: TextStyle(color: Colors.black)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            child: Center(
+              child: Text(
+                initial,
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ===== ВСПОМОГАТЕЛЬНЫЕ ВИДЖЕТЫ =====
-class _SummaryCard extends StatelessWidget {
-  final String label;
-  final String value;
-  final String? sub;
-  final String primaryColor;
-  const _SummaryCard({required this.label, required this.value, this.sub, required this.primaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.04),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.15)),
-        ),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
-              ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  widget.user.email,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 4),
-            Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
-            if (sub != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(sub!, style: const TextStyle(fontSize: 12, color: Color(0xFF4CAF50))),
-              ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-}
 
-class _CalendarWidget extends StatelessWidget {
-  final List<Workout> workouts;
-  final String primaryColor;
-  const _CalendarWidget({required this.workouts, required this.primaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final firstDay = DateTime(now.year, now.month, 1);
-    final firstWeekday = firstDay.weekday;
-    final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
-    final today = now.day;
-
-    final days = List.generate(daysInMonth, (i) => i + 1);
-    final leadingEmpty = firstWeekday - 1;
-
+  Widget _buildFields() {
     return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.06)),
-      ),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: _glassDecoration(),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${_monthName(now.month)} ${now.year}',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-              Row(
-                children: [
-                  Icon(Icons.chevron_left, color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))),
-                  Icon(Icons.chevron_right, color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))),
-                ],
-              ),
-            ],
+          _buildTextField('Имя', _nameController, Icons.person),
+          const SizedBox(height: 12),
+          _buildTextField('Вес (кг)', _weightController, Icons.monitor_weight, isNumber: true),
+          const SizedBox(height: 12),
+          _buildTextField('Рост (см)', _heightController, Icons.height, isNumber: true),
+          const SizedBox(height: 12),
+          _buildGenderSelector(),
+          const SizedBox(height: 12),
+          _buildDaysSelector(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller,
+    IconData icon, {
+    bool isNumber = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
           ),
-          const SizedBox(height: 8),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-              childAspectRatio: 1,
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
+        ),
+        const SizedBox(height: 4),
+        TextField(
+          controller: controller,
+          keyboardType: isNumber
+              ? const TextInputType.numberWithOptions(decimal: true)
+              : TextInputType.text,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            prefixIcon: Icon(icon, color: Colors.grey),
+            filled: true,
+            fillColor: Colors.white.withOpacity(0.05),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide.none,
             ),
-            itemCount: leadingEmpty + days.length,
-            itemBuilder: (context, index) {
-              if (index < leadingEmpty) return const SizedBox.shrink();
-              final day = days[index - leadingEmpty];
-              final dateStr = '${now.year}-${now.month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
-              final isWorkout = workouts.any((w) => w.date == dateStr);
-              final isToday = day == today;
-              return Container(
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: const BorderSide(color: Colors.orange, width: 1),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGenderSelector() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Пол',
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.05),
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _gender,
+              isExpanded: true,
+              dropdownColor: const Color(0xFF1A1E26),
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+              items: const [
+                DropdownMenuItem(value: 'male', child: Text('Мужской')),
+                DropdownMenuItem(value: 'female', child: Text('Женский')),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _gender = value;
+                  });
+                  _autoSave();
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDaysSelector() {
+    const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Дни тренировок',
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: List.generate(7, (index) {
+            final day = index + 1;
+            final isActive = _trainingDays.contains(day);
+            return GestureDetector(
+              onTap: () => _toggleDay(day),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 decoration: BoxDecoration(
-                  color: isWorkout
-                      ? Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.35)
+                  color: isActive
+                      ? Colors.orange.withOpacity(0.2)
                       : Colors.white.withOpacity(0.04),
-                  borderRadius: BorderRadius.circular(8),
-                  border: isToday ? Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF')))) : null,
-                ),
-                child: Center(
-                  child: Text(
-                    '$day',
-                    style: TextStyle(
-                      color: isWorkout ? Colors.white : Colors.grey[500],
-                      fontSize: 12,
-                    ),
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: isActive
+                        ? Colors.orange
+                        : Colors.white.withOpacity(0.06),
                   ),
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+                child: Text(
+                  dayNames[index],
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: isActive ? Colors.orange : Colors.grey,
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
     );
   }
 
-  String _monthName(int month) {
-    const names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-    return names[month - 1];
-  }
-}
+  void _showImportProgramDialog() {
+    final textController = TextEditingController();
+    int weeks = 6;
 
-class _ChartWidget extends StatelessWidget {
-  final List<int> weekData;
-  final int maxWeek;
-  final String primaryColor;
-  const _ChartWidget({required this.weekData, required this.maxWeek, required this.primaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    final labels = ['1 нед', '2 нед', '3 нед', '4 нед', '5 нед'];
-    final maxHeight = 80.0;
-    final percent = maxWeek > 0 ? weekData.map((v) => v / maxWeek).toList() : [0.0, 0.0, 0.0, 0.0, 0.0];
-
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.06)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Посещаемость по неделям', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15)),
-              const Text('+18%', style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w700, fontSize: 16)),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(5, (i) {
-              final height = maxHeight * percent[i];
-              return Column(
-                children: [
-                  Container(
-                    width: 20,
-                    height: height < 2 ? 2 : height,
-                    decoration: BoxDecoration(
-                      color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))),
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
-                    ),
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setStateDialog) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1A1E26),
+                borderRadius: BorderRadius.circular(32),
+                border: Border.all(color: Colors.purpleAccent.withOpacity(0.3)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.6),
+                    blurRadius: 40,
                   ),
-                  const SizedBox(height: 4),
-                  Text(labels[i], style: const TextStyle(fontSize: 8, color: Colors.grey)),
                 ],
-              );
-            }),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RecordsWidget extends StatelessWidget {
-  final Map<String, Map<String, dynamic>> records;
-  final String primaryColor;
-  const _RecordsWidget({required this.records, required this.primaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))).withOpacity(0.06)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('🏆 Рекорды', style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w600, fontSize: 14)),
-          const SizedBox(height: 8),
-          if (records.isEmpty)
-            const Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 16), child: Text('Пока нет рекордов', style: TextStyle(color: Colors.grey))))
-          else
-            ...records.entries.map((entry) {
-              final name = entry.key;
-              final weight = entry.value['weight'] is num ? entry.value['weight'] : 0;
-              final date = entry.value['date'] as String;
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: const TextStyle(color: Colors.white, fontSize: 14)),
+                    const Row(
+                      children: [
+                        Icon(Icons.auto_awesome, color: Colors.purpleAccent),
+                        SizedBox(width: 10),
+                        Text(
+                          'Импорт программы',
+                          style: TextStyle(
+                            color: Colors.purpleAccent,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Вставь программу от тренера. AI разберёт её и добавит тренировки в план.',
+                      style: TextStyle(color: Colors.white70, fontSize: 13),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Текст программы:',
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                    const SizedBox(height: 6),
+                    TextField(
+                      controller: textController,
+                      maxLines: 8,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'Пример:\n'
+                            'Жим лёжа 5x5 80кг\n'
+                            'Приседания 5x5 100кг\n'
+                            'Становая 5x5 120кг\n'
+                            'Прогрессия: +2.5кг каждую неделю',
+                        hintStyle: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 12,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.04),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     Row(
                       children: [
-                        Text('$weight кг', style: TextStyle(color: Color(int.parse(primaryColor.replaceFirst('#', '0xFF'))), fontWeight: FontWeight.w700, fontSize: 14)),
-                        const SizedBox(width: 6),
-                        Text('• ${date.substring(8, 10)}.${date.substring(5, 7)}', style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                        const Text(
+                          'Недель:',
+                          style: TextStyle(color: Colors.grey, fontSize: 13),
+                        ),
+                        const SizedBox(width: 12),
+                        ...List.generate(3, (index) {
+                          final value = [4, 6, 8][index];
+                          final isActive = weeks == value;
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: GestureDetector(
+                              onTap: () => setStateDialog(() => weeks = value),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: isActive
+                                      ? Colors.purpleAccent.withOpacity(0.3)
+                                      : Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: isActive
+                                        ? Colors.purpleAccent
+                                        : Colors.white.withOpacity(0.1),
+                                  ),
+                                ),
+                                child: Text(
+                                  '$value',
+                                  style: TextStyle(
+                                    color: isActive
+                                        ? Colors.purpleAccent
+                                        : Colors.grey,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          child: const Text(
+                            'Отмена',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final text = textController.text.trim();
+                            if (text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Вставь текст программы'),
+                                ),
+                              );
+                              return;
+                            }
+                            Navigator.pop(ctx);
+                            await _importProgram(text, weeks);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.purpleAccent,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.auto_awesome, size: 16),
+                              SizedBox(width: 6),
+                              Text(
+                                'Импортировать',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
-              );
-            }),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _importProgram(String text, int weeks) async {
+    // Показываем модалку загрузки
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => const Center(
+        child: CircularProgressIndicator(color: Colors.purpleAccent),
+      ),
+    );
+
+    final result = await AiImportService.importProgram(
+      email: widget.user.email,
+      programText: text,
+      weeks: weeks,
+    );
+
+    // Закрываем модалку загрузки
+    if (mounted) Navigator.of(context).pop();
+
+    if (result['success'] == true) {
+      final count = result['count'] ?? 0;
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          backgroundColor: const Color(0xFF1A1E26),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+          title: const Row(
+            children: [
+              Icon(Icons.check_circle, color: Colors.green),
+              SizedBox(width: 10),
+              Text('Готово!', style: TextStyle(color: Colors.white)),
+            ],
+          ),
+          content: Text(
+            'AI добавил $count тренировок.\n\nОткрой вкладку «План», чтобы посмотреть.',
+            style: const TextStyle(color: Colors.white70),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text(
+                'ОК',
+                style: TextStyle(color: Colors.purpleAccent),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      if (!mounted) return;
+      final error = result['error']?.toString() ?? 'Неизвестная ошибка';
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          backgroundColor: const Color(0xFF1A1E26),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+          title: const Row(
+            children: [
+              Icon(Icons.error, color: Colors.redAccent),
+              SizedBox(width: 10),
+              Text('Ошибка', style: TextStyle(color: Colors.white)),
+            ],
+          ),
+          content: Text(
+            error,
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text(
+                'ОК',
+                style: TextStyle(color: Colors.purpleAccent),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Widget _buildAiImportButton() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: _showImportProgramDialog,
+        icon: const Icon(Icons.auto_awesome, size: 20),
+        label: const Text(
+          'Импорт программы (AI)',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.purpleAccent,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: _logout,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.redAccent,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          side: const BorderSide(color: Colors.redAccent, width: 1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.exit_to_app, size: 20),
+            SizedBox(width: 8),
+            Text(
+              'Выйти',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAboutBlock() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.02),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white.withOpacity(0.04)),
+      ),
+      child: Column(
+        children: [
+          Text(
+            '📱 Версия $_appVersion',
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.grey,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Разработчик: Максим Бузмаков',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white70,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            width: 40,
+            height: 2,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Colors.orange.withOpacity(0.3),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            '📧 maxcimbuzmakov651@gmail.com',
+            style: TextStyle(
+              fontSize: 13,
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                '💬 Telegram: ',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  // Открыть ссылку на Telegram:
+                  // launchUrl(Uri.parse('https://t.me/max4n'));
+                },
+                child: const Text(
+                  '@max4n',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF4FC3F7),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          RichText(
+            text: const TextSpan(
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.white70,
+              ),
+              children: [
+                TextSpan(text: 'Сделано с '),
+                TextSpan(
+                  text: '❤️',
+                  style: TextStyle(color: Color(0xFFFF9800)),
+                ),
+                TextSpan(text: ' для тренировок'),
+              ],
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  BoxDecoration _glassDecoration() {
+    return BoxDecoration(
+      color: Colors.white.withOpacity(0.03),
+      borderRadius: BorderRadius.circular(24),
+      border: Border.all(color: Colors.white.withOpacity(0.06)),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.3),
+          blurRadius: 32,
+        ),
+      ],
     );
   }
 }

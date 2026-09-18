@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'dart:convert';
 import 'dart:ui';
 import '../services/google_sheets_service.dart';
 import '../services/auth_service.dart';
 import '../services/update_service.dart';
 import '../services/notification_service.dart';
+import '../services/location_service.dart';
 import '../models/user.dart';
 import '../models/workout.dart';
 import 'plan_tab.dart';
@@ -16,6 +18,7 @@ import 'profile_tab.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/glass_app_bar.dart';
 import '../widgets/calendar_dialog.dart';
+import '../widgets/ai_chat_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +27,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   AppUser? user;
   List<Workout> workouts = [];
@@ -35,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   bool allRead = false;
 
   DateTime _selectedDate = DateTime.now();
+  int _planTabRefreshKey = 0;
 
   @override
   void initState() {
@@ -46,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadUser();
     });
-    // Инициализация FCM
     NotificationService.init();
     NotificationService.onNotificationReceived = (data) {
       setState(() {
@@ -60,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         });
       });
       _saveNotifications();
-      // Сбрасываем флаг "всё прочитано", так как появилось новое непрочитанное
       SharedPreferences.getInstance().then((prefs) {
         prefs.setBool('notifications_all_read', false);
       });
@@ -68,6 +71,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         allRead = false;
       });
     };
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadConfig() async {
@@ -120,19 +129,91 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   Future<void> _setUser(User firebaseUser) async {
     List<Workout> loadedWorkouts = [];
+    double? userHeight;
+    String? userGender;
+    int? userPushupGoal;
+    int userWeight = 75;
+    List<int> userTrainingDays = [1, 3, 5];
+    String? userTimezone;
+
     try {
-      loadedWorkouts = await GoogleSheetsService.loadWorkouts(firebaseUser.email!)
-          .timeout(const Duration(seconds: 10));
+      userTimezone = await FlutterTimezone.getLocalTimezone();
     } catch (e) {
-      print('Не удалось загрузить тренировки: $e');
+      userTimezone = 'Europe/Moscow';
     }
+
+    try {
+      loadedWorkouts = await GoogleSheetsService.loadWorkouts(
+              firebaseUser.email!)
+          .timeout(const Duration(seconds: 10));
+
+      final rows = await GoogleSheetsService.getRows('Пользователи');
+      for (var row in rows) {
+        if (row.length > 0 && row[0].toString() == firebaseUser.email) {
+          if (row.length > 2) {
+            final weightStr = row[2]?.toString();
+            if (weightStr != null && weightStr.isNotEmpty) {
+              userWeight = int.tryParse(weightStr) ?? 75;
+            }
+          }
+          if (row.length > 3) {
+            final heightStr = row[3]?.toString();
+            if (heightStr != null && heightStr.isNotEmpty) {
+              userHeight = double.tryParse(heightStr) ?? 180.0;
+            }
+          }
+          if (row.length > 4) {
+            final daysStr = row[4]?.toString();
+            if (daysStr != null && daysStr.isNotEmpty) {
+              final parsed = daysStr
+                  .split(',')
+                  .map((s) => int.tryParse(s.trim()))
+                  .where((n) => n != null)
+                  .cast<int>()
+                  .toList();
+              if (parsed.isNotEmpty) {
+                userTrainingDays = parsed;
+              }
+            }
+          }
+          if (row.length > 5) {
+            final genderStr = row[5]?.toString();
+            if (genderStr != null && genderStr.isNotEmpty) {
+              userGender = genderStr;
+            }
+          }
+          if (row.length > 6) {
+            final goalStr = row[6]?.toString();
+            if (goalStr != null && goalStr.isNotEmpty) {
+              userPushupGoal = int.tryParse(goalStr) ?? 100;
+            }
+          }
+          if (row.length > 7) {
+            final tzStr = row[7]?.toString();
+            if (tzStr != null && tzStr.isNotEmpty) {
+              userTimezone = tzStr;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      print('Ошибка загрузки данных: $e');
+    }
+
+    userHeight ??= 180.0;
+    userGender ??= 'male';
+    userPushupGoal ??= 100;
 
     setState(() {
       user = AppUser(
         email: firebaseUser.email!,
         name: firebaseUser.displayName ?? 'Пользователь',
-        weight: 75,
-        trainingDays: [1, 3, 5],
+        weight: userWeight,
+        height: userHeight,
+        gender: userGender,
+        pushupGoal: userPushupGoal,
+        timezone: userTimezone,
+        trainingDays: userTrainingDays,
         createdAt: DateTime.now(),
       );
       workouts = loadedWorkouts;
@@ -143,9 +224,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       user!.email,
       user!.name,
       user!.weight,
+      user!.height ?? 0,
       user!.trainingDays.join(','),
+      user!.gender ?? 'male',
+      user!.pushupGoal ?? 100,
+      user!.timezone ?? 'Europe/Moscow',
       user!.createdAt.toIso8601String(),
     ]);
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('profile_weight', user!.weight);
+    await prefs.setString('profile_gender', user!.gender ?? 'male');
+    await prefs.setString('profile_height', (user!.height ?? 180).toString());
+    await prefs.setInt('profile_pushup_goal', user!.pushupGoal ?? 100);
 
     final token = await NotificationService.getFcmToken();
     if (token != null) {
@@ -156,6 +247,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     }
 
     _checkForUpdate();
+
+    Future.delayed(const Duration(seconds: 10), () {
+      LocationService.logLocation(firebaseUser.email!);
+    });
   }
 
   void _showLoginDialog() {
@@ -202,7 +297,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         _saveNotifications();
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('notifications_all_read', false);
-        setState(() { allRead = false; });
+        setState(() {
+          allRead = false;
+        });
       }
     } catch (e) {
       print('Ошибка проверки обновлений: $e');
@@ -225,13 +322,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       _saveNotifications();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('notifications_all_read', false);
-      setState(() { allRead = false; });
+      setState(() {
+        allRead = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('🔄 Обновление найдено: ${updateInfo['version']}'),
+          content: Text('🔔 Обновление найдено: ${updateInfo['version']}'),
           action: SnackBarAction(
             label: 'Скачать',
-            onPressed: () {},
+            onPressed: () =>
+                UpdateService.openDownloadUrl(updateInfo['download_url']!),
           ),
         ),
       );
@@ -291,9 +391,20 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       newUser.email,
       newUser.name,
       newUser.weight,
+      newUser.height ?? 0,
       newUser.trainingDays.join(','),
+      newUser.gender ?? 'male',
+      newUser.pushupGoal ?? 100,
+      newUser.timezone ?? 'Europe/Moscow',
       newUser.createdAt.toIso8601String(),
     ]);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setInt('profile_weight', newUser.weight);
+      prefs.setString('profile_gender', newUser.gender ?? 'male');
+      prefs.setString('profile_height', (newUser.height ?? 180).toString());
+      prefs.setInt('profile_pushup_goal', newUser.pushupGoal ?? 100);
+    });
   }
 
   void _showCalendarDialog() {
@@ -306,11 +417,382 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             _selectedDate = date;
           });
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Выбран день: ${date.toLocal().toString().split(' ')[0]}')),
+            SnackBar(
+                content: Text(
+                    'Выбран день: ${date.toLocal().toString().split(' ')[0]}')),
           );
         },
       ),
     );
+  }
+
+  // ============================================================
+  // ===== AI ЧАТ =====
+  // ============================================================
+  Future<void> _showAiChat() async {
+    if (user == null) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final todayKey = _formatDate(DateTime.now());
+    final waterToday = prefs.getInt('water_$todayKey') ?? 0;
+    final creatineG = prefs.getInt('creatine_$todayKey') ?? 0;
+
+    final restEndStr = prefs.getString('creatine_rest_end');
+    DateTime? restEnd;
+    if (restEndStr != null) restEnd = DateTime.tryParse(restEndStr);
+    final onRest = restEnd != null && restEnd.isAfter(DateTime.now());
+    final restDaysLeft =
+        onRest ? restEnd.difference(DateTime.now()).inDays + 1 : 0;
+
+    double base = (user!.weight * 0.03);
+    if ((user!.gender ?? 'male') == 'male') base += 0.2;
+    final waterGoal = (base * 1000).round();
+
+    final pushupData = prefs.getString('pushup_data');
+    int pushupTotal = 0;
+    if (pushupData != null) {
+      try {
+        final decoded = jsonDecode(pushupData);
+        final entries = decoded['entries'] as List?;
+        if (entries != null) {
+          pushupTotal = entries.fold<int>(
+              0, (sum, e) => sum + ((e['count'] as int?) ?? 0));
+        }
+      } catch (_) {}
+    }
+
+    int attended = 0;
+    final planDays = [1, 3, 5];
+    for (int i = 0; i <= 30; i++) {
+      final day = DateTime.now().subtract(Duration(days: i));
+      if (planDays.contains(day.weekday)) {
+        final key =
+            '${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}';
+        if (workouts.any((w) => w.date == key)) attended++;
+      }
+    }
+    final plannedTotal = (30 / 7 * 3).round();
+    final attendancePercent =
+        plannedTotal > 0 ? ((attended / plannedTotal) * 100).round() : 0;
+
+    if (!mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) => AiChatDialog(
+        user: user!,
+        waterToday: waterToday,
+        waterGoal: waterGoal,
+        creatineToday: creatineG > 0,
+        onRest: onRest,
+        restDaysLeft: restDaysLeft,
+        pushupGoal: user!.pushupGoal ?? 100,
+        pushupToday: pushupTotal,
+        totalWorkouts: workouts.length,
+        attendancePercent: attendancePercent,
+        // ⬇⬇⬇ ВСЕ КОЛБЭКИ ⬇⬇⬇
+        onAddWater: _aiAddWater,
+        onRemoveWater: _aiRemoveWater,
+        onSetWater: _aiSetWater,
+        onMarkCreatine: _aiMarkCreatine,
+        onUnmarkCreatine: _aiUnmarkCreatine,
+        onStartRest: _aiStartRest,
+        onAddPushups: _aiAddPushups,
+        onRemovePushups: _aiRemovePushups,
+        onSetPushups: _aiSetPushups,
+      ),
+    );
+  }
+
+  // ============ AI WATER ============
+  Future<void> _aiAddWater(int ml) async {
+    final prefs = await SharedPreferences.getInstance();
+    final todayKey = _formatDate(DateTime.now());
+    final current = prefs.getInt('water_$todayKey') ?? 0;
+    final newVal = current + ml;
+    await prefs.setInt('water_$todayKey', newVal);
+
+    if (user?.email != null) {
+      final creatine = prefs.getInt('creatine_$todayKey') ?? 0;
+      GoogleSheetsService.saveWaterAndCreatine(
+        email: user!.email,
+        date: todayKey,
+        waterMl: newVal,
+        creatineG: creatine,
+      );
+    }
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('💧 AI добавил $ml мл воды'),
+          backgroundColor: Colors.blue,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _aiRemoveWater(int ml) async {
+    final prefs = await SharedPreferences.getInstance();
+    final todayKey = _formatDate(DateTime.now());
+    final current = prefs.getInt('water_$todayKey') ?? 0;
+    final newVal = (current - ml).clamp(0, 999999);
+    await prefs.setInt('water_$todayKey', newVal);
+
+    if (user?.email != null) {
+      final creatine = prefs.getInt('creatine_$todayKey') ?? 0;
+      GoogleSheetsService.saveWaterAndCreatine(
+        email: user!.email,
+        date: todayKey,
+        waterMl: newVal,
+        creatineG: creatine,
+      );
+    }
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('💧 AI убрал $ml мл воды'),
+          backgroundColor: Colors.blueGrey,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _aiSetWater(int ml) async {
+    final prefs = await SharedPreferences.getInstance();
+    final todayKey = _formatDate(DateTime.now());
+    final newVal = ml.clamp(0, 999999);
+    await prefs.setInt('water_$todayKey', newVal);
+
+    if (user?.email != null) {
+      final creatine = prefs.getInt('creatine_$todayKey') ?? 0;
+      GoogleSheetsService.saveWaterAndCreatine(
+        email: user!.email,
+        date: todayKey,
+        waterMl: newVal,
+        creatineG: creatine,
+      );
+    }
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('💧 Вода установлена: $newVal мл'),
+          backgroundColor: Colors.blue,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  // ============ AI CREATINE ============
+  Future<void> _aiMarkCreatine() async {
+    final prefs = await SharedPreferences.getInstance();
+    final todayKey = _formatDate(DateTime.now());
+    await prefs.setInt('creatine_$todayKey', 5);
+
+    if (user?.email != null) {
+      final water = prefs.getInt('water_$todayKey') ?? 0;
+      GoogleSheetsService.saveWaterAndCreatine(
+        email: user!.email,
+        date: todayKey,
+        waterMl: water,
+        creatineG: 5,
+      );
+    }
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('💊 AI отметил креатин (5 г)'),
+          backgroundColor: Colors.purple,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _aiUnmarkCreatine() async {
+    final prefs = await SharedPreferences.getInstance();
+    final todayKey = _formatDate(DateTime.now());
+    await prefs.setInt('creatine_$todayKey', 0);
+
+    if (user?.email != null) {
+      final water = prefs.getInt('water_$todayKey') ?? 0;
+      GoogleSheetsService.saveWaterAndCreatine(
+        email: user!.email,
+        date: todayKey,
+        waterMl: water,
+        creatineG: 0,
+      );
+    }
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('💊 Отметка креатина снята'),
+          backgroundColor: Colors.purple,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  // ============ AI REST ============
+  Future<void> _aiStartRest(int days) async {
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now();
+    final todayKey = _formatDate(today);
+    final start = DateTime(today.year, today.month, today.day);
+    final end = start.add(Duration(days: days));
+
+    await prefs.setString('creatine_rest_start', start.toIso8601String());
+    await prefs.setString('creatine_rest_end', end.toIso8601String());
+    await prefs.setInt('creatine_$todayKey', 0);
+
+    for (int i = 0; i <= days; i++) {
+      final date = start.add(Duration(days: i));
+      await prefs.setBool('creatine_rest_${_formatDate(date)}', true);
+    }
+
+    if (user?.email != null) {
+      final water = prefs.getInt('water_$todayKey') ?? 0;
+      GoogleSheetsService.saveWaterAndCreatine(
+        email: user!.email,
+        date: todayKey,
+        waterMl: water,
+        creatineG: 0,
+      );
+    }
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('😴 AI запустил отдых на $days дн.'),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  // ============ AI PUSHUPS ============
+  Future<void> _aiAddPushups(int count) async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString('pushup_data');
+    List<Map<String, dynamic>> entries = [];
+    if (data != null) {
+      try {
+        final decoded = jsonDecode(data);
+        final list = decoded['entries'] as List?;
+        if (list != null) {
+          entries = list.cast<Map<String, dynamic>>().toList();
+        }
+      } catch (_) {}
+    }
+    entries.add({
+      'id': DateTime.now().millisecondsSinceEpoch,
+      'count': count,
+    });
+    await prefs.setString('pushup_data', jsonEncode({'entries': entries}));
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('💪 AI добавил $count отжиманий'),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _aiRemovePushups(int count) async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString('pushup_data');
+    List<Map<String, dynamic>> entries = [];
+    if (data != null) {
+      try {
+        final decoded = jsonDecode(data);
+        final list = decoded['entries'] as List?;
+        if (list != null) {
+          entries = list.cast<Map<String, dynamic>>().toList();
+        }
+      } catch (_) {}
+    }
+
+    int remaining = count;
+    while (remaining > 0 && entries.isNotEmpty) {
+      final last = entries.last;
+      final lastCount = (last['count'] as int?) ?? 0;
+      if (lastCount <= remaining) {
+        entries.removeLast();
+        remaining -= lastCount;
+      } else {
+        last['count'] = lastCount - remaining;
+        remaining = 0;
+      }
+    }
+
+    await prefs.setString('pushup_data', jsonEncode({'entries': entries}));
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('💪 AI убрал $count отжиманий'),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _aiSetPushups(int count) async {
+    final prefs = await SharedPreferences.getInstance();
+    final entries = <Map<String, dynamic>>[];
+    if (count > 0) {
+      entries.add({
+        'id': DateTime.now().millisecondsSinceEpoch,
+        'count': count,
+      });
+    }
+    await prefs.setString('pushup_data', jsonEncode({'entries': entries}));
+
+    setState(() => _planTabRefreshKey++);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('💪 Отжимания = $count'),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  String _formatDate(DateTime d) {
+    return '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
   }
 
   void _showNotificationsDialog() {
@@ -321,7 +803,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       builder: (ctx) {
         return StatefulBuilder(
           builder: (context, setStateDialog) {
-            final unreadCount = notifications.where((n) => n['read'] == false).length;
+            final unreadCount =
+                notifications.where((n) => n['read'] == false).length;
             return Dialog(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -331,7 +814,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 decoration: BoxDecoration(
                   color: const Color(0xFF1A120A).withOpacity(0.88),
                   borderRadius: BorderRadius.circular(32),
-                  border: Border.all(color: const Color(0xFFFF9800).withOpacity(0.15)),
+                  border: Border.all(
+                      color: const Color(0xFFFF9800).withOpacity(0.15)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.6),
@@ -352,201 +836,240 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  const Text(
-                                    '🔔 Уведомления',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: unreadCount > 0 ? const Color(0xFFFF9800) : const Color(0xFF333333),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      '$unreadCount новых',
-                                      style: TextStyle(
-                                        color: unreadCount > 0 ? Colors.black : Colors.grey[600],
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                '🔔 Уведомления${unreadCount > 0 ? ' ($unreadCount)' : ''}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                               Row(
                                 children: [
+                                  if (unreadCount > 0)
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          for (var n in notifications) {
+                                            n['read'] = true;
+                                          }
+                                          allRead = true;
+                                        });
+                                        _saveNotifications();
+                                        SharedPreferences.getInstance()
+                                            .then((prefs) {
+                                          prefs.setBool(
+                                              'notifications_all_read', true);
+                                        });
+                                        setStateDialog(() {});
+                                      },
+                                      child: const Text(
+                                        'Все прочитаны',
+                                        style: TextStyle(
+                                            color: Colors.orange, fontSize: 14),
+                                      ),
+                                    ),
                                   IconButton(
-                                    icon: const Icon(Icons.refresh, color: Color(0xFFFF9800), size: 24),
-                                    onPressed: () async {
-                                      await _checkForUpdateManually();
-                                      setStateDialog(() {});
+                                    icon: const Icon(Icons.refresh,
+                                        color: Colors.orange, size: 22),
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                      _checkForUpdateManually();
                                     },
-                                    splashRadius: 20,
+                                    tooltip: 'Проверить обновления',
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.close, color: Color(0xFF888888), size: 26),
-                                    onPressed: () => Navigator.pop(context),
-                                    splashRadius: 20,
+                                    icon: const Icon(Icons.close,
+                                        color: Colors.grey),
+                                    onPressed: () => Navigator.pop(ctx),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           if (notifications.isEmpty)
                             const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 40),
-                              child: Column(
-                                children: [
-                                  Icon(Icons.notifications_off, size: 48, color: Colors.grey),
-                                  SizedBox(height: 12),
-                                  Text('Нет уведомлений', style: TextStyle(color: Colors.grey)),
-                                ],
+                              padding: EdgeInsets.symmetric(vertical: 30),
+                              child: Text(
+                                'Нет уведомлений',
+                                style: TextStyle(color: Colors.grey),
                               ),
                             )
                           else
-                            ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: notifications.length,
-                              separatorBuilder: (_, __) => const SizedBox(height: 10),
-                              itemBuilder: (context, index) {
-                                final n = notifications[index];
-                                final isRead = n['read'] == true;
-                                final type = n['type'] ?? 'update';
-                                Color borderColor;
-                                String icon;
-                                switch (type) {
-                                  case 'reminder':
-                                    borderColor = const Color(0xFF00BCD4);
-                                    icon = '💧';
-                                    break;
-                                  case 'achievement':
-                                    borderColor = const Color(0xFF4CAF50);
-                                    icon = '🏆';
-                                    break;
-                                  case 'water':
-                                    borderColor = const Color(0xFF2196F3);
-                                    icon = '🚰';
-                                    break;
-                                  default:
-                                    borderColor = const Color(0xFFFF9800);
-                                    icon = '📢';
-                                }
-                                return GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                        title: Text(n['title'] ?? ''),
-                                        content: Text(n['body'] ?? ''),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(context),
-                                            child: const Text('Закрыть'),
+                            Flexible(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: notifications.length,
+                                itemBuilder: (ctx, index) {
+                                  final n = notifications[index];
+                                  final type = n['type'] ?? 'update';
+                                  String icon;
+                                  switch (type) {
+                                    case 'reminder':
+                                      icon = '💧';
+                                      break;
+                                    case 'achievement':
+                                      icon = '🏆';
+                                      break;
+                                    case 'water':
+                                      icon = '🚰';
+                                      break;
+                                    case 'prohodka':
+                                      icon = '⚡';
+                                      break;
+                                    default:
+                                      icon = '📢';
+                                  }
+                                  return GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx2) => AlertDialog(
+                                          backgroundColor:
+                                              const Color(0xFF1A120A),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(28),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    decoration: BoxDecoration(
-                                      color: isRead
-                                          ? Colors.white.withOpacity(0.03)
-                                          : Colors.white.withOpacity(0.06),
-                                      borderRadius: BorderRadius.circular(18),
-                                      border: Border(
-                                        left: BorderSide(color: borderColor, width: 5),
-                                      ),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white.withOpacity(0.06),
-                                            shape: BoxShape.circle,
+                                          title: Text(
+                                            n['title'] ?? '',
+                                            style: const TextStyle(
+                                                color: Colors.white),
                                           ),
-                                          child: Center(
-                                            child: Text(icon, style: const TextStyle(fontSize: 24)),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                n['title'] ?? '',
-                                                style: TextStyle(
-                                                  color: isRead ? Colors.grey[600] : Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4),
-                                              Text(
                                                 n['body'] ?? '',
-                                                style: TextStyle(
-                                                  color: isRead ? Colors.grey[600] : Colors.grey[400],
-                                                  fontSize: 14,
-                                                ),
+                                                style: const TextStyle(
+                                                    color: Colors.white70),
                                               ),
-                                              const SizedBox(height: 6),
+                                              const SizedBox(height: 8),
                                               Text(
                                                 n['time'] ?? '',
-                                                style: TextStyle(
-                                                  color: isRead ? Colors.grey[700] : Colors.grey[600],
-                                                  fontSize: 12,
-                                                ),
+                                                style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 12),
                                               ),
                                             ],
                                           ),
+                                          actions: [
+                                            if (n['download_url'] != null &&
+                                                n['download_url'].isNotEmpty)
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(ctx2);
+                                                  UpdateService.openDownloadUrl(
+                                                      n['download_url']);
+                                                },
+                                                child: const Text(
+                                                  'Скачать',
+                                                  style: TextStyle(
+                                                      color: Colors.orange),
+                                                ),
+                                              ),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(ctx2),
+                                              child: const Text(
+                                                'Закрыть',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          if (notifications.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  TextButton(
-                                    onPressed: unreadCount == 0 ? null : () async {
-                                      setState(() {
-                                        for (var n in notifications) {
+                                      );
+                                      if (!(n['read'] ?? false)) {
+                                        setState(() {
                                           n['read'] = true;
-                                        }
-                                      });
-                                      final prefs = await SharedPreferences.getInstance();
-                                      await prefs.setBool('notifications_all_read', true);
-                                      setState(() { allRead = true; });
-                                      setStateDialog(() {});
+                                          allRead = notifications.every(
+                                              (e) => e['read'] == true);
+                                        });
+                                        _saveNotifications();
+                                        SharedPreferences.getInstance()
+                                            .then((prefs) {
+                                          prefs.setBool(
+                                              'notifications_all_read', allRead);
+                                        });
+                                        setStateDialog(() {});
+                                      }
                                     },
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: unreadCount == 0 ? Colors.grey[600] : const Color(0xFFFF9800),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12),
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.white
+                                                  .withOpacity(0.06)),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (!(n['read'] ?? false))
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  right: 10, top: 4),
+                                              width: 8,
+                                              height: 8,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.orange,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Text(icon,
+                                                style: const TextStyle(
+                                                    fontSize: 20)),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  n['title'] ?? '',
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w600,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                  n['body'] ?? '',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 2),
+                                                Text(
+                                                  n['time'] ?? '',
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    child: Text(
-                                      unreadCount == 0 ? '✔ Всё прочитано' : '✔ Отметить всё прочитанным',
-                                      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-                                    ),
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
                             ),
                         ],
@@ -564,50 +1087,68 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    if (!isUserLoaded) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-    final appTitle = '🏋️ Тренировки';
-    final unreadCount = notifications.where((n) => n['read'] == false).length;
-
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
       appBar: GlassAppBar(
-        title: appTitle,
-        notificationCount: unreadCount,
+        title: 'Gym Journal',
         onNotificationTap: _showNotificationsDialog,
         onCalendarTap: _showCalendarDialog,
+        onAiTap: _showAiChat,
+        notificationCount:
+            notifications.where((n) => n['read'] == false).length,
         config: config,
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          PlanTab(
-            workouts: workouts,
-            onAddWorkout: _addWorkout,
-            onUpdateWorkout: _updateWorkout,
-            onDeleteWorkout: _deleteWorkout,
-            config: config,
-            trainingDays: user?.trainingDays ?? [1, 3, 5],
-            selectedDate: _selectedDate,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment.topCenter,
+            radius: 1.2,
+            colors: [
+              Color(0xFF1A120A),
+              Color(0xFF0A0A0A),
+            ],
           ),
-          ProgressTab(workouts: workouts, config: config),
-          ProfileTab(
-            user: user,
-            onUpdate: _updateUser,
-            config: config,
-            workouts: workouts,
-          ),
-        ],
+        ),
+        child: isUserLoaded
+            ? TabBarView(
+                controller: _tabController,
+                children: [
+                  PlanTab(
+                    key: ValueKey('plan_$_planTabRefreshKey'),
+                    workouts: workouts,
+                    onAddWorkout: _addWorkout,
+                    onUpdateWorkout: _updateWorkout,
+                    onDeleteWorkout: _deleteWorkout,
+                    config: config,
+                    trainingDays: user?.trainingDays ?? [1, 3, 5],
+                    selectedDate: _selectedDate,
+                    userEmail: user?.email,
+                    userWeight: user?.weight,
+                    userGender: user?.gender,
+                  ),
+                  ProgressTab(
+                    workouts: workouts,
+                    config: config,
+                    user: user,
+                  ),
+                  ProfileTab(
+                    user: user!,
+                    onUpdate: _updateUser,
+                    config: config,
+                  ),
+                ],
+              )
+            : const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.orange,
+                ),
+              ),
       ),
-      bottomNavigationBar: GlassBottomNav(controller: _tabController, config: config),
+      bottomNavigationBar: GlassBottomNav(
+        controller: _tabController,
+        config: config,
+      ),
     );
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 }
